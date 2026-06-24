@@ -12,6 +12,7 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
       <p>完整课程目录</p>
       <h1>从一个问题开始，逐步建立自己的交易框架。</h1>
       <button class="catalog-search" type="button" data-search-open>搜索 308 篇教程</button>
+      <p class="learning-summary" data-learning-summary hidden></p>
     </header>
     <nav class="chapter-jump" aria-label="快速跳转到章节">
       {chapters.map((chapter) => (
@@ -81,6 +82,11 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   try {
     const completed = JSON.parse(localStorage.getItem('mjie-completed-lessons') || '[]');
     completed.forEach((id) => document.querySelector(`[data-lesson-link="${CSS.escape(id)}"]`)?.classList.add('completed'));
+    const summary = document.querySelector('[data-learning-summary]');
+    if (completed.length && summary) {
+      summary.textContent = `已标记 ${completed.length} 篇已读`;
+      summary.hidden = false;
+    }
   } catch {}
 </script>
 
@@ -90,6 +96,7 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   .catalog-head > p { margin: 0 0 16px; color: var(--accent-strong); font-size: 13px; font-weight: 700; letter-spacing: .12em; }
   .catalog-head h1 { margin: 0; font-size: clamp(38px, 6vw, 66px); line-height: 1.12; letter-spacing: -.045em; }
   .catalog-search { margin-top: 28px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent); color: var(--accent-ink); padding: 11px 18px; font-weight: 700; cursor: pointer; }
+  .learning-summary { display: inline-block; margin: 0 0 0 14px; color: var(--text-soft); font-size: 12px; }
   .chapter-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: -42px 0 84px; }
   .chapter-jump a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--text-soft); font-size: 12px; transition: border-color .2s ease, color .2s ease; }
   .chapter-jump a:hover { border-color: var(--accent); color: var(--text); }

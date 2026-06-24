@@ -28,9 +28,10 @@ try {
   await page.screenshot({ path: 'artifacts/home-desktop.png', fullPage: true });
 
   await page.locator('[data-search-open]').first().click();
-  await page.locator('[data-search-input]').fill('复盘');
+  await page.locator('[data-search-input]').fill('微信群里的一句');
   await page.waitForFunction(() => document.querySelectorAll('.search-result').length > 0);
-  check('搜索返回结果', await page.locator('.search-result').count() > 0);
+  check('正文搜索返回结果', await page.locator('.search-result').count() > 0);
+  check('搜索摘要包含正文上下文', (await page.locator('.search-result').first().innerText()).includes('微信群'));
   await page.locator('[data-search-close]').click();
 
   await page.goto(`${baseURL}/tutorial/chapter-1/001`, { waitUntil: 'networkidle' });
@@ -38,6 +39,11 @@ try {
   check('教程正文已渲染', await page.locator('.prose p').count() > 2);
   check('当前教程在侧栏高亮', await page.locator('.lesson-sidebar a.active').count() === 1);
   check('第一篇提供下一篇', await page.locator('.lesson-pager a.next').count() === 1);
+  check('无页内目录时正文居中', await page.locator('.lesson-main.without-toc').count() === 1);
+  check('编号段落有阅读层级', await page.locator('.prose-point').count() >= 7);
+  await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, document.documentElement.scrollHeight); });
+  await page.waitForTimeout(100);
+  check('滚动到底部时阅读进度完成', Number(await page.locator('.reading-progress').evaluate((element) => getComputedStyle(element).getPropertyValue('--reading-progress'))) > 0.98);
   check('教程页无框架错误浮层', await page.locator('.vite-error-overlay, #webpack-dev-server-client-overlay').count() === 0);
   await page.screenshot({ path: 'artifacts/lesson-desktop.png', fullPage: false });
   await desktop.close();
@@ -49,6 +55,9 @@ try {
   await lightPage.screenshot({ path: 'artifacts/home-light.png', fullPage: false });
   await lightPage.locator('[data-theme-toggle]').click();
   check('主题按钮可切换到深色', await lightPage.evaluate(() => document.documentElement.dataset.theme === 'dark'));
+  check('主题按钮显示下一个模式', (await lightPage.locator('[data-theme-toggle]').innerText()) === '浅色');
+  await lightPage.goto(`${baseURL}/404.html`, { waitUntil: 'networkidle' });
+  check('404 页面提供返回路径', await lightPage.locator('.not-found a').count() === 2);
   await light.close();
 
   const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: 'dark', isMobile: true });
@@ -57,6 +66,8 @@ try {
     if (message.type() === 'error') errors.push(`mobile console: ${message.text()}`);
   });
   mobilePage.on('pageerror', (error) => errors.push(`mobile pageerror: ${error.message}`));
+  await mobilePage.goto(`${baseURL}/tutorial`, { waitUntil: 'networkidle' });
+  check('移动端课程目录默认只展开一章', await mobilePage.locator('.catalog-chapter ol:visible').count() === 1);
   await mobilePage.goto(`${baseURL}/tutorial/chapter-2/001`, { waitUntil: 'networkidle' });
   check('移动端无横向溢出', await mobilePage.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
   await mobilePage.locator('[data-sidebar-open]').click();

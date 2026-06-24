@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="页面未找到 | M姐交易笔记" description="访问的页面不存在">
+  <main class="not-found" id="main-content">
+    <p>404 / 路径中断</p>
+    <h1>这一页不在当前的学习路径中。</h1>
+    <div>
+      <a class="primary" href="/">返回知识地图</a>
+      <a href="/tutorial">浏览全部教程</a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found { width: min(860px, calc(100% - 40px)); min-height: calc(100dvh - var(--header-height)); margin: 0 auto; padding: clamp(90px, 15vh, 160px) 0 120px; }
+  p { margin: 0 0 18px; color: var(--accent-strong); font-family: ui-monospace, monospace; font-size: 13px; font-weight: 700; letter-spacing: .1em; }
+  h1 { max-width: 720px; margin: 0; font-size: clamp(42px, 7vw, 76px); line-height: 1.1; letter-spacing: -.045em; text-wrap: balance; }
+  div { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 38px; }
+  a { min-height: 46px; display: inline-flex; align-items: center; padding: 10px 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font-size: 14px; font-weight: 700; }
+  a.primary { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+</style>

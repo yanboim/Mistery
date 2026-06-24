@@ -16,6 +16,14 @@
   const results = document.querySelector('[data-search-results]');
   const status = document.querySelector('[data-search-status]');
   const escapeHtml = (value) => value.replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
+  const excerpt = (item, query) => {
+    const source = `${item.title} ${item.description}`.toLocaleLowerCase('zh-CN').includes(query) ? item.description : item.content;
+    const position = source.toLocaleLowerCase('zh-CN').indexOf(query);
+    if (position < 0) return source.slice(0, 90);
+    const start = Math.max(0, position - 32);
+    const end = Math.min(source.length, position + query.length + 55);
+    return `${start ? '…' : ''}${source.slice(start, end)}${end < source.length ? '…' : ''}`;
+  };
 
   document.querySelectorAll('[data-search-open]').forEach((button) => {
     button.addEventListener('click', async () => {
@@ -46,11 +54,21 @@
       results.innerHTML = '<p class="search-empty">输入关键词，在 308 篇教程中查找。</p>';
       return;
     }
-    const allMatches = searchItems.filter((item) => `${item.title} ${item.chapterTitle} ${item.description} ${item.content}`.toLocaleLowerCase('zh-CN').includes(query));
+    const allMatches = searchItems
+      .map((item) => {
+        const title = item.title.toLocaleLowerCase('zh-CN');
+        const chapter = item.chapterTitle.toLocaleLowerCase('zh-CN');
+        const description = item.description.toLocaleLowerCase('zh-CN');
+        const content = item.content.toLocaleLowerCase('zh-CN');
+        const score = (title.includes(query) ? 8 : 0) + (title.startsWith(query) ? 4 : 0) + (chapter.includes(query) ? 3 : 0) + (description.includes(query) ? 2 : 0) + (content.includes(query) ? 1 : 0);
+        return { ...item, score };
+      })
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score);
     const matches = allMatches.slice(0, 24);
     status.textContent = allMatches.length ? `找到 ${allMatches.length} 篇相关教程${allMatches.length > 24 ? '，先显示 24 篇' : ''}` : '';
     results.innerHTML = matches.length
-      ? matches.map((item) => `<a class="search-result" href="${item.href}"><small>${escapeHtml(item.chapterTitle)}</small><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('')
+      ? matches.map((item) => `<a class="search-result" href="${item.href}"><small>${escapeHtml(item.chapterTitle)}</small><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(excerpt(item, query))}</span></a>`).join('')
       : '<p class="search-empty">没有找到相关教程，试试更短的关键词。</p>';
   });
 </script>
