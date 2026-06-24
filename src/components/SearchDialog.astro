@@ -1,0 +1,48 @@
+<dialog class="search-dialog" data-search-dialog>
+  <div class="search-head">
+    <input class="search-input" type="search" placeholder="输入标题或正文关键词" aria-label="搜索教程" data-search-input />
+    <button class="quiet-button" type="button" data-search-close>关闭</button>
+  </div>
+  <div class="search-results" data-search-results>
+    <p class="search-empty">输入关键词，在 308 篇教程中查找。</p>
+  </div>
+</dialog>
+
+<script>
+  let searchItems = [];
+  const dialog = document.querySelector('[data-search-dialog]');
+  const input = document.querySelector('[data-search-input]');
+  const results = document.querySelector('[data-search-results]');
+  const escapeHtml = (value) => value.replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
+
+  document.querySelectorAll('[data-search-open]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      dialog.showModal();
+      requestAnimationFrame(() => input.focus());
+      if (searchItems.length === 0) {
+        try {
+          const response = await fetch('/search-index.json');
+          searchItems = await response.json();
+          if (input.value.trim()) input.dispatchEvent(new Event('input'));
+        } catch {
+          results.innerHTML = '<p class="search-empty">搜索索引加载失败，请刷新页面后重试。</p>';
+        }
+      }
+    });
+  });
+  document.querySelector('[data-search-close]')?.addEventListener('click', () => dialog.close());
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+  input?.addEventListener('input', () => {
+    const query = input.value.trim().toLocaleLowerCase('zh-CN');
+    if (!query) {
+      results.innerHTML = '<p class="search-empty">输入关键词，在 308 篇教程中查找。</p>';
+      return;
+    }
+    const matches = searchItems.filter((item) => `${item.title} ${item.chapterTitle} ${item.description}`.toLocaleLowerCase('zh-CN').includes(query)).slice(0, 24);
+    results.innerHTML = matches.length
+      ? matches.map((item) => `<a class="search-result" href="${item.href}"><small>${escapeHtml(item.chapterTitle)}</small><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('')
+      : '<p class="search-empty">没有找到相关教程，试试更短的关键词。</p>';
+  });
+</script>

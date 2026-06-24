@@ -1,0 +1,41 @@
+---
+import Header from '../components/Header.astro';
+import SearchDialog from '../components/SearchDialog.astro';
+import '../styles/global.css';
+
+const { title = 'M姐交易笔记', description = '从交易基础到宏观认知的系统化中文教程', current = '', lessons = [] } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0e1116" />
+    <title>{title}</title>
+    <script is:inline>
+      const savedTheme = localStorage.getItem('mjie-theme');
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+    </script>
+  </head>
+  <body>
+    <Header current={current} />
+    <slot />
+    <footer class="site-footer">
+      本站内容由《M姐 · 股市交易文集》整理，仅供学习与交流，不构成投资建议。
+    </footer>
+    <SearchDialog lessons={lessons} />
+    <script>
+      document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+        const root = document.documentElement;
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const current = root.dataset.theme || (systemDark ? 'dark' : 'light');
+        const next = current === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        localStorage.setItem('mjie-theme', next);
+      });
+    </script>
+  </body>
+</html>

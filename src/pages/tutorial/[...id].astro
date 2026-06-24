@@ -1,0 +1,24 @@
+---
+import { getCollection, render } from 'astro:content';
+import TutorialLayout from '../../layouts/TutorialLayout.astro';
+
+export async function getStaticPaths() {
+  const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
+  return lessons.map((lesson, index) => ({
+    params: { id: lesson.id },
+    props: {
+      lesson,
+      lessons,
+      previous: lessons[index - 1],
+      next: lessons[index + 1],
+    },
+  }));
+}
+
+const { lesson, lessons, previous, next } = Astro.props;
+const { Content, headings } = await render(lesson);
+---
+
+<TutorialLayout lesson={lesson} lessons={lessons} headings={headings} previous={previous} next={next}>
+  <Content />
+</TutorialLayout>

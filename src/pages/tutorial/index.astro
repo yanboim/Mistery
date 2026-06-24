@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { chapters } from '../../data/chapters';
+
+const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="全部教程 | M姐交易笔记" description="浏览 M姐交易笔记的全部章节与教程" current="tutorial" lessons={lessons}>
+  <main class="catalog">
+    <header class="catalog-head">
+      <p>完整课程目录</p>
+      <h1>从一个问题开始，逐步建立自己的交易框架。</h1>
+      <button class="catalog-search" type="button" data-search-open>搜索 308 篇教程</button>
+    </header>
+    <div class="chapter-list">
+      {chapters.map((chapter) => {
+        const items = lessons.filter((lesson) => lesson.data.chapter === chapter.number);
+        return (
+          <section id={`chapter-${chapter.number}`} class="catalog-chapter">
+            <header>
+              <span class="role">{chapter.role}</span>
+              <div>
+                <small>第{chapter.numeral}章，{items.length} 篇</small>
+                <h2>{chapter.title}</h2>
+                <p>{chapter.summary}</p>
+              </div>
+            </header>
+            <ol>
+              {items.map((lesson) => (
+                <li>
+                  <a href={`/tutorial/${lesson.id}`}>
+                    <span>{String(lesson.data.chapterOrder).padStart(2, '0')}</span>
+                    <strong>{lesson.data.title}</strong>
+                    <i aria-hidden="true">→</i>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </section>
+        );
+      })}
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .catalog { width: min(1080px, calc(100% - 40px)); margin: 0 auto; padding: 76px 0 120px; }
+  .catalog-head { max-width: 760px; margin-bottom: 88px; }
+  .catalog-head > p { margin: 0 0 16px; color: var(--accent-strong); font-size: 13px; font-weight: 700; letter-spacing: .12em; }
+  .catalog-head h1 { margin: 0; font-size: clamp(38px, 6vw, 66px); line-height: 1.12; letter-spacing: -.045em; }
+  .catalog-search { margin-top: 28px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent); color: var(--accent-ink); padding: 11px 18px; font-weight: 700; cursor: pointer; }
+  .chapter-list { display: grid; gap: 100px; }
+  .catalog-chapter { scroll-margin-top: 92px; display: grid; grid-template-columns: minmax(250px, .72fr) minmax(0, 1.28fr); gap: clamp(40px, 7vw, 100px); }
+  .catalog-chapter > header { align-self: start; position: sticky; top: 100px; display: grid; grid-template-columns: 52px 1fr; gap: 18px; }
+  .role { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--accent); border-radius: 50%; color: var(--accent-strong); font-size: 20px; font-weight: 800; }
+  .catalog-chapter small { color: var(--text-soft); }
+  .catalog-chapter h2 { margin: 3px 0 10px; font-size: 28px; line-height: 1.25; }
+  .catalog-chapter header p { margin: 0; color: var(--text-soft); font-size: 14px; }
+  ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-content: start; }
+  li a { min-height: 86px; display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; padding: 14px 15px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); transition: border-color .2s ease, transform .2s ease; }
+  li a:hover { border-color: var(--accent); transform: translateY(-2px); }
+  li span { color: var(--text-soft); font-family: ui-monospace, monospace; font-size: 11px; }
+  li strong { font-size: 14px; line-height: 1.5; }
+  li i { color: var(--text-soft); font-style: normal; }
+  @media (max-width: 800px) {
+    .catalog { width: calc(100% - 28px); padding-top: 52px; }
+    .catalog-head { margin-bottom: 64px; }
+    .catalog-chapter { grid-template-columns: 1fr; gap: 28px; }
+    .catalog-chapter > header { position: static; }
+    ol { grid-template-columns: 1fr; }
+  }
+</style>

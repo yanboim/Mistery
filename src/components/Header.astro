@@ -1,0 +1,21 @@
+---
+const { current = '' } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">M</span>
+      <span>M姐交易笔记</span>
+    </a>
+    <nav class="header-nav" aria-label="主导航">
+      <a href="/" aria-current={current === 'home' ? 'page' : undefined}>知识地图</a>
+      <a href="/tutorial" aria-current={current === 'tutorial' ? 'page' : undefined}>全部教程</a>
+    </nav>
+    <div class="header-actions">
+      <button class="quiet-button hide-mobile" type="button" data-search-open>搜索教程</button>
+      <button class="quiet-button" type="button" data-theme-toggle aria-label="切换明暗主题">主题</button>
+      <button class="quiet-button mobile-only" type="button" data-sidebar-open aria-label="打开章节导航">目录</button>
+    </div>
+  </div>
+</header>
