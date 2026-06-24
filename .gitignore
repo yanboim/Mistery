@@ -3,25 +3,4 @@ dist/
 .astro/
 .DS_Store
 artifacts/
-
-# Legacy extraction and standalone generated output kept locally only
-/site/
-/mjie_extract.json
-/mindmap_data.json
-/思维导图.html
-/analyze_markers.py
-/build_md.py
-/check_detail.py
-/check_h3.py
-/check_md.py
-/detect_structure.py
-/extract_toc.py
-/final_check.py
-/find_extra.py
-/gen_mindmap.py
-/gen_site.py
-/gen_tutorial.py
-/inspect_pages.py
-/parse_to_json.py
-/stats.py
-/verify_context.py
+/.tmp/
