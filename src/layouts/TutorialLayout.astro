@@ -7,6 +7,7 @@ const currentChapter = chapters.find((chapter) => chapter.number === lesson.data
 const chapterLessons = lessons.filter((item) => item.data.chapter === lesson.data.chapter);
 const currentIndex = chapterLessons.findIndex((item) => item.id === lesson.id);
 const progress = Math.round(((currentIndex + 1) / chapterLessons.length) * 100);
+const readingMinutes = Math.max(1, Math.ceil(lesson.body.replace(/\s/g, '').length / 350));
 ---
 
 <BaseLayout
@@ -14,6 +15,7 @@ const progress = Math.round(((currentIndex + 1) / chapterLessons.length) * 100);
   description={lesson.data.description}
   current="tutorial"
   lessons={lessons}
+  hasSidebar={true}
 >
   <div class="reading-progress" style={`--progress:${progress}%`} aria-hidden="true"></div>
   <div class="tutorial-shell">
@@ -50,14 +52,16 @@ const progress = Math.round(((currentIndex + 1) / chapterLessons.length) * 100);
       </nav>
     </aside>
 
-    <main class="lesson-main">
+    <main class="lesson-main" id="main-content" data-lesson-id={lesson.id}>
       <article>
         <header class="lesson-head">
           <a class="chapter-link" href={`/tutorial#chapter-${lesson.data.chapter}`}>第{currentChapter?.numeral}章 / {lesson.data.chapterTitle}</a>
           <h1>{lesson.data.title}</h1>
           <div class="lesson-meta">
             <span>本章第 {lesson.data.chapterOrder} 节</span>
-            <span>进度 {progress}%</span>
+            <span>本章位置 {progress}%</span>
+            <span>阅读约 {readingMinutes} 分钟</span>
+            <button type="button" data-complete-toggle aria-pressed="false">标记已读</button>
           </div>
         </header>
         <div class="prose">
@@ -99,6 +103,29 @@ const progress = Math.round(((currentIndex + 1) / chapterLessons.length) * 100);
   const closeSidebar = () => root.classList.remove('sidebar-visible');
   document.querySelector('[data-sidebar-open]')?.addEventListener('click', openSidebar);
   document.querySelectorAll('[data-sidebar-close]').forEach((button) => button.addEventListener('click', closeSidebar));
+  const lessonMain = document.querySelector('[data-lesson-id]');
+  const lessonId = lessonMain?.getAttribute('data-lesson-id');
+  const completeButton = document.querySelector('[data-complete-toggle]');
+  const getCompleted = () => {
+    try { return JSON.parse(localStorage.getItem('mjie-completed-lessons') || '[]'); }
+    catch { return []; }
+  };
+  if (lessonId) {
+    localStorage.setItem('mjie-last-lesson', lessonId);
+    const updateCompleteButton = () => {
+      const completed = getCompleted().includes(lessonId);
+      completeButton?.setAttribute('aria-pressed', String(completed));
+      if (completeButton) completeButton.textContent = completed ? '已读 · 取消' : '标记已读';
+    };
+    updateCompleteButton();
+    completeButton?.addEventListener('click', () => {
+      const completed = getCompleted();
+      const nextCompleted = completed.includes(lessonId) ? completed.filter((id) => id !== lessonId) : [...completed, lessonId];
+      localStorage.setItem('mjie-completed-lessons', JSON.stringify(nextCompleted));
+      updateCompleteButton();
+    });
+  }
+  requestAnimationFrame(() => document.querySelector('.lesson-sidebar a.active')?.scrollIntoView({ block: 'center' }));
 </script>
 
 <style>
@@ -124,10 +151,11 @@ const progress = Math.round(((currentIndex + 1) / chapterLessons.length) * 100);
   .lesson-main article { min-width: 0; }
   .lesson-head { padding-bottom: 35px; border-bottom: 1px solid var(--line); }
   .chapter-link { color: var(--accent-strong); font-size: 13px; font-weight: 700; }
-  .lesson-head h1 { margin: 18px 0 22px; font-size: clamp(34px, 4.5vw, 56px); line-height: 1.18; letter-spacing: -.04em; }
+  .lesson-head h1 { margin: 18px 0 22px; font-size: clamp(34px, 4.5vw, 56px); line-height: 1.18; letter-spacing: -.04em; text-wrap: balance; }
   .lesson-meta { display: flex; gap: 24px; color: var(--text-soft); font-size: 12px; }
+  .lesson-meta button { margin-left: auto; padding: 0; border: 0; border-bottom: 1px solid currentColor; background: transparent; color: var(--accent-strong); cursor: pointer; font-size: 12px; }
   .prose { padding-top: 40px; font-size: 16px; line-height: 2; overflow-wrap: anywhere; }
-  .prose :global(p) { margin: 0 0 1.55em; }
+  .prose :global(p) { margin: 0 0 1.55em; text-wrap: pretty; }
   .prose :global(h2), .prose :global(h3), .prose :global(h4) { scroll-margin-top: 92px; line-height: 1.35; letter-spacing: -.02em; }
   .prose :global(h2) { margin: 2.5em 0 .9em; font-size: 27px; }
   .prose :global(h3) { margin: 2.2em 0 .8em; font-size: 21px; }
@@ -172,5 +200,7 @@ const progress = Math.round(((currentIndex + 1) / chapterLessons.length) * 100);
     .lesson-pager { grid-template-columns: 1fr; }
     .lesson-pager > span { display: none; }
     .lesson-pager a.next { text-align: left; }
+    .lesson-meta { flex-wrap: wrap; gap: 8px 16px; }
+    .lesson-meta button { width: 100%; margin: 5px 0 0; min-height: 40px; border: 1px solid var(--line); border-radius: 7px; }
   }
 </style>

@@ -6,6 +6,7 @@ export async function GET() {
     title: lesson.data.title,
     chapterTitle: lesson.data.chapterTitle,
     description: lesson.data.description,
+    content: lesson.body.replace(/[#*_>`\[\]()\-]/g, ' ').replace(/\s+/g, ' ').trim(),
     href: `/tutorial/${lesson.id}`,
   }))), {
     headers: { 'Content-Type': 'application/json; charset=utf-8' },

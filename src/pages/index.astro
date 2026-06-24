@@ -8,14 +8,14 @@ const grouped = new Map(chapters.map((chapter) => [chapter.number, lessons.filte
 ---
 
 <BaseLayout current="home" lessons={lessons}>
-  <main>
+  <main id="main-content">
     <section class="hero">
       <div class="hero-copy">
         <p class="hero-kicker">从认知到执行的交易学习地图</p>
         <h1>把零散经验，整理成一条可学习的路径。</h1>
         <p class="hero-intro">6 个知识维度，308 篇短教程。按章节循序学习，也可以从当前问题直接进入。</p>
         <div class="hero-actions">
-          <a class="primary-action" href="/tutorial/chapter-1/001">开始第一课</a>
+          <a class="primary-action" href="/tutorial/chapter-1/001" data-continue-link>开始第一课</a>
           <button class="secondary-action" type="button" data-search-open>搜索主题</button>
         </div>
         <dl class="hero-stats" aria-label="教程统计">
@@ -82,6 +82,15 @@ const grouped = new Map(chapters.map((chapter) => [chapter.number, lessons.filte
     </section>
   </main>
 </BaseLayout>
+
+<script>
+  const lastLesson = localStorage.getItem('mjie-last-lesson');
+  const continueLink = document.querySelector('[data-continue-link]');
+  if (lastLesson && continueLink instanceof HTMLAnchorElement) {
+    continueLink.href = `/tutorial/${lastLesson}`;
+    continueLink.textContent = '继续上次阅读';
+  }
+</script>
 
 <style>
   main { overflow: hidden; }
@@ -160,8 +169,7 @@ const grouped = new Map(chapters.map((chapter) => [chapter.number, lessons.filte
     .hero { padding: 42px 0 64px; }
     h1 { font-size: clamp(38px, 12vw, 54px); }
     .hero-stats { gap: 18px; justify-content: space-between; }
-    .map-shell { padding: 12px; }
-    .map-grid { grid-template-columns: 1fr; }
+    .map-shell { display: none; }
     .map-node:nth-child(2), .map-node:nth-child(5) { transform: none; }
     .map-node:nth-child(2):hover, .map-node:nth-child(5):hover { transform: translateY(-3px); }
     .chapter-section { padding: 76px 0 90px; }

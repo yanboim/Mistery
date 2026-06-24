@@ -7,17 +7,22 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
 ---
 
 <BaseLayout title="全部教程 | M姐交易笔记" description="浏览 M姐交易笔记的全部章节与教程" current="tutorial" lessons={lessons}>
-  <main class="catalog">
+  <main class="catalog" id="main-content">
     <header class="catalog-head">
       <p>完整课程目录</p>
       <h1>从一个问题开始，逐步建立自己的交易框架。</h1>
       <button class="catalog-search" type="button" data-search-open>搜索 308 篇教程</button>
     </header>
+    <nav class="chapter-jump" aria-label="快速跳转到章节">
+      {chapters.map((chapter) => (
+        <a href={`#chapter-${chapter.number}`}><span>{chapter.role}</span>{chapter.title}</a>
+      ))}
+    </nav>
     <div class="chapter-list">
       {chapters.map((chapter) => {
         const items = lessons.filter((lesson) => lesson.data.chapter === chapter.number);
         return (
-          <section id={`chapter-${chapter.number}`} class="catalog-chapter">
+          <section id={`chapter-${chapter.number}`} class="catalog-chapter" data-catalog-chapter>
             <header>
               <span class="role">{chapter.role}</span>
               <div>
@@ -25,11 +30,12 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
                 <h2>{chapter.title}</h2>
                 <p>{chapter.summary}</p>
               </div>
+              <button class="chapter-toggle" type="button" aria-expanded="true" aria-controls={`chapter-lessons-${chapter.number}`} data-chapter-toggle>收起</button>
             </header>
-            <ol>
+            <ol id={`chapter-lessons-${chapter.number}`}>
               {items.map((lesson) => (
                 <li>
-                  <a href={`/tutorial/${lesson.id}`}>
+                  <a href={`/tutorial/${lesson.id}`} data-lesson-link={lesson.id}>
                     <span>{String(lesson.data.chapterOrder).padStart(2, '0')}</span>
                     <strong>{lesson.data.title}</strong>
                     <i aria-hidden="true">→</i>
@@ -44,30 +50,76 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   </main>
 </BaseLayout>
 
+<script>
+  const mobileCatalog = window.matchMedia('(max-width: 800px)');
+  const sections = [...document.querySelectorAll('[data-catalog-chapter]')];
+  const setSection = (section, expanded) => {
+    const button = section.querySelector('[data-chapter-toggle]');
+    const list = section.querySelector('ol');
+    if (!button || !list) return;
+    button.setAttribute('aria-expanded', String(expanded));
+    button.textContent = expanded ? '收起' : '展开';
+    list.hidden = !expanded;
+  };
+  const syncCatalog = () => {
+    if (!mobileCatalog.matches) return sections.forEach((section) => setSection(section, true));
+    const target = document.querySelector(location.hash || '#chapter-1');
+    sections.forEach((section) => setSection(section, section === target));
+  };
+  sections.forEach((section) => section.querySelector('[data-chapter-toggle]')?.addEventListener('click', () => {
+    const button = section.querySelector('[data-chapter-toggle]');
+    setSection(section, button?.getAttribute('aria-expanded') !== 'true');
+  }));
+  document.querySelectorAll('.chapter-jump a').forEach((link) => link.addEventListener('click', () => {
+    if (!mobileCatalog.matches) return;
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) setSection(target, true);
+  }));
+  mobileCatalog.addEventListener('change', syncCatalog);
+  syncCatalog();
+
+  try {
+    const completed = JSON.parse(localStorage.getItem('mjie-completed-lessons') || '[]');
+    completed.forEach((id) => document.querySelector(`[data-lesson-link="${CSS.escape(id)}"]`)?.classList.add('completed'));
+  } catch {}
+</script>
+
 <style>
   .catalog { width: min(1080px, calc(100% - 40px)); margin: 0 auto; padding: 76px 0 120px; }
   .catalog-head { max-width: 760px; margin-bottom: 88px; }
   .catalog-head > p { margin: 0 0 16px; color: var(--accent-strong); font-size: 13px; font-weight: 700; letter-spacing: .12em; }
   .catalog-head h1 { margin: 0; font-size: clamp(38px, 6vw, 66px); line-height: 1.12; letter-spacing: -.045em; }
   .catalog-search { margin-top: 28px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent); color: var(--accent-ink); padding: 11px 18px; font-weight: 700; cursor: pointer; }
+  .chapter-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: -42px 0 84px; }
+  .chapter-jump a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--text-soft); font-size: 12px; transition: border-color .2s ease, color .2s ease; }
+  .chapter-jump a:hover { border-color: var(--accent); color: var(--text); }
+  .chapter-jump span { color: var(--accent-strong); font-weight: 800; }
   .chapter-list { display: grid; gap: 100px; }
   .catalog-chapter { scroll-margin-top: 92px; display: grid; grid-template-columns: minmax(250px, .72fr) minmax(0, 1.28fr); gap: clamp(40px, 7vw, 100px); }
-  .catalog-chapter > header { align-self: start; position: sticky; top: 100px; display: grid; grid-template-columns: 52px 1fr; gap: 18px; }
+  .catalog-chapter > header { align-self: start; position: sticky; top: 100px; display: grid; grid-template-columns: 52px 1fr auto; gap: 18px; }
   .role { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--accent); border-radius: 50%; color: var(--accent-strong); font-size: 20px; font-weight: 800; }
   .catalog-chapter small { color: var(--text-soft); }
   .catalog-chapter h2 { margin: 3px 0 10px; font-size: 28px; line-height: 1.25; }
   .catalog-chapter header p { margin: 0; color: var(--text-soft); font-size: 14px; }
   ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-content: start; }
+  ol[hidden] { display: none; }
   li a { min-height: 86px; display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; padding: 14px 15px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); transition: border-color .2s ease, transform .2s ease; }
   li a:hover { border-color: var(--accent); transform: translateY(-2px); }
+  li a.completed { border-color: color-mix(in srgb, var(--accent) 46%, var(--line)); }
+  li a.completed::after { content: '已读'; position: absolute; top: 6px; right: 8px; color: var(--accent-strong); font-size: 9px; }
+  li a { position: relative; }
   li span { color: var(--text-soft); font-family: ui-monospace, monospace; font-size: 11px; }
   li strong { font-size: 14px; line-height: 1.5; }
   li i { color: var(--text-soft); font-style: normal; }
+  .chapter-toggle { display: none; }
   @media (max-width: 800px) {
     .catalog { width: calc(100% - 28px); padding-top: 52px; }
-    .catalog-head { margin-bottom: 64px; }
+    .catalog-head { margin-bottom: 44px; }
+    .chapter-jump { flex-wrap: nowrap; overflow-x: auto; margin: 0 -14px 58px; padding: 0 14px 8px; scrollbar-width: none; }
+    .chapter-jump a { flex: 0 0 auto; }
     .catalog-chapter { grid-template-columns: 1fr; gap: 28px; }
     .catalog-chapter > header { position: static; }
+    .chapter-toggle { display: inline-flex; align-items: center; justify-content: center; min-width: 52px; min-height: 44px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--text-soft); font-size: 12px; cursor: pointer; }
     ol { grid-template-columns: 1fr; }
   }
 </style>

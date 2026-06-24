@@ -1,5 +1,5 @@
 ---
-const { current = '' } = Astro.props;
+const { current = '', hasSidebar = false } = Astro.props;
 ---
 
 <header class="site-header">
@@ -15,7 +15,13 @@ const { current = '' } = Astro.props;
     <div class="header-actions">
       <button class="quiet-button hide-mobile" type="button" data-search-open>搜索教程</button>
       <button class="quiet-button" type="button" data-theme-toggle aria-label="切换明暗主题">主题</button>
-      <button class="quiet-button mobile-only" type="button" data-sidebar-open aria-label="打开章节导航">目录</button>
+      {hasSidebar ? (
+        <button class="quiet-button mobile-only" type="button" data-sidebar-open aria-label="打开章节导航">目录</button>
+      ) : current === 'home' ? (
+        <a class="quiet-button mobile-only" href="/tutorial">教程</a>
+      ) : (
+        <a class="quiet-button mobile-only" href="/">地图</a>
+      )}
     </div>
   </div>
 </header>
