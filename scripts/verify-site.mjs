@@ -39,13 +39,15 @@ try {
   check('教程正文已渲染', await page.locator('.prose p').count() > 2);
   check('当前教程在侧栏高亮', await page.locator('.lesson-sidebar a.active').count() === 1);
   check('第一篇提供下一篇', await page.locator('.lesson-pager a.next').count() === 1);
-  check('无页内目录时正文居中', await page.locator('.lesson-main.without-toc').count() === 1);
-  check('编号段落有阅读层级', await page.locator('.prose-point').count() >= 7);
+  check('编号段落已转换为语义标题', await page.locator('.prose h2').count() >= 7);
+  check('结构化长文生成页内目录', await page.locator('.page-toc a').count() >= 7);
   await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, document.documentElement.scrollHeight); });
   await page.waitForTimeout(100);
   check('滚动到底部时阅读进度完成', Number(await page.locator('.reading-progress').evaluate((element) => getComputedStyle(element).getPropertyValue('--reading-progress'))) > 0.98);
   check('教程页无框架错误浮层', await page.locator('.vite-error-overlay, #webpack-dev-server-client-overlay').count() === 0);
   await page.screenshot({ path: 'artifacts/lesson-desktop.png', fullPage: false });
+  await page.goto(`${baseURL}/tutorial/chapter-1/002`, { waitUntil: 'networkidle' });
+  check('无页内目录时正文居中', await page.locator('.lesson-main.without-toc').count() === 1);
   await desktop.close();
 
   const light = await browser.newContext({ viewport: { width: 1280, height: 800 }, colorScheme: 'light' });
@@ -68,6 +70,8 @@ try {
   mobilePage.on('pageerror', (error) => errors.push(`mobile pageerror: ${error.message}`));
   await mobilePage.goto(`${baseURL}/tutorial`, { waitUntil: 'networkidle' });
   check('移动端课程目录默认只展开一章', await mobilePage.locator('.catalog-chapter ol:visible').count() === 1);
+  await mobilePage.locator('[data-catalog-filter]').fill('趋势');
+  check('目录筛选只显示匹配教程', await mobilePage.locator('.catalog-chapter li:visible').count() > 0 && await mobilePage.locator('.catalog-chapter li[hidden]').count() > 0);
   await mobilePage.goto(`${baseURL}/tutorial/chapter-2/001`, { waitUntil: 'networkidle' });
   check('移动端无横向溢出', await mobilePage.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
   await mobilePage.locator('[data-sidebar-open]').click();

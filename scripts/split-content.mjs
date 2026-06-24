@@ -34,6 +34,20 @@ const cleanVisibleText = (value) => value
 
 const quote = (value) => JSON.stringify(value);
 
+// Promote only strong, repeatable outline signals. This keeps prose unchanged while
+// turning existing section labels into semantic headings for navigation and accessibility.
+const structureBody = (value) => {
+  let structured = value
+    .replace(/^([一二三四五六七八九十百]+、\s*[^.!?。！？\r\n]{2,48})\r?$/gm, '## $1')
+    .replace(/^(\d+[.、]\s*[^.!?。！？\r\n]{2,60})\r?\n(?=(?:\s*\r?\n)*\s*[-*+]\s+)/gm, '### $1\n');
+
+  const ordinalPoint = /^(第[一二三四五六七八九十百]+、?[，、])([^.!?。！？\r\n]{2,44})。(.+)\r?$/gm;
+  if ([...structured.matchAll(ordinalPoint)].length >= 2) {
+    structured = structured.replace(ordinalPoint, '## $1$2\n\n$3');
+  }
+  return structured;
+};
+
 for (let chapterIndex = 0; chapterIndex < chapterMatches.length; chapterIndex += 1) {
   const chapterMatch = chapterMatches[chapterIndex];
   const chapterNumber = chineseNumbers.get(chapterMatch[1]);
@@ -53,6 +67,7 @@ for (let chapterIndex = 0; chapterIndex < chapterMatches.length; chapterIndex +=
     const body = chapterSource.slice(bodyStart, bodyEnd).trim()
       .replaceAll('—', '-')
       .replaceAll('–', '-');
+    const structuredBody = structureBody(body);
     const description = cleanVisibleText(body).slice(0, 110);
     const chapterOrder = sectionIndex + 1;
     globalOrder += 1;
@@ -69,7 +84,7 @@ for (let chapterIndex = 0; chapterIndex < chapterMatches.length; chapterIndex +=
       '---',
       '',
     ].join('\n');
-    await writeFile(resolve(outputRoot, chapterFolder, `${lessonId}.md`), `${frontmatter}${body}\n`, 'utf8');
+    await writeFile(resolve(outputRoot, chapterFolder, `${lessonId}.md`), `${frontmatter}${structuredBody}\n`, 'utf8');
     manifest.push({ id, title, chapter: chapterNumber, chapterTitle, order: globalOrder, chapterOrder, description });
   }
 }

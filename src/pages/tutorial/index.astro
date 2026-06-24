@@ -12,8 +12,24 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
       <p>完整课程目录</p>
       <h1>从一个问题开始，逐步建立自己的交易框架。</h1>
       <button class="catalog-search" type="button" data-search-open>搜索 308 篇教程</button>
-      <p class="learning-summary" data-learning-summary hidden></p>
     </header>
+    <section class="learning-overview" data-learning-overview hidden aria-label="学习进度">
+      <div class="overview-copy">
+        <span>学习记录</span>
+        <strong><b data-completed-count>0</b> / {lessons.length}</strong>
+        <small data-progress-copy>已完成 0%</small>
+      </div>
+      <div class="overview-progress" aria-hidden="true"><i data-progress-bar></i></div>
+      <a href="/tutorial/chapter-1/001" data-resume-link>继续阅读 <span aria-hidden="true">→</span></a>
+    </section>
+    <div class="catalog-filter">
+      <label for="catalog-filter">筛选当前目录</label>
+      <div>
+        <input id="catalog-filter" type="search" placeholder="输入教程标题，例如“趋势”" autocomplete="off" data-catalog-filter />
+        <button type="button" data-filter-clear hidden>清除</button>
+      </div>
+      <p aria-live="polite" data-filter-status>共 {lessons.length} 篇教程</p>
+    </div>
     <nav class="chapter-jump" aria-label="快速跳转到章节">
       {chapters.map((chapter) => (
         <a href={`#chapter-${chapter.number}`}><span>{chapter.role}</span>{chapter.title}</a>
@@ -79,13 +95,47 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   mobileCatalog.addEventListener('change', syncCatalog);
   syncCatalog();
 
+  const filterInput = document.querySelector('[data-catalog-filter]');
+  const filterClear = document.querySelector('[data-filter-clear]');
+  const filterStatus = document.querySelector('[data-filter-status]');
+  const lessonLinks = [...document.querySelectorAll('[data-lesson-link]')];
+  const applyFilter = () => {
+    const query = filterInput?.value.trim().toLocaleLowerCase('zh-CN') || '';
+    let visible = 0;
+    lessonLinks.forEach((link) => {
+      const matched = !query || (link.textContent || '').toLocaleLowerCase('zh-CN').includes(query);
+      link.closest('li').hidden = !matched;
+      if (matched) visible += 1;
+    });
+    sections.forEach((section) => {
+      const count = section.querySelectorAll('li:not([hidden])').length;
+      section.hidden = Boolean(query) && count === 0;
+      if (query && count) setSection(section, true);
+    });
+    if (!query) syncCatalog();
+    if (filterClear) filterClear.hidden = !query;
+    if (filterStatus) filterStatus.textContent = query ? `找到 ${visible} 篇教程` : `共 ${lessonLinks.length} 篇教程`;
+  };
+  filterInput?.addEventListener('input', applyFilter);
+  filterClear?.addEventListener('click', () => {
+    filterInput.value = '';
+    applyFilter();
+    filterInput.focus();
+  });
+
   try {
     const completed = JSON.parse(localStorage.getItem('mjie-completed-lessons') || '[]');
     completed.forEach((id) => document.querySelector(`[data-lesson-link="${CSS.escape(id)}"]`)?.classList.add('completed'));
-    const summary = document.querySelector('[data-learning-summary]');
-    if (completed.length && summary) {
-      summary.textContent = `已标记 ${completed.length} 篇已读`;
-      summary.hidden = false;
+    const overview = document.querySelector('[data-learning-overview]');
+    if (completed.length && overview) {
+      const percentage = Math.round((completed.length / lessonLinks.length) * 100);
+      overview.querySelector('[data-completed-count]').textContent = String(completed.length);
+      overview.querySelector('[data-progress-copy]').textContent = `已完成 ${percentage}%`;
+      overview.querySelector('[data-progress-bar]').style.width = `${percentage}%`;
+      const resume = overview.querySelector('[data-resume-link]');
+      const lastLesson = localStorage.getItem('mjie-last-lesson');
+      if (lastLesson) resume.href = `/tutorial/${lastLesson}`;
+      overview.hidden = false;
     }
   } catch {}
 </script>
@@ -96,7 +146,24 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   .catalog-head > p { margin: 0 0 16px; color: var(--accent-strong); font-size: 13px; font-weight: 700; letter-spacing: .12em; }
   .catalog-head h1 { margin: 0; font-size: clamp(38px, 6vw, 66px); line-height: 1.12; letter-spacing: -.045em; }
   .catalog-search { margin-top: 28px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent); color: var(--accent-ink); padding: 11px 18px; font-weight: 700; cursor: pointer; }
-  .learning-summary { display: inline-block; margin: 0 0 0 14px; color: var(--text-soft); font-size: 12px; }
+  .learning-overview { margin: -40px 0 72px; padding: 22px 24px; display: grid; grid-template-columns: auto minmax(160px, 1fr) auto; align-items: center; gap: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .learning-overview[hidden] { display: none; }
+  .overview-copy { display: grid; grid-template-columns: auto auto; align-items: baseline; gap: 2px 14px; }
+  .overview-copy span { grid-column: 1 / -1; color: var(--text-soft); font-size: 11px; }
+  .overview-copy strong { font-family: ui-monospace, monospace; font-size: 18px; font-variant-numeric: tabular-nums; }
+  .overview-copy b { color: var(--accent-strong); }
+  .overview-copy small { color: var(--text-soft); }
+  .overview-progress { height: 5px; overflow: hidden; border-radius: 2px; background: var(--line); }
+  .overview-progress i { width: 0; height: 100%; display: block; background: var(--accent); transition: width .35s ease; }
+  .learning-overview > a { color: var(--accent-strong); font-size: 13px; font-weight: 700; }
+  .learning-overview > a span { display: inline-block; transition: transform .2s ease; }
+  .learning-overview > a:hover span { transform: translateX(3px); }
+  .catalog-filter { margin-bottom: 36px; padding-bottom: 26px; border-bottom: 1px solid var(--line); }
+  .catalog-filter > label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 700; }
+  .catalog-filter > div { max-width: 520px; display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+  .catalog-filter input { min-width: 0; min-height: 44px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); }
+  .catalog-filter button { min-height: 44px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; }
+  .catalog-filter p { margin: 7px 0 0; color: var(--text-soft); font-size: 11px; }
   .chapter-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: -42px 0 84px; }
   .chapter-jump a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--text-soft); font-size: 12px; transition: border-color .2s ease, color .2s ease; }
   .chapter-jump a:hover { border-color: var(--accent); color: var(--text); }
@@ -122,6 +189,10 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   @media (max-width: 800px) {
     .catalog { width: calc(100% - 28px); padding-top: 52px; }
     .catalog-head { margin-bottom: 44px; }
+    .learning-overview { margin: 0 0 44px; grid-template-columns: 1fr auto; gap: 16px; }
+    .overview-progress { grid-column: 1 / -1; grid-row: 2; }
+    .learning-overview > a { grid-column: 2; grid-row: 1; }
+    .catalog-filter { margin-bottom: 28px; }
     .chapter-jump { flex-wrap: nowrap; overflow-x: auto; margin: 0 -14px 58px; padding: 0 14px 8px; scrollbar-width: none; }
     .chapter-jump a { flex: 0 0 auto; }
     .catalog-chapter { grid-template-columns: 1fr; gap: 28px; }
