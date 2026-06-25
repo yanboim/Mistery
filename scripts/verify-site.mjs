@@ -60,6 +60,36 @@ try {
   await page.screenshot({ path: 'artifacts/lesson-desktop.png', fullPage: false });
   await page.goto(`${baseURL}/tutorial/chapter-1/002`, { waitUntil: 'networkidle' });
   check('无页内目录时正文居中', await page.locator('.lesson-main.without-toc').count() === 1);
+  await page.goto(`${baseURL}/tutorial`, { waitUntil: 'networkidle' });
+  const firstChapterLayout = await page.locator('.catalog-chapter').first().evaluate((section) => {
+    const header = section.querySelector('header');
+    const list = section.querySelector('ol');
+    const headerStyle = getComputedStyle(header);
+    const listStyle = getComputedStyle(list);
+    return {
+      headerPosition: headerStyle.position,
+      headerHasCardSurface: headerStyle.borderTopStyle !== 'none' || headerStyle.backgroundColor !== 'rgba(0, 0, 0, 0)',
+      listOverflowY: listStyle.overflowY,
+      sectionTallerThanViewport: section.getBoundingClientRect().height > window.innerHeight,
+    };
+  });
+  check('桌面目录左侧章节说明固定', firstChapterLayout.headerPosition === 'sticky');
+  check('桌面目录左侧保持非卡片样式', !firstChapterLayout.headerHasCardSurface);
+  check('桌面目录右侧课程跟随页面滚动', firstChapterLayout.listOverflowY === 'visible' && firstChapterLayout.sectionTallerThanViewport);
+  const stickyScrollBehavior = await page.locator('.catalog-chapter').first().evaluate(async (section) => {
+    document.documentElement.style.scrollBehavior = 'auto';
+    const header = section.querySelector('header');
+    const top = Number.parseFloat(getComputedStyle(header).top);
+    const startY = window.scrollY + section.getBoundingClientRect().top - top;
+    window.scrollTo(0, startY);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    const firstTop = header.getBoundingClientRect().top;
+    window.scrollTo(0, startY + 420);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    const secondTop = header.getBoundingClientRect().top;
+    return Math.abs(firstTop - top) < 2 && Math.abs(secondTop - top) < 2;
+  });
+  check('桌面目录左侧在当前章节滚动期间吸顶', stickyScrollBehavior);
   await desktop.close();
 
   const light = await browser.newContext({ viewport: { width: 1280, height: 800 }, colorScheme: 'light' });
@@ -76,12 +106,23 @@ try {
 
   const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: 'dark', isMobile: true });
   const mobilePage = await mobile.newPage();
+  await mobilePage.addInitScript(() => {
+    localStorage.setItem('mjie-completed-lessons', JSON.stringify(['chapter-1/001', 'chapter-1/002']));
+    localStorage.setItem('mjie-last-lesson', 'chapter-1/002');
+  });
   mobilePage.on('console', (message) => {
     if (message.type() === 'error') errors.push(`mobile console: ${message.text()}`);
   });
   mobilePage.on('pageerror', (error) => errors.push(`mobile pageerror: ${error.message}`));
   await mobilePage.goto(`${baseURL}/tutorial`, { waitUntil: 'networkidle' });
   check('移动端课程目录默认只展开一章', await mobilePage.locator('.catalog-chapter ol:visible').count() === 1);
+  check('目录显示章节完成进度', (await mobilePage.locator('[data-chapter-progress="1"]').innerText()).includes('2 / 47'));
+  check('章节跳转显示完成百分比', (await mobilePage.locator('[data-chapter-jump-progress="1"]').innerText()) === '4%');
+  await mobilePage.locator('[data-progress-filter="read"]').click();
+  check('目录可筛选已读教程', (await mobilePage.locator('[data-filter-status]').innerText()).includes('找到 2 篇 已读教程'));
+  await mobilePage.locator('[data-progress-filter="unread"]').click();
+  check('目录可筛选未读教程', (await mobilePage.locator('[data-filter-status]').innerText()).includes('找到 306 篇 未读教程'));
+  await mobilePage.locator('[data-progress-filter="all"]').click();
   await mobilePage.locator('[data-catalog-filter]').fill('趋势');
   check('目录筛选只显示匹配教程', await mobilePage.locator('.catalog-chapter li:visible').count() > 0 && await mobilePage.locator('.catalog-chapter li[hidden]').count() > 0);
   await mobilePage.goto(`${baseURL}/tutorial/chapter-2/001`, { waitUntil: 'networkidle' });

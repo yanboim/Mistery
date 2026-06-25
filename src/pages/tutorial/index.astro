@@ -28,11 +28,21 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
         <input id="catalog-filter" type="search" placeholder="输入教程标题，例如“趋势”" autocomplete="off" data-catalog-filter />
         <button type="button" data-filter-clear hidden>清除</button>
       </div>
+      <div class="progress-filter" role="group" aria-label="按学习状态筛选">
+        <button type="button" aria-pressed="true" data-progress-filter="all">全部</button>
+        <button type="button" aria-pressed="false" data-progress-filter="unread">未读</button>
+        <button type="button" aria-pressed="false" data-progress-filter="read">已读</button>
+      </div>
       <p aria-live="polite" data-filter-status>共 {lessons.length} 篇教程</p>
     </div>
+    <p class="catalog-empty" hidden data-catalog-empty>没有符合条件的教程。换个关键词，或切回“全部”。</p>
     <nav class="chapter-jump" aria-label="快速跳转到章节">
       {chapters.map((chapter) => (
-        <a href={`#chapter-${chapter.number}`}><span>{chapter.role}</span>{chapter.title}</a>
+        <a href={`#chapter-${chapter.number}`}>
+          <span>{chapter.role}</span>
+          {chapter.title}
+          <small data-chapter-jump-progress={chapter.number}>0%</small>
+        </a>
       ))}
     </nav>
     <div class="chapter-list">
@@ -43,16 +53,17 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
             <header>
               <span class="role">{chapter.role}</span>
               <div>
-                <small>第{chapter.numeral}章，{items.length} 篇</small>
+                <small>第{chapter.numeral}章，<span class="chapter-read-count" data-chapter-progress={chapter.number} data-chapter-total={items.length}>0 / {items.length} 已读</span></small>
                 <h2>{chapter.title}</h2>
                 <p>{chapter.summary}</p>
+                <div class="chapter-progress-line" aria-hidden="true"><i data-chapter-progress-bar={chapter.number}></i></div>
               </div>
               <button class="chapter-toggle" type="button" aria-expanded="true" aria-controls={`chapter-lessons-${chapter.number}`} data-chapter-toggle>收起</button>
             </header>
             <ol id={`chapter-lessons-${chapter.number}`}>
               {items.map((lesson) => (
                 <li>
-                  <a href={`/tutorial/${lesson.id}`} data-lesson-link={lesson.id}>
+                  <a href={`/tutorial/${lesson.id}`} data-lesson-link={lesson.id} data-chapter-number={chapter.number}>
                     <span>{String(lesson.data.chapterOrder).padStart(2, '0')}</span>
                     <strong>{lesson.data.title}</strong>
                     <i aria-hidden="true">→</i>
@@ -98,23 +109,52 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   const filterInput = document.querySelector('[data-catalog-filter]');
   const filterClear = document.querySelector('[data-filter-clear]');
   const filterStatus = document.querySelector('[data-filter-status]');
+  const emptyState = document.querySelector('[data-catalog-empty]');
+  const progressButtons = [...document.querySelectorAll('[data-progress-filter]')];
   const lessonLinks = [...document.querySelectorAll('[data-lesson-link]')];
+  let activeProgressFilter = 'all';
+  let completedSet = new Set();
+
+  const updateChapterProgress = () => {
+    document.querySelectorAll('[data-chapter-progress]').forEach((element) => {
+      const chapter = element.getAttribute('data-chapter-progress');
+      const total = Number(element.getAttribute('data-chapter-total') || 0);
+      const completed = lessonLinks.filter((link) => link.getAttribute('data-chapter-number') === chapter && completedSet.has(link.getAttribute('data-lesson-link'))).length;
+      const percentage = total ? Math.round((completed / total) * 100) : 0;
+      element.textContent = `${completed} / ${total} 已读`;
+      document.querySelector(`[data-chapter-progress-bar="${CSS.escape(chapter)}"]`)?.style.setProperty('--chapter-completion', `${percentage}%`);
+      document.querySelector(`[data-chapter-jump-progress="${CSS.escape(chapter)}"]`).textContent = `${percentage}%`;
+    });
+  };
+
+  const updateProgressButtons = () => {
+    progressButtons.forEach((button) => {
+      button.setAttribute('aria-pressed', String(button.getAttribute('data-progress-filter') === activeProgressFilter));
+    });
+  };
+
   const applyFilter = () => {
     const query = filterInput?.value.trim().toLocaleLowerCase('zh-CN') || '';
     let visible = 0;
     lessonLinks.forEach((link) => {
-      const matched = !query || (link.textContent || '').toLocaleLowerCase('zh-CN').includes(query);
+      const lessonId = link.getAttribute('data-lesson-link');
+      const isCompleted = completedSet.has(lessonId);
+      const matchedQuery = !query || (link.textContent || '').toLocaleLowerCase('zh-CN').includes(query);
+      const matchedProgress = activeProgressFilter === 'all' || (activeProgressFilter === 'read' ? isCompleted : !isCompleted);
+      const matched = matchedQuery && matchedProgress;
       link.closest('li').hidden = !matched;
       if (matched) visible += 1;
     });
     sections.forEach((section) => {
       const count = section.querySelectorAll('li:not([hidden])').length;
-      section.hidden = Boolean(query) && count === 0;
-      if (query && count) setSection(section, true);
+      section.hidden = Boolean(query || activeProgressFilter !== 'all') && count === 0;
+      if ((query || activeProgressFilter !== 'all') && count) setSection(section, true);
     });
-    if (!query) syncCatalog();
+    if (!query && activeProgressFilter === 'all') syncCatalog();
     if (filterClear) filterClear.hidden = !query;
-    if (filterStatus) filterStatus.textContent = query ? `找到 ${visible} 篇教程` : `共 ${lessonLinks.length} 篇教程`;
+    if (emptyState) emptyState.hidden = visible > 0;
+    const filterName = activeProgressFilter === 'read' ? '已读' : activeProgressFilter === 'unread' ? '未读' : '';
+    if (filterStatus) filterStatus.textContent = query || filterName ? `找到 ${visible} 篇${filterName ? ` ${filterName}` : ''}教程` : `共 ${lessonLinks.length} 篇教程`;
   };
   filterInput?.addEventListener('input', applyFilter);
   filterClear?.addEventListener('click', () => {
@@ -122,10 +162,19 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
     applyFilter();
     filterInput.focus();
   });
+  progressButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      activeProgressFilter = button.getAttribute('data-progress-filter') || 'all';
+      updateProgressButtons();
+      applyFilter();
+    });
+  });
 
   try {
     const completed = JSON.parse(localStorage.getItem('mjie-completed-lessons') || '[]');
+    completedSet = new Set(completed);
     completed.forEach((id) => document.querySelector(`[data-lesson-link="${CSS.escape(id)}"]`)?.classList.add('completed'));
+    updateChapterProgress();
     const overview = document.querySelector('[data-learning-overview]');
     if (completed.length && overview) {
       const percentage = Math.round((completed.length / lessonLinks.length) * 100);
@@ -138,10 +187,12 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
       overview.hidden = false;
     }
   } catch {}
+  updateProgressButtons();
+  applyFilter();
 </script>
 
 <style>
-  .catalog { position: relative; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 84px 0 130px; overflow: hidden; }
+  .catalog { position: relative; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 84px 0 130px; overflow: visible; }
   .catalog::before { content: ''; position: absolute; z-index: -1; top: -210px; right: -220px; width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 9%, transparent), transparent 68%); pointer-events: none; }
   .catalog-head { min-height: 420px; display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: clamp(44px, 8vw, 120px); align-items: end; margin-bottom: 72px; padding-bottom: 48px; border-bottom: 1px solid var(--line); }
   .catalog-head > p { align-self: start; grid-column: 1 / -1; margin: 0; color: var(--accent-strong); font-size: 14px; font-weight: 700; }
@@ -169,18 +220,27 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   .catalog-filter button { min-height: 46px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; transition: border-color .2s ease, color .2s ease, transform .2s ease; }
   .catalog-filter button:hover { border-color: var(--accent); color: var(--accent-strong); }
   .catalog-filter button:active { transform: translateY(1px); }
+  .catalog-filter .progress-filter { grid-column: 2; display: inline-flex; width: max-content; max-width: 100%; gap: 1px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
+  .progress-filter button { min-height: 34px; padding: 6px 12px; border: 0; border-radius: 6px; color: var(--text-soft); font-size: 12px; }
+  .progress-filter button[aria-pressed='true'] { background: var(--accent); color: var(--accent-ink); }
   .catalog-filter p { grid-column: 2; margin: -8px 0 0; color: var(--text-soft); font-size: 11px; }
+  .catalog-empty { margin: -12px 0 44px; padding: 22px 24px; border: 1px solid var(--line); background: var(--surface); color: var(--text-soft); font-size: 14px; }
+  .catalog-empty[hidden] { display: none; }
   .chapter-jump { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; margin: 0 0 96px; border: 1px solid var(--line); background: var(--line); }
-  .chapter-jump a { min-height: 78px; display: grid; align-content: center; gap: 3px; padding: 13px 14px; background: var(--bg); color: var(--text-soft); font-size: 12px; transition: background .2s ease, color .2s ease; }
+  .chapter-jump a { min-height: 86px; display: grid; align-content: center; gap: 3px; padding: 13px 14px; background: var(--bg); color: var(--text-soft); font-size: 12px; transition: background .2s ease, color .2s ease; }
   .chapter-jump a:hover { background: var(--surface); color: var(--text); }
   .chapter-jump span { color: var(--accent-strong); font-weight: 800; }
+  .chapter-jump small { color: var(--text-soft); font-family: ui-monospace, monospace; font-size: 10px; font-variant-numeric: tabular-nums; }
   .chapter-list { display: grid; gap: 118px; }
-  .catalog-chapter { scroll-margin-top: 92px; display: grid; grid-template-columns: minmax(250px, .66fr) minmax(0, 1.34fr); gap: clamp(44px, 8vw, 118px); }
-  .catalog-chapter > header { align-self: start; position: sticky; top: 100px; display: grid; grid-template-columns: 58px 1fr auto; gap: 18px; padding-top: 4px; }
+  .catalog-chapter { scroll-margin-top: 92px; display: grid; grid-template-columns: minmax(250px, .66fr) minmax(0, 1.34fr); gap: clamp(44px, 8vw, 118px); align-items: start; }
+  .catalog-chapter > header { align-self: start; position: sticky; top: calc(var(--header-height) + 32px); display: grid; grid-template-columns: 58px 1fr auto; gap: 18px; padding-top: 4px; }
   .role { width: 52px; height: 52px; display: grid; place-items: center; border-bottom: 1px solid var(--accent); color: var(--accent-strong); font-size: 34px; line-height: 1; font-weight: 800; }
   .catalog-chapter small { color: var(--text-soft); }
+  .chapter-read-count { font-variant-numeric: tabular-nums; }
   .catalog-chapter h2 { margin: 3px 0 10px; font-size: clamp(28px, 3vw, 38px); line-height: 1.16; letter-spacing: -.035em; text-wrap: balance; }
   .catalog-chapter header p { max-width: 30ch; margin: 0; color: var(--text-soft); font-size: 14px; line-height: 1.75; }
+  .chapter-progress-line { width: min(210px, 100%); height: 4px; margin-top: 18px; overflow: hidden; border-radius: 999px; background: var(--line); }
+  .chapter-progress-line i { display: block; width: var(--chapter-completion, 0%); height: 100%; border-radius: inherit; background: var(--accent); transition: width .35s ease; }
   ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; align-content: start; border: 1px solid var(--line); background: var(--line); }
   ol[hidden] { display: none; }
   li a { min-height: 92px; display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; align-items: center; padding: 16px 17px; background: var(--bg); transition: background .2s ease, color .2s ease, transform .2s ease; }
@@ -192,6 +252,9 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   li strong { font-size: 14px; line-height: 1.5; text-wrap: pretty; }
   li i { color: var(--text-soft); font-style: normal; }
   .chapter-toggle { display: none; }
+  @media (min-width: 801px) {
+    .catalog-chapter { min-height: calc(100dvh - var(--header-height)); }
+  }
   @media (max-width: 800px) {
     .catalog { width: calc(100% - 28px); padding-top: 58px; }
     .catalog-head { min-height: auto; grid-template-columns: 1fr; gap: 28px; margin-bottom: 44px; padding-bottom: 38px; }
@@ -202,14 +265,16 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
     .learning-overview > a { grid-column: 2; grid-row: 1; }
     .catalog-filter { grid-template-columns: 1fr; gap: 10px; margin-bottom: 28px; }
     .catalog-filter > label { padding-top: 0; }
+    .catalog-filter .progress-filter { grid-column: 1; width: 100%; }
+    .progress-filter button { flex: 1; }
     .catalog-filter p { grid-column: 1; margin-top: -4px; }
     .chapter-jump { flex-wrap: nowrap; overflow-x: auto; margin: 0 -14px 58px; padding: 0 14px 8px; scrollbar-width: none; }
     .chapter-jump { display: flex; border: 0; background: transparent; }
     .chapter-jump a { flex: 0 0 auto; min-height: 58px; border: 1px solid var(--line); }
-    .catalog-chapter { grid-template-columns: 1fr; gap: 28px; }
-    .catalog-chapter > header { position: static; grid-template-columns: 48px 1fr auto; }
+    .catalog-chapter { min-height: auto; grid-template-columns: 1fr; gap: 28px; }
+    .catalog-chapter > header { position: static; grid-template-columns: 48px 1fr auto; padding-top: 0; }
     .role { width: 42px; height: 42px; font-size: 28px; }
     .chapter-toggle { display: inline-flex; align-items: center; justify-content: center; min-width: 52px; min-height: 44px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--text-soft); font-size: 12px; cursor: pointer; }
-    ol { grid-template-columns: 1fr; }
+    ol { grid-template-columns: 1fr; max-height: none; overflow: visible; }
   }
 </style>
