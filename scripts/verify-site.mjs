@@ -25,6 +25,9 @@ try {
   check('首页学习方法包含 3 个步骤', await page.locator('.study-method li').count() === 3);
   check('首页渲染 6 个章节索引', await page.locator('.chapter-row').count() === 6);
   check('首页展示真实课程统计', (await page.locator('.course-facts').innerText()).includes('308'));
+  check('首页包含 canonical', (await page.locator('link[rel="canonical"]').getAttribute('href')) === 'https://mistery-notes.local/');
+  check('首页包含分享图', (await page.locator('meta[property="og:image"]').getAttribute('content')) === 'https://mistery-notes.local/og.svg');
+  check('首页包含结构化数据', await page.locator('script[type="application/ld+json"]').count() === 1);
   check('首页无横向溢出', await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
   await page.screenshot({ path: 'artifacts/home-desktop.png', fullPage: true });
 
@@ -34,9 +37,16 @@ try {
   check('正文搜索返回结果', await page.locator('.search-result').count() > 0);
   check('搜索摘要包含正文上下文', (await page.locator('.search-result').first().innerText()).includes('微信群'));
   await page.locator('[data-search-close]').click();
+  check('搜索关闭后焦点返回触发按钮', await page.evaluate(() => document.activeElement?.matches('[data-search-open]')));
+
+  const sitemap = await (await desktop.request.get(`${baseURL}/sitemap.xml`)).text();
+  check('站点地图包含全部教程路径', sitemap.includes('/tutorial/chapter-1/001') && sitemap.includes('/tutorial/chapter-6/139'));
+  const robots = await (await desktop.request.get(`${baseURL}/robots.txt`)).text();
+  check('robots 声明 sitemap', robots.includes('Sitemap: https://mistery-notes.local/sitemap.xml'));
 
   await page.goto(`${baseURL}/tutorial/chapter-1/001`, { waitUntil: 'networkidle' });
   check('教程标题正确', (await page.locator('.lesson-head h1').innerText()).includes('写给最近几个月新入市的朋友们'));
+  check('教程页结构化数据为 Article', await page.locator('script[type="application/ld+json"]').evaluate((element) => JSON.parse(element.textContent || '{}')['@type'] === 'Article'));
   check('教程正文已渲染', await page.locator('.prose p').count() > 2);
   check('当前教程在侧栏高亮', await page.locator('.lesson-sidebar a.active').count() === 1);
   check('第一篇提供下一篇', await page.locator('.lesson-pager a.next').count() === 1);
