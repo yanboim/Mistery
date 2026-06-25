@@ -37,15 +37,61 @@ const quote = (value) => JSON.stringify(value);
 // Promote only strong, repeatable outline signals. This keeps prose unchanged while
 // turning existing section labels into semantic headings for navigation and accessibility.
 const structureBody = (value) => {
+  let normalizeOutput = false;
   let structured = value
     .replace(/^([一二三四五六七八九十百]+、\s*[^.!?。！？\r\n]{2,48})\r?$/gm, '## $1')
     .replace(/^(\d+[.、]\s*[^.!?。！？\r\n]{2,60})\r?\n(?=(?:\s*\r?\n)*\s*[-*+]\s+)/gm, '### $1\n');
+
+  const numberedColonHeading = /^(\d+[.、]\s*[^：:\r\n]{2,70})[：:]\s*(.+)\r?$/gm;
+  if ([...structured.matchAll(numberedColonHeading)].length >= 3) {
+    normalizeOutput = true;
+    structured = structured.replace(numberedColonHeading, '## $1\n\n$2');
+  }
+
+  const numberedStandaloneHeading = /^(\d+[.、]\s*[^.!?。！？\r\n]{2,72})\r?$/gm;
+  if ([...structured.matchAll(numberedStandaloneHeading)].length >= 3) {
+    normalizeOutput = true;
+    structured = structured.replace(numberedStandaloneHeading, '## $1');
+  }
+
+  const waveHeading = /^((?:五浪上涨（推动浪）)?第[一二三四五]浪（[^）]+）|三浪调整（修正浪）A\s*浪（[^）]+）|[BC]\s*浪（[^）]+）)\r?$/gm;
+  if ([...structured.matchAll(waveHeading)].length >= 4) {
+    normalizeOutput = true;
+    structured = structured.replace(waveHeading, '## $1');
+  }
 
   const ordinalPoint = /^(第[一二三四五六七八九十百]+、?[，、])([^.!?。！？\r\n]{2,44})。(.+)\r?$/gm;
   if ([...structured.matchAll(ordinalPoint)].length >= 2) {
     structured = structured.replace(ordinalPoint, '## $1$2\n\n$3');
   }
-  return structured;
+
+  const hasSequentialLongForm = /首先是[^。]{2,36}。/.test(structured)
+    && /其次是[^。]{2,36}。/.test(structured)
+    && /第三是[^。]{2,36}。/.test(structured);
+  if (hasSequentialLongForm) {
+    normalizeOutput = true;
+    structured = structured
+      .replace(/(^|。)(首先是[^。]{2,36})。/g, '$1\n\n## $2\n\n')
+      .replace(/(^|。)(其次是[^。]{2,36})。/g, '$1\n\n## $2\n\n')
+      .replace(/(^|。)(第三是[^。]{2,36})。/g, '$1\n\n## $2\n\n')
+      .replace(/(^|。)(当然，[^。]{2,40}风险)。(首先是)/g, '$1\n\n## $2\n\n$3')
+      .replace(/(^|。)(总体而言，[^。]{2,40})。/g, '$1\n\n## $2\n\n');
+  }
+
+  const embeddedMindsetHeadings = [
+    '技术只是基础，心态才是灵魂',
+    '盈亏面前的心态，决定了交易的成败',
+    '交易的修行，是与自己的较量',
+    '心态的力量，决定了交易的高度',
+  ];
+  if (embeddedMindsetHeadings.filter((heading) => structured.includes(heading)).length >= 3) {
+    normalizeOutput = true;
+    for (const heading of embeddedMindsetHeadings) {
+      structured = structured.replace(heading, `\n\n## ${heading}\n\n`);
+    }
+  }
+
+  return normalizeOutput ? structured.replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/[ \t]+$/gm, '') : structured;
 };
 
 for (let chapterIndex = 0; chapterIndex < chapterMatches.length; chapterIndex += 1) {

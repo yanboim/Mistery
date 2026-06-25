@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://mistery-notes.local',
+  site: 'https://mi.yanbo.im',
   trailingSlash: 'never',
 });

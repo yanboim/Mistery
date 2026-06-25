@@ -10,6 +10,7 @@ const progress = Math.round(((currentIndex + 1) / chapterLessons.length) * 100);
 const readingMinutes = Math.max(1, Math.ceil(lesson.body.replace(/\s/g, '').length / 350));
 const tocHeadings = headings.filter((heading) => heading.depth <= 4);
 const hasToc = tocHeadings.length > 0;
+const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lessons/${lesson.id}.md`;
 ---
 
 <BaseLayout
@@ -64,6 +65,7 @@ const hasToc = tocHeadings.length > 0;
             <span>本章第 {lesson.data.chapterOrder} 节</span>
             <span>本章位置 {progress}%</span>
             <span>阅读约 {readingMinutes} 分钟</span>
+            <a class="source-edit-link" href={editURL} target="_blank" rel="noreferrer">编辑本文</a>
             <button type="button" data-complete-toggle aria-pressed="false">标记已读</button>
           </div>
           <div class="chapter-progress" aria-label={`本章学习进度 ${progress}%`}>
@@ -202,9 +204,10 @@ const hasToc = tocHeadings.length > 0;
   .lesson-head h1 { margin: 18px 0 24px; font-size: clamp(38px, 5vw, 64px); line-height: 1.12; letter-spacing: -.052em; text-wrap: balance; }
   .lesson-meta { display: flex; gap: 18px 24px; align-items: center; color: var(--text-soft); font-size: 12px; }
   .lesson-meta span { white-space: nowrap; }
-  .lesson-meta button { margin-left: auto; padding: 0; border: 0; border-bottom: 1px solid currentColor; background: transparent; color: var(--accent-strong); cursor: pointer; font-size: 12px; transition: color .2s ease, transform .2s ease; }
-  .lesson-meta button:hover { color: var(--text); }
-  .lesson-meta button:active { transform: translateY(1px); }
+  .source-edit-link { margin-left: auto; color: var(--accent-strong); border-bottom: 1px solid currentColor; transition: color .2s ease, transform .2s ease; }
+  .lesson-meta button { padding: 0; border: 0; border-bottom: 1px solid currentColor; background: transparent; color: var(--accent-strong); cursor: pointer; font-size: 12px; transition: color .2s ease, transform .2s ease; }
+  .source-edit-link:hover, .lesson-meta button:hover { color: var(--text); }
+  .source-edit-link:active, .lesson-meta button:active { transform: translateY(1px); }
   .chapter-progress { margin-top: 30px; padding: 18px 0 0; display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; gap: 16px; align-items: center; border-top: 1px solid color-mix(in srgb, var(--line) 64%, transparent); }
   .chapter-progress > span { color: var(--accent-strong); font-size: 32px; font-weight: 800; line-height: 1; }
   .chapter-progress div { display: grid; gap: 8px; }
@@ -264,6 +267,7 @@ const hasToc = tocHeadings.length > 0;
     .lesson-pager > span { display: none; }
     .lesson-pager a.next { text-align: left; }
     .lesson-meta { flex-wrap: wrap; gap: 8px 16px; }
+    .source-edit-link { margin-left: 0; }
     .lesson-meta button { width: 100%; margin: 5px 0 0; min-height: 40px; border: 1px solid var(--line); border-radius: 7px; }
   }
 </style>
