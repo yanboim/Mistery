@@ -93,11 +93,13 @@ button { color: inherit; }
 .brand:hover { color: var(--accent-strong); transform: translateY(-1px); }
 .brand:active { transform: translateY(0); }
 .brand-mark { width: 22px; height: 22px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--accent) 52%, var(--line)); border-radius: 7px; background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--accent-strong); font-family: ui-monospace, monospace; font-size: 12px; line-height: 1; }
-.header-nav { display: flex; align-items: center; gap: 3px; margin-left: auto; padding: 3px; border: 1px solid color-mix(in srgb, var(--line) 88%, transparent); border-radius: 999px; background: color-mix(in srgb, var(--surface) 72%, transparent); color: var(--text-soft); font-size: 13px; }
-.header-nav a { min-height: 34px; display: inline-flex; align-items: center; padding: 6px 13px; border-radius: 999px; transition: background .2s ease, color .2s ease, transform .2s ease; }
-.header-nav a:hover { background: color-mix(in srgb, var(--surface-raised) 72%, transparent); color: var(--text); }
-.header-nav a:active { transform: translateY(1px); }
-.header-nav a[aria-current='page'] { background: var(--text); color: var(--bg); font-weight: 680; }
+.header-nav { display: flex; align-items: center; gap: 22px; margin-left: auto; color: var(--text-soft); font-size: 14px; }
+.header-nav a { position: relative; min-height: 34px; display: inline-flex; align-items: center; padding: 6px 0; transition: color .2s ease; }
+.header-nav a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 4px; height: 1.5px; background: var(--accent); transform: scaleX(0); transform-origin: center; transition: transform .25s ease; }
+.header-nav a:hover { color: var(--text); }
+.header-nav a:hover::after { transform: scaleX(1); }
+.header-nav a[aria-current='page'] { color: var(--accent-strong); font-weight: 620; }
+.header-nav a[aria-current='page']::after { transform: scaleX(1); }
 .header-actions { display: flex; align-items: center; gap: 8px; }
 .quiet-button {
   display: inline-flex;
