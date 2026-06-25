@@ -168,11 +168,10 @@ button { color: inherit; }
 }
 .icon-button:hover { border-color: color-mix(in srgb, var(--accent) 60%, var(--line)); background: var(--surface-raised); color: var(--accent-strong); }
 .icon-button:active { transform: translateY(1px); }
-.icon-button .icon { position: absolute; transition: opacity .2s ease, transform .25s ease; }
-.icon-button .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
-.icon-button .icon-sun { opacity: 0; transform: rotate(-40deg) scale(.6); }
-.icon-button.is-dark .icon-moon { opacity: 0; transform: rotate(40deg) scale(.6); }
-.icon-button.is-dark .icon-sun { opacity: 1; transform: rotate(0) scale(1); }
+.icon-button .icon { position: absolute; opacity: 0; transform: rotate(-40deg) scale(.6); transition: opacity .2s ease, transform .25s ease; }
+.icon-button[data-theme-state='auto'] .icon-auto { opacity: 1; transform: rotate(0) scale(1); }
+.icon-button[data-theme-state='light'] .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
+.icon-button[data-theme-state='dark'] .icon-sun { opacity: 1; transform: rotate(0) scale(1); }
 
 .site-footer {
   border-top: 1px solid var(--line);

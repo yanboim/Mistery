@@ -35,7 +35,7 @@ const structuredData = {
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL.href} />
     <meta property="og:title" content={title} />
@@ -54,8 +54,8 @@ const structuredData = {
     <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <script is:inline>
-      const savedTheme = localStorage.getItem('mjie-theme');
-      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+      const savedTheme = localStorage.getItem('mjie-theme') || 'auto';
+      if (savedTheme === 'light' || savedTheme === 'dark') document.documentElement.dataset.theme = savedTheme;
     </script>
   </head>
   <body>
@@ -68,23 +68,25 @@ const structuredData = {
     <SearchDialog lessons={lessons} />
     <script>
       const themeButton = document.querySelector('[data-theme-toggle]');
+      const ORDER = ['auto', 'light', 'dark'];
+      const LABEL = { auto: '跟随系统', light: '浅色', dark: '深色' };
       const updateThemeButton = () => {
         if (!themeButton) return;
         const root = document.documentElement;
-        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const current = root.dataset.theme || (systemDark ? 'dark' : 'light');
-        themeButton.classList.toggle('is-dark', current === 'dark');
-        const nextLabel = current === 'dark' ? '浅色' : '深色';
-        themeButton.setAttribute('aria-label', `切换到${nextLabel}主题`);
-        themeButton.setAttribute('aria-pressed', String(current === 'dark'));
+        const stored = localStorage.getItem('mjie-theme') || 'auto';
+        const state = ORDER.includes(stored) ? stored : 'auto';
+        themeButton.setAttribute('data-theme-state', state);
+        themeButton.setAttribute('aria-label', `切换主题（当前：${LABEL[state]}）`);
+        themeButton.setAttribute('aria-pressed', String(state === 'dark'));
       };
       updateThemeButton();
       themeButton?.addEventListener('click', () => {
         const root = document.documentElement;
-        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const current = root.dataset.theme || (systemDark ? 'dark' : 'light');
-        const next = current === 'dark' ? 'light' : 'dark';
-        root.dataset.theme = next;
+        const stored = localStorage.getItem('mjie-theme') || 'auto';
+        const idx = ORDER.indexOf(ORDER.includes(stored) ? stored : 'auto');
+        const next = ORDER[(idx + 1) % ORDER.length];
+        if (next === 'auto') delete root.dataset.theme;
+        else root.dataset.theme = next;
         localStorage.setItem('mjie-theme', next);
         updateThemeButton();
       });

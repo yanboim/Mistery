@@ -62,6 +62,8 @@ try {
   await page.goto(`${baseURL}/tutorial/chapter-1/002`, { waitUntil: 'networkidle' });
   check('无页内目录时正文居中', await page.locator('.lesson-main.without-toc').count() === 1);
   await page.goto(`${baseURL}/tutorial`, { waitUntil: 'networkidle' });
+  check('目录页不重复放置全站搜索按钮', await page.locator('.catalog-search').count() === 0);
+  check('目录页不重复放置文本筛选框', await page.locator('[data-catalog-filter]').count() === 0);
   const firstChapterLayout = await page.locator('.catalog-chapter').first().evaluate((section) => {
     const header = section.querySelector('header');
     const list = section.querySelector('ol');
@@ -100,8 +102,13 @@ try {
   check('浅色主题按系统偏好渲染', await lightPage.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() === '#f4f2ed'));
   await lightPage.screenshot({ path: 'artifacts/home-light.png', fullPage: false });
   await lightPage.locator('[data-theme-toggle]').click();
-  check('主题按钮可切换到深色', await lightPage.evaluate(() => document.documentElement.dataset.theme === 'dark'));
-  check('主题按钮切换到深色后显示太阳图标', await lightPage.locator('[data-theme-toggle].is-dark').count() === 1);
+  check('主题按钮第一次点击切换到浅色', await lightPage.evaluate(() => document.documentElement.dataset.theme === 'light'));
+  check('主题按钮状态显示为浅色', await lightPage.locator('[data-theme-toggle][data-theme-state="light"]').count() === 1);
+  await lightPage.locator('[data-theme-toggle]').click();
+  check('主题按钮第二次点击切换到深色', await lightPage.evaluate(() => document.documentElement.dataset.theme === 'dark'));
+  check('主题按钮状态显示为深色', await lightPage.locator('[data-theme-toggle][data-theme-state="dark"]').count() === 1);
+  await lightPage.locator('[data-theme-toggle]').click();
+  check('主题按钮第三次点击回到跟随系统', await lightPage.locator('[data-theme-toggle][data-theme-state="auto"]').count() === 1);
   await lightPage.goto(`${baseURL}/404.html`, { waitUntil: 'networkidle' });
   check('404 页面提供返回路径', await lightPage.locator('.not-found a').count() === 2);
   await light.close();
@@ -117,6 +124,7 @@ try {
   });
   mobilePage.on('pageerror', (error) => errors.push(`mobile pageerror: ${error.message}`));
   await mobilePage.goto(`${baseURL}/tutorial`, { waitUntil: 'networkidle' });
+  check('移动端目录页无横向溢出', await mobilePage.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
   check('移动端课程目录默认只展开一章', await mobilePage.locator('.catalog-chapter ol:visible').count() === 1);
   check('目录显示章节完成进度', (await mobilePage.locator('[data-chapter-progress="1"]').innerText()).includes('2 / 47'));
   check('章节跳转显示完成百分比', (await mobilePage.locator('[data-chapter-jump-progress="1"]').innerText()) === '4%');
@@ -125,8 +133,6 @@ try {
   await mobilePage.locator('[data-progress-filter="unread"]').click();
   check('目录可筛选未读教程', (await mobilePage.locator('[data-filter-status]').innerText()).includes('找到 306 篇 未读教程'));
   await mobilePage.locator('[data-progress-filter="all"]').click();
-  await mobilePage.locator('[data-catalog-filter]').fill('趋势');
-  check('目录筛选只显示匹配教程', await mobilePage.locator('.catalog-chapter li:visible').count() > 0 && await mobilePage.locator('.catalog-chapter li[hidden]').count() > 0);
   await mobilePage.goto(`${baseURL}/tutorial/chapter-2/001`, { waitUntil: 'networkidle' });
   check('移动端无横向溢出', await mobilePage.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
   await mobilePage.locator('[data-sidebar-open]').click();
