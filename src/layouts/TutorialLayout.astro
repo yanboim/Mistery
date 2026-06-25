@@ -14,7 +14,7 @@ const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lesson
 ---
 
 <BaseLayout
-  title={`${lesson.data.title} | M姐交易笔记`}
+  title={`${lesson.data.title} | Mi姐交易笔记`}
   description={lesson.data.description}
   current="tutorial"
   lessons={lessons}
@@ -29,7 +29,6 @@ const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lesson
         <strong>教程目录</strong>
         <button class="quiet-button mobile-only" type="button" data-sidebar-close>关闭</button>
       </div>
-      <button class="sidebar-search" type="button" data-search-open>搜索全部教程</button>
       <nav aria-label="教程章节">
         {chapters.map((chapter) => {
           const items = lessons.filter((item) => item.data.chapter === chapter.number);
@@ -138,7 +137,9 @@ const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lesson
       updateCompleteButton();
     });
   }
-  requestAnimationFrame(() => document.querySelector('.lesson-sidebar a.active')?.scrollIntoView({ block: 'center' }));
+  requestAnimationFrame(() => {
+    document.querySelector('.lesson-sidebar a.active')?.scrollIntoView({ block: 'center' });
+  });
   const progressBar = document.querySelector('.reading-progress');
   const article = document.querySelector('.lesson-main article');
   let progressFrame = 0;
@@ -178,16 +179,15 @@ const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lesson
 <style>
   .reading-progress { position: fixed; z-index: 40; top: var(--header-height); left: 0; width: 100%; height: 2px; background: var(--accent); transform: scaleX(var(--reading-progress, 0)); transform-origin: left; will-change: transform; }
   .tutorial-shell { width: min(1500px, 100%); margin: 0 auto; display: grid; grid-template-columns: 306px minmax(0, 1fr); }
-  .lesson-sidebar { height: calc(100dvh - var(--header-height)); position: sticky; top: var(--header-height); overflow: auto; padding: 26px 18px 60px; border-right: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 84%, var(--surface) 16%); scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  .lesson-sidebar { height: calc(100dvh - var(--header-height)); position: sticky; top: var(--header-height); display: flex; flex-direction: column; overflow: hidden; padding: 26px 18px 60px; border-right: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 84%, var(--surface) 16%); scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
   .sidebar-head { display: flex; align-items: center; justify-content: space-between; padding: 0 8px 15px; }
-  .sidebar-head strong { font-size: 13px; }
-  .sidebar-search { width: 100%; margin-bottom: 18px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); color: var(--text-soft); text-align: left; cursor: pointer; font-size: 13px; transition: border-color .2s ease, color .2s ease, transform .2s ease; }
-  .sidebar-search:hover { border-color: var(--accent); color: var(--accent-strong); transform: translateY(-1px); }
-  .sidebar-search:active { transform: translateY(1px); }
+  .sidebar-head strong { font-size: 15px; font-weight: 750; letter-spacing: -0.01em; }
+  .lesson-sidebar nav { min-height: 0; overflow: auto; padding-right: 2px; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
   details { margin-bottom: 5px; }
   summary { min-height: 46px; display: grid; grid-template-columns: 30px 1fr auto; gap: 8px; align-items: center; padding: 7px 8px; border-radius: 8px; cursor: pointer; list-style: none; transition: background .2s ease, color .2s ease; }
   summary::-webkit-details-marker { display: none; }
   summary:hover { background: var(--surface); }
+  details[open] summary { position: sticky; top: 0; z-index: 2; background: color-mix(in srgb, var(--bg) 86%, var(--surface) 14%); backdrop-filter: blur(10px); }
   summary > span { width: 26px; height: 26px; display: grid; place-items: center; border-bottom: 1px solid var(--accent); color: var(--accent-strong); font-size: 17px; line-height: 1; font-weight: 800; }
   summary strong { font-size: 13px; }
   summary small { color: var(--text-soft); font-size: 10px; }

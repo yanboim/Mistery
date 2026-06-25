@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
-  <title id="title">M姐交易笔记</title>
+  <title id="title">Mi姐交易笔记</title>
   <desc id="desc">从交易基础到宏观认知的系统化中文教程</desc>
   <rect width="1200" height="630" fill="#f4f2ed"/>
   <circle cx="1030" cy="-40" r="320" fill="#ad7425" opacity="0.12"/>
   <circle cx="1020" cy="120" r="150" fill="none" stroke="#d5d1c8" stroke-width="1"/>
   <path d="M120 120h960M120 510h960" stroke="#d5d1c8" stroke-width="2"/>
   <text x="120" y="168" fill="#825316" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="24" font-weight="700">M / 308 LESSONS</text>
-  <text x="120" y="300" fill="#202329" font-family="Noto Sans CJK SC, Source Han Sans SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="78" font-weight="800" letter-spacing="-3">M姐交易笔记</text>
+  <text x="120" y="300" fill="#202329" font-family="Noto Sans CJK SC, Source Han Sans SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="78" font-weight="800" letter-spacing="-3">Mi姐交易笔记</text>
   <text x="120" y="385" fill="#202329" font-family="Noto Sans CJK SC, Source Han Sans SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="44" font-weight="700" letter-spacing="-1.2">把交易经验，整理成一条学习路径。</text>
   <text x="120" y="462" fill="#60656f" font-family="Noto Sans CJK SC, Source Han Sans SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="26">从基础认知、技术指标、策略方法到宏观周期与心法。</text>
   <g transform="translate(962 388)">

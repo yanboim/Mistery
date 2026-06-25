@@ -51,6 +51,21 @@ try {
   check('教程页结构化数据为 Article', await page.locator('script[type="application/ld+json"]').evaluate((element) => JSON.parse(element.textContent || '{}')['@type'] === 'Article'));
   check('教程正文已渲染', await page.locator('.prose p').count() > 2);
   check('当前教程在侧栏高亮', await page.locator('.lesson-sidebar a.active').count() === 1);
+  check('教程侧栏不重复放置全站搜索按钮', await page.locator('.lesson-sidebar [data-search-open]').count() === 0);
+  check('教程目录总标题固定，章节区域独立滚动', await page.locator('.lesson-sidebar').evaluate((sidebar) => {
+    const sidebarStyle = getComputedStyle(sidebar);
+    const navStyle = getComputedStyle(sidebar.querySelector('nav'));
+    return sidebarStyle.overflowY === 'hidden' && navStyle.overflowY === 'auto';
+  }));
+  check('教程侧栏章节标题可以关闭和打开', await page.locator('.lesson-sidebar details[open]').first().evaluate(async (details) => {
+    const summary = details.querySelector('summary');
+    summary.click();
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    const closed = !details.open;
+    summary.click();
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    return closed && details.open;
+  }));
   check('第一篇提供下一篇', await page.locator('.lesson-pager a.next').count() === 1);
   check('编号段落已转换为语义标题', await page.locator('.prose h2').count() >= 7);
   check('结构化长文生成页内目录', await page.locator('.page-toc a').count() >= 7);

@@ -6,7 +6,7 @@ import { chapters } from '../../data/chapters';
 const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title="全部教程 | M姐交易笔记" description="浏览 M姐交易笔记的全部章节与教程" current="tutorial" lessons={lessons}>
+<BaseLayout title="全部教程 | Mi姐交易笔记" description="浏览 Mi姐交易笔记的全部章节与教程" current="tutorial" lessons={lessons}>
   <main class="catalog" id="main-content">
     <header class="catalog-head">
       <p>完整课程目录</p>

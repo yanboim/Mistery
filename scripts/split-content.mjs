@@ -1,9 +1,32 @@
-import { readFile, readdir, rm, mkdir, writeFile } from 'node:fs/promises';
+import { readFile, rm, mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
-const sourcePath = resolve(root, 'M姐.md');
+const sourcePath = resolve(root, 'Mi姐.md');
 const outputRoot = resolve(root, 'src/content/lessons');
+const args = new Set(process.argv.slice(2));
+
+if (args.has('--help') || args.has('-h')) {
+  console.log([
+    '用法:',
+    '  npm run content:build           # 不切分，只提示当前维护方式',
+    '  npm run content:split           # 从 Mi姐.md 重新切分并覆盖 lessons',
+    '  npm run content:build -- --split',
+    '',
+    '注意: --split 会删除并重建 src/content/lessons/ 和 src/data/lesson-manifest.json。',
+  ].join('\n'));
+  process.exit(0);
+}
+
+if (!args.has('--split')) {
+  console.log([
+    '已跳过内容切分。',
+    '当前推荐直接维护 src/content/lessons/ 下的小文件。',
+    '如需从 Mi姐.md 重新切分并覆盖生成内容，请运行: npm run content:split',
+  ].join('\n'));
+  process.exit(0);
+}
+
 const source = await readFile(sourcePath, 'utf8');
 
 const chapterPattern = /^# 第([一二三四五六七八九十]+)章[：:](.+)$/gm;
@@ -14,7 +37,7 @@ const chineseNumbers = new Map([
 ]);
 
 const chapterMatches = [...source.matchAll(chapterPattern)];
-if (chapterMatches.length === 0) throw new Error('没有在 M姐.md 中找到章节标题。');
+if (chapterMatches.length === 0) throw new Error('没有在 Mi姐.md 中找到章节标题。');
 
 await rm(outputRoot, { recursive: true, force: true });
 await mkdir(outputRoot, { recursive: true });
@@ -136,4 +159,4 @@ for (let chapterIndex = 0; chapterIndex < chapterMatches.length; chapterIndex +=
 }
 
 await writeFile(resolve(root, 'src/data/lesson-manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
-console.log(`已从 M姐.md 生成 ${manifest.length} 篇教程。`);
+console.log(`已从 Mi姐.md 生成 ${manifest.length} 篇教程。`);

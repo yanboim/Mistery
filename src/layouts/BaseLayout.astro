@@ -4,7 +4,7 @@ import SearchDialog from '../components/SearchDialog.astro';
 import '../styles/global.css';
 
 const {
-  title = 'M姐交易笔记',
+  title = 'Mi姐交易笔记',
   description = '从交易基础到宏观认知的系统化中文教程',
   current = '',
   lessons = [],
@@ -25,7 +25,7 @@ const structuredData = {
   inLanguage: 'zh-CN',
   isPartOf: {
     '@type': 'WebSite',
-    name: 'M姐交易笔记',
+    name: 'Mi姐交易笔记',
     url: siteURL.href,
   },
 };
@@ -64,7 +64,7 @@ const structuredData = {
     <Header current={current} hasSidebar={hasSidebar} />
     <slot />
     <footer class="site-footer">
-      本站内容由《M姐 · 股市交易文集》整理，仅供学习与交流，不构成投资建议。
+      本站内容由《Mi姐 · 股市交易文集》整理，仅供学习与交流，不构成投资建议。
     </footer>
     <SearchDialog lessons={lessons} />
     <script>

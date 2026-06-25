@@ -4,10 +4,11 @@
   "type": "module",
   "scripts": {
     "content:build": "node scripts/split-content.mjs",
-    "dev": "npm run content:build && astro dev",
-    "build": "npm run content:build && astro build",
+    "dev": "astro dev",
+    "build": "astro build",
     "preview": "astro preview",
-    "verify": "node scripts/verify-site.mjs"
+    "verify": "node scripts/verify-site.mjs",
+    "content:split": "node scripts/split-content.mjs --split"
   },
   "dependencies": {
     "astro": "^7.0.2"
