@@ -11,7 +11,6 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
     <header class="catalog-head">
       <p>完整课程目录</p>
       <h1>从一个问题开始，逐步建立自己的交易框架。</h1>
-      <button class="catalog-search" type="button" data-search-open>搜索 308 篇教程</button>
     </header>
     <section class="learning-overview" data-learning-overview hidden aria-label="学习进度">
       <div class="overview-copy">
@@ -23,11 +22,7 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
       <a href="/tutorial/chapter-1/001" data-resume-link>继续阅读 <span aria-hidden="true">→</span></a>
     </section>
     <div class="catalog-filter">
-      <label for="catalog-filter">筛选当前目录</label>
-      <div>
-        <input id="catalog-filter" type="search" placeholder="输入教程标题，例如“趋势”" autocomplete="off" data-catalog-filter />
-        <button type="button" data-filter-clear hidden>清除</button>
-      </div>
+      <span>学习状态</span>
       <div class="progress-filter" role="group" aria-label="按学习状态筛选">
         <button type="button" aria-pressed="true" data-progress-filter="all">全部</button>
         <button type="button" aria-pressed="false" data-progress-filter="unread">未读</button>
@@ -35,7 +30,7 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
       </div>
       <p aria-live="polite" data-filter-status>共 {lessons.length} 篇教程</p>
     </div>
-    <p class="catalog-empty" hidden data-catalog-empty>没有符合条件的教程。换个关键词，或切回“全部”。</p>
+    <p class="catalog-empty" hidden data-catalog-empty>当前状态下没有教程。切回“全部”查看完整目录。</p>
     <nav class="chapter-jump" aria-label="快速跳转到章节">
       {chapters.map((chapter) => (
         <a href={`#chapter-${chapter.number}`}>
@@ -106,8 +101,6 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   mobileCatalog.addEventListener('change', syncCatalog);
   syncCatalog();
 
-  const filterInput = document.querySelector('[data-catalog-filter]');
-  const filterClear = document.querySelector('[data-filter-clear]');
   const filterStatus = document.querySelector('[data-filter-status]');
   const emptyState = document.querySelector('[data-catalog-empty]');
   const progressButtons = [...document.querySelectorAll('[data-progress-filter]')];
@@ -134,34 +127,24 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   };
 
   const applyFilter = () => {
-    const query = filterInput?.value.trim().toLocaleLowerCase('zh-CN') || '';
     let visible = 0;
     lessonLinks.forEach((link) => {
       const lessonId = link.getAttribute('data-lesson-link');
       const isCompleted = completedSet.has(lessonId);
-      const matchedQuery = !query || (link.textContent || '').toLocaleLowerCase('zh-CN').includes(query);
-      const matchedProgress = activeProgressFilter === 'all' || (activeProgressFilter === 'read' ? isCompleted : !isCompleted);
-      const matched = matchedQuery && matchedProgress;
+      const matched = activeProgressFilter === 'all' || (activeProgressFilter === 'read' ? isCompleted : !isCompleted);
       link.closest('li').hidden = !matched;
       if (matched) visible += 1;
     });
     sections.forEach((section) => {
       const count = section.querySelectorAll('li:not([hidden])').length;
-      section.hidden = Boolean(query || activeProgressFilter !== 'all') && count === 0;
-      if ((query || activeProgressFilter !== 'all') && count) setSection(section, true);
+      section.hidden = activeProgressFilter !== 'all' && count === 0;
+      if (activeProgressFilter !== 'all' && count) setSection(section, true);
     });
-    if (!query && activeProgressFilter === 'all') syncCatalog();
-    if (filterClear) filterClear.hidden = !query;
+    if (activeProgressFilter === 'all') syncCatalog();
     if (emptyState) emptyState.hidden = visible > 0;
     const filterName = activeProgressFilter === 'read' ? '已读' : activeProgressFilter === 'unread' ? '未读' : '';
-    if (filterStatus) filterStatus.textContent = query || filterName ? `找到 ${visible} 篇${filterName ? ` ${filterName}` : ''}教程` : `共 ${lessonLinks.length} 篇教程`;
+    if (filterStatus) filterStatus.textContent = filterName ? `找到 ${visible} 篇 ${filterName}教程` : `共 ${lessonLinks.length} 篇教程`;
   };
-  filterInput?.addEventListener('input', applyFilter);
-  filterClear?.addEventListener('click', () => {
-    filterInput.value = '';
-    applyFilter();
-    filterInput.focus();
-  });
   progressButtons.forEach((button) => {
     button.addEventListener('click', () => {
       activeProgressFilter = button.getAttribute('data-progress-filter') || 'all';
@@ -192,14 +175,11 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
 </script>
 
 <style>
-  .catalog { position: relative; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 84px 0 130px; overflow: visible; }
+  .catalog { position: relative; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 58px 0 130px; overflow: visible; }
   .catalog::before { content: ''; position: absolute; z-index: -1; top: -210px; right: -220px; width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 9%, transparent), transparent 68%); pointer-events: none; }
-  .catalog-head { min-height: 420px; display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: clamp(44px, 8vw, 120px); align-items: end; margin-bottom: 72px; padding-bottom: 48px; border-bottom: 1px solid var(--line); }
-  .catalog-head > p { align-self: start; grid-column: 1 / -1; margin: 0; color: var(--accent-strong); font-size: 14px; font-weight: 700; }
+  .catalog-head { min-height: 300px; display: grid; align-items: end; gap: 96px; margin-bottom: 44px; padding-bottom: 42px; border-bottom: 1px solid var(--line); }
+  .catalog-head > p { margin: 0; color: var(--accent-strong); font-size: 14px; font-weight: 700; }
   .catalog-head h1 { max-width: 850px; margin: 0; font-size: clamp(44px, 6.5vw, 78px); line-height: 1.06; letter-spacing: -.055em; text-wrap: balance; }
-  .catalog-search { justify-self: end; margin-bottom: 8px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent); color: var(--accent-ink); padding: 12px 18px; font-weight: 700; cursor: pointer; transition: transform .2s ease, filter .2s ease; }
-  .catalog-search:hover { transform: translateY(-2px); filter: saturate(1.08); }
-  .catalog-search:active { transform: translateY(1px); }
   .learning-overview { margin: -28px 0 70px; padding: 24px 26px; display: grid; grid-template-columns: auto minmax(160px, 1fr) auto; align-items: center; gap: 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 78%, transparent); }
   .learning-overview[hidden] { display: none; }
   .overview-copy { display: grid; grid-template-columns: auto auto; align-items: baseline; gap: 2px 14px; }
@@ -212,18 +192,15 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   .learning-overview > a { color: var(--accent-strong); font-size: 13px; font-weight: 700; }
   .learning-overview > a span { display: inline-block; transition: transform .2s ease; }
   .learning-overview > a:hover span { transform: translateX(3px); }
-  .catalog-filter { margin-bottom: 30px; padding-bottom: 26px; display: grid; grid-template-columns: minmax(180px, .38fr) minmax(0, 1fr); gap: 18px 34px; border-bottom: 1px solid var(--line); }
-  .catalog-filter > label { display: block; padding-top: 12px; color: var(--text-soft); font-size: 12px; font-weight: 700; }
-  .catalog-filter > div { max-width: 520px; display: grid; grid-template-columns: 1fr auto; gap: 8px; }
-  .catalog-filter input { min-width: 0; min-height: 46px; padding: 10px 13px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); color: var(--text); transition: border-color .2s ease, background .2s ease; }
-  .catalog-filter input:focus { border-color: var(--accent); background: var(--surface); outline: none; }
+  .catalog-filter { margin-bottom: 30px; padding-bottom: 26px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
+  .catalog-filter > span { color: var(--text-soft); font-size: 12px; font-weight: 700; }
   .catalog-filter button { min-height: 46px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; transition: border-color .2s ease, color .2s ease, transform .2s ease; }
   .catalog-filter button:hover { border-color: var(--accent); color: var(--accent-strong); }
   .catalog-filter button:active { transform: translateY(1px); }
-  .catalog-filter .progress-filter { grid-column: 2; display: inline-flex; width: max-content; max-width: 100%; gap: 1px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
+  .catalog-filter .progress-filter { display: inline-flex; width: max-content; max-width: 100%; gap: 1px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
   .progress-filter button { min-height: 34px; padding: 6px 12px; border: 0; border-radius: 6px; color: var(--text-soft); font-size: 12px; }
   .progress-filter button[aria-pressed='true'] { background: var(--accent); color: var(--accent-ink); }
-  .catalog-filter p { grid-column: 2; margin: -8px 0 0; color: var(--text-soft); font-size: 11px; }
+  .catalog-filter p { margin: 0 0 0 auto; color: var(--text-soft); font-size: 11px; }
   .catalog-empty { margin: -12px 0 44px; padding: 22px 24px; border: 1px solid var(--line); background: var(--surface); color: var(--text-soft); font-size: 14px; }
   .catalog-empty[hidden] { display: none; }
   .chapter-jump { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; margin: 0 0 96px; border: 1px solid var(--line); background: var(--line); }
@@ -256,18 +233,16 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
     .catalog-chapter { min-height: calc(100dvh - var(--header-height)); }
   }
   @media (max-width: 800px) {
-    .catalog { width: calc(100% - 28px); padding-top: 58px; }
-    .catalog-head { min-height: auto; grid-template-columns: 1fr; gap: 28px; margin-bottom: 44px; padding-bottom: 38px; }
+    .catalog { width: calc(100% - 28px); padding-top: 44px; }
+    .catalog-head { min-height: auto; gap: 56px; margin-bottom: 34px; padding-bottom: 32px; }
     .catalog-head h1 { font-size: clamp(36px, 9.6vw, 42px); line-height: 1.12; letter-spacing: -.045em; }
-    .catalog-search { justify-self: start; margin: 0; }
     .learning-overview { margin: 0 0 44px; grid-template-columns: 1fr auto; gap: 16px; }
     .overview-progress { grid-column: 1 / -1; grid-row: 2; }
     .learning-overview > a { grid-column: 2; grid-row: 1; }
-    .catalog-filter { grid-template-columns: 1fr; gap: 10px; margin-bottom: 28px; }
-    .catalog-filter > label { padding-top: 0; }
-    .catalog-filter .progress-filter { grid-column: 1; width: 100%; }
+    .catalog-filter { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 28px; }
+    .catalog-filter .progress-filter { width: 100%; }
     .progress-filter button { flex: 1; }
-    .catalog-filter p { grid-column: 1; margin-top: -4px; }
+    .catalog-filter p { margin: -4px 0 0; }
     .chapter-jump { flex-wrap: nowrap; overflow-x: auto; margin: 0 -14px 58px; padding: 0 14px 8px; scrollbar-width: none; }
     .chapter-jump { display: flex; border: 0; background: transparent; }
     .chapter-jump a { flex: 0 0 auto; min-height: 58px; border: 1px solid var(--line); }

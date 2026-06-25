@@ -166,12 +166,13 @@ button { color: inherit; }
   cursor: pointer;
   transition: border-color .2s ease, background .2s ease, color .2s ease, transform .2s ease;
 }
+.icon-button.mobile-only { display: none; }
 .icon-button:hover { border-color: color-mix(in srgb, var(--accent) 60%, var(--line)); background: var(--surface-raised); color: var(--accent-strong); }
 .icon-button:active { transform: translateY(1px); }
-.icon-button .icon { position: absolute; opacity: 0; transform: rotate(-40deg) scale(.6); transition: opacity .2s ease, transform .25s ease; }
-.icon-button[data-theme-state='auto'] .icon-auto { opacity: 1; transform: rotate(0) scale(1); }
-.icon-button[data-theme-state='light'] .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
-.icon-button[data-theme-state='dark'] .icon-sun { opacity: 1; transform: rotate(0) scale(1); }
+.icon-button[data-theme-toggle] .icon { position: absolute; opacity: 0; transform: rotate(-40deg) scale(.6); transition: opacity .2s ease, transform .25s ease; }
+.icon-button[data-theme-toggle][data-theme-state='light'] .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
+.icon-button[data-theme-toggle][data-theme-state='dark'] .icon-sun { opacity: 1; transform: rotate(0) scale(1); }
+.icon-button[data-theme-toggle][data-theme-state='auto'] .icon-auto { opacity: 1; transform: rotate(0) scale(1); }
 
 .site-footer {
   border-top: 1px solid var(--line);

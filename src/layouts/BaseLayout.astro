@@ -49,13 +49,14 @@ const structuredData = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL.href} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#0e1116" />
+    <meta name="theme-color" content="#f4f2ed" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <script is:inline>
-      const savedTheme = localStorage.getItem('mjie-theme') || 'auto';
-      if (savedTheme === 'light' || savedTheme === 'dark') document.documentElement.dataset.theme = savedTheme;
+      const savedTheme = localStorage.getItem('mjie-theme');
+      const initialTheme = ['light', 'dark', 'auto'].includes(savedTheme) ? savedTheme : 'light';
+      document.documentElement.dataset.theme = initialTheme;
     </script>
   </head>
   <body>
@@ -68,25 +69,27 @@ const structuredData = {
     <SearchDialog lessons={lessons} />
     <script>
       const themeButton = document.querySelector('[data-theme-toggle]');
-      const ORDER = ['auto', 'light', 'dark'];
-      const LABEL = { auto: '跟随系统', light: '浅色', dark: '深色' };
+      const ORDER = ['light', 'dark', 'auto'];
+      const LABEL = { light: '浅色', dark: '深色', auto: '跟随系统' };
+      const isTheme = (value) => ORDER.includes(value);
       const updateThemeButton = () => {
         if (!themeButton) return;
         const root = document.documentElement;
-        const stored = localStorage.getItem('mjie-theme') || 'auto';
-        const state = ORDER.includes(stored) ? stored : 'auto';
+        const stored = localStorage.getItem('mjie-theme');
+        const state = isTheme(stored) ? stored : isTheme(root.dataset.theme) ? root.dataset.theme : 'light';
+        root.dataset.theme = state;
         themeButton.setAttribute('data-theme-state', state);
         themeButton.setAttribute('aria-label', `切换主题（当前：${LABEL[state]}）`);
-        themeButton.setAttribute('aria-pressed', String(state === 'dark'));
+        themeButton.setAttribute('aria-pressed', state === 'auto' ? 'mixed' : String(state === 'dark'));
       };
       updateThemeButton();
       themeButton?.addEventListener('click', () => {
         const root = document.documentElement;
-        const stored = localStorage.getItem('mjie-theme') || 'auto';
-        const idx = ORDER.indexOf(ORDER.includes(stored) ? stored : 'auto');
+        const stored = localStorage.getItem('mjie-theme');
+        const state = isTheme(stored) ? stored : isTheme(root.dataset.theme) ? root.dataset.theme : 'light';
+        const idx = ORDER.indexOf(state);
         const next = ORDER[(idx + 1) % ORDER.length];
-        if (next === 'auto') delete root.dataset.theme;
-        else root.dataset.theme = next;
+        root.dataset.theme = next;
         localStorage.setItem('mjie-theme', next);
         updateThemeButton();
       });
