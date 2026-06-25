@@ -22,8 +22,9 @@ try {
 
   await page.goto(baseURL, { waitUntil: 'networkidle' });
   check('首页有主标题', await page.locator('h1').count() === 1);
-  check('首页渲染 6 个知识节点', await page.locator('.map-node').count() === 6);
-  check('首页渲染 6 个章节卡片', await page.locator('.chapter-card').count() === 6);
+  check('首页学习方法包含 3 个步骤', await page.locator('.study-method li').count() === 3);
+  check('首页渲染 6 个章节索引', await page.locator('.chapter-row').count() === 6);
+  check('首页展示真实课程统计', (await page.locator('.course-facts').innerText()).includes('308'));
   check('首页无横向溢出', await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
   await page.screenshot({ path: 'artifacts/home-desktop.png', fullPage: true });
 
