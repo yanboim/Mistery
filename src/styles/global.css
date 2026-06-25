@@ -51,10 +51,12 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; background: var(--bg); }
+html { scroll-behavior: smooth; background: var(--bg); overflow-x: hidden; overflow-x: clip; }
 body {
   margin: 0;
   min-width: 320px;
+  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--bg);
   color: var(--text);
   font-family: "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
@@ -210,6 +212,7 @@ button { color: inherit; }
   .header-actions { margin-left: auto; }
   .hide-mobile { display: none; }
   .mobile-only { display: inline-flex; }
+  .icon-button.mobile-only { display: inline-grid; place-items: center; }
   .quiet-button { min-height: 40px; padding-inline: 12px; }
 }
 
