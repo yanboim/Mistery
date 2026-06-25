@@ -47,6 +47,7 @@ try {
   await page.goto(`${baseURL}/tutorial/chapter-1/001`, { waitUntil: 'networkidle' });
   check('教程标题正确', (await page.locator('.lesson-head h1').innerText()).includes('写给最近几个月新入市的朋友们'));
   check('教程页提供源文件编辑链接', (await page.locator('.source-edit-link').getAttribute('href')) === 'https://github.com/yanboim/Mistery/edit/main/src/content/lessons/chapter-1/001.md');
+  check('相邻教程空白区域不露灰色底', await page.locator('.lesson-pager').evaluate((element) => getComputedStyle(element).backgroundColor === 'rgba(0, 0, 0, 0)'));
   check('教程页结构化数据为 Article', await page.locator('script[type="application/ld+json"]').evaluate((element) => JSON.parse(element.textContent || '{}')['@type'] === 'Article'));
   check('教程正文已渲染', await page.locator('.prose p').count() > 2);
   check('当前教程在侧栏高亮', await page.locator('.lesson-sidebar a.active').count() === 1);
@@ -76,6 +77,7 @@ try {
   check('桌面目录左侧章节说明固定', firstChapterLayout.headerPosition === 'sticky');
   check('桌面目录左侧保持非卡片样式', !firstChapterLayout.headerHasCardSurface);
   check('桌面目录右侧课程跟随页面滚动', firstChapterLayout.listOverflowY === 'visible' && firstChapterLayout.sectionTallerThanViewport);
+  check('目录列表空白格不露灰色底', await page.locator('.catalog-chapter ol').first().evaluate((element) => getComputedStyle(element).backgroundColor === 'rgba(0, 0, 0, 0)'));
   const stickyScrollBehavior = await page.locator('.catalog-chapter').first().evaluate(async (section) => {
     document.documentElement.style.scrollBehavior = 'auto';
     const header = section.querySelector('header');

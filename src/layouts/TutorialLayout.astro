@@ -201,7 +201,7 @@ const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lesson
   .lesson-main article { min-width: 0; }
   .lesson-head { padding-bottom: 36px; border-bottom: 1px solid var(--line); }
   .chapter-link { color: var(--accent-strong); font-size: 13px; font-weight: 700; }
-  .lesson-head h1 { margin: 18px 0 24px; font-size: clamp(38px, 5vw, 64px); line-height: 1.12; letter-spacing: -.052em; text-wrap: balance; }
+  .lesson-head h1 { max-width: 13.5em; margin: 18px 0 24px; font-size: clamp(34px, 4.1vw, 52px); line-height: 1.16; letter-spacing: -.04em; text-wrap: balance; }
   .lesson-meta { display: flex; gap: 18px 24px; align-items: center; color: var(--text-soft); font-size: 12px; }
   .lesson-meta span { white-space: nowrap; }
   .source-edit-link { margin-left: auto; color: var(--accent-strong); border-bottom: 1px solid currentColor; transition: color .2s ease, transform .2s ease; }
@@ -233,8 +233,10 @@ const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lesson
   .prose :global(code) { padding: .15em .4em; border-radius: 5px; background: var(--code); font-family: ui-monospace, monospace; font-size: .9em; }
   .prose :global(table) { width: 100%; display: block; overflow-x: auto; border-collapse: collapse; margin: 2em 0; }
   .prose :global(th), .prose :global(td) { padding: 10px 13px; border-bottom: 1px solid var(--line); text-align: left; }
-  .lesson-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 78px; padding-top: 30px; border-top: 1px solid var(--line); background: var(--line); }
-  .lesson-pager a { min-height: 122px; display: flex; flex-direction: column; justify-content: center; padding: 20px 22px; background: var(--bg); transition: background .2s ease, color .2s ease, transform .2s ease; }
+  .lesson-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 78px; padding-top: 30px; border-top: 1px solid var(--line); background: transparent; }
+  .lesson-pager a { min-height: 122px; display: flex; flex-direction: column; justify-content: center; padding: 20px 22px; border-bottom: 1px solid var(--line); background: var(--bg); transition: background .2s ease, color .2s ease, transform .2s ease; }
+  .lesson-pager a:not(.next) { border-right: 1px solid var(--line); }
+  .lesson-pager a.next { border-left: 1px solid var(--line); }
   .lesson-pager a:hover { background: var(--surface); color: var(--accent-strong); transform: translateY(-2px); }
   .lesson-pager a.next { text-align: right; }
   .lesson-pager small { color: var(--accent-strong); margin-bottom: 5px; }
@@ -260,7 +262,7 @@ const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lesson
     .lesson-main { display: block; padding: 50px 20px 84px; }
   }
   @media (max-width: 560px) {
-    .lesson-head h1 { font-size: 38px; }
+    .lesson-head h1 { font-size: 34px; line-height: 1.18; }
     .chapter-progress { grid-template-columns: 36px minmax(0, 1fr) auto; gap: 12px; }
     .chapter-progress > span { font-size: 28px; }
     .lesson-pager { grid-template-columns: 1fr; }

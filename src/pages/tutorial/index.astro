@@ -241,9 +241,9 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   .catalog-chapter header p { max-width: 30ch; margin: 0; color: var(--text-soft); font-size: 14px; line-height: 1.75; }
   .chapter-progress-line { width: min(210px, 100%); height: 4px; margin-top: 18px; overflow: hidden; border-radius: 999px; background: var(--line); }
   .chapter-progress-line i { display: block; width: var(--chapter-completion, 0%); height: 100%; border-radius: inherit; background: var(--accent); transition: width .35s ease; }
-  ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; align-content: start; border: 1px solid var(--line); background: var(--line); }
+  ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-content: start; border: 1px solid var(--line); border-right: 0; border-bottom: 0; background: transparent; }
   ol[hidden] { display: none; }
-  li a { min-height: 92px; display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; align-items: center; padding: 16px 17px; background: var(--bg); transition: background .2s ease, color .2s ease, transform .2s ease; }
+  li a { min-height: 92px; display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; align-items: center; padding: 16px 17px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg); transition: background .2s ease, color .2s ease, transform .2s ease; }
   li a:hover { background: var(--surface); color: var(--accent-strong); transform: translateX(3px); }
   li a.completed { background: color-mix(in srgb, var(--surface) 76%, var(--accent) 8%); }
   li a.completed::after { content: '已读'; position: absolute; top: 8px; right: 10px; color: var(--accent-strong); font-size: 9px; }
