@@ -73,8 +73,8 @@ const structuredData = {
         const root = document.documentElement;
         const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const current = root.dataset.theme || (systemDark ? 'dark' : 'light');
+        themeButton.classList.toggle('is-dark', current === 'dark');
         const nextLabel = current === 'dark' ? '浅色' : '深色';
-        themeButton.textContent = nextLabel;
         themeButton.setAttribute('aria-label', `切换到${nextLabel}主题`);
         themeButton.setAttribute('aria-pressed', String(current === 'dark'));
       };

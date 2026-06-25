@@ -101,7 +101,7 @@ try {
   await lightPage.screenshot({ path: 'artifacts/home-light.png', fullPage: false });
   await lightPage.locator('[data-theme-toggle]').click();
   check('主题按钮可切换到深色', await lightPage.evaluate(() => document.documentElement.dataset.theme === 'dark'));
-  check('主题按钮显示下一个模式', (await lightPage.locator('[data-theme-toggle]').innerText()) === '浅色');
+  check('主题按钮切换到深色后显示太阳图标', await lightPage.locator('[data-theme-toggle].is-dark').count() === 1);
   await lightPage.goto(`${baseURL}/404.html`, { waitUntil: 'networkidle' });
   check('404 页面提供返回路径', await lightPage.locator('.not-found a').count() === 2);
   await light.close();
