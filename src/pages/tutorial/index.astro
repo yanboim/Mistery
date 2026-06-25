@@ -141,12 +141,15 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
 </script>
 
 <style>
-  .catalog { width: min(1080px, calc(100% - 40px)); margin: 0 auto; padding: 76px 0 120px; }
-  .catalog-head { max-width: 760px; margin-bottom: 88px; }
-  .catalog-head > p { margin: 0 0 16px; color: var(--accent-strong); font-size: 13px; font-weight: 700; letter-spacing: .12em; }
-  .catalog-head h1 { margin: 0; font-size: clamp(38px, 6vw, 66px); line-height: 1.12; letter-spacing: -.045em; }
-  .catalog-search { margin-top: 28px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent); color: var(--accent-ink); padding: 11px 18px; font-weight: 700; cursor: pointer; }
-  .learning-overview { margin: -40px 0 72px; padding: 22px 24px; display: grid; grid-template-columns: auto minmax(160px, 1fr) auto; align-items: center; gap: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .catalog { position: relative; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 84px 0 130px; overflow: hidden; }
+  .catalog::before { content: ''; position: absolute; z-index: -1; top: -210px; right: -220px; width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 9%, transparent), transparent 68%); pointer-events: none; }
+  .catalog-head { min-height: 420px; display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: clamp(44px, 8vw, 120px); align-items: end; margin-bottom: 72px; padding-bottom: 48px; border-bottom: 1px solid var(--line); }
+  .catalog-head > p { align-self: start; grid-column: 1 / -1; margin: 0; color: var(--accent-strong); font-size: 14px; font-weight: 700; }
+  .catalog-head h1 { max-width: 850px; margin: 0; font-size: clamp(44px, 6.5vw, 78px); line-height: 1.06; letter-spacing: -.055em; text-wrap: balance; }
+  .catalog-search { justify-self: end; margin-bottom: 8px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent); color: var(--accent-ink); padding: 12px 18px; font-weight: 700; cursor: pointer; transition: transform .2s ease, filter .2s ease; }
+  .catalog-search:hover { transform: translateY(-2px); filter: saturate(1.08); }
+  .catalog-search:active { transform: translateY(1px); }
+  .learning-overview { margin: -28px 0 70px; padding: 24px 26px; display: grid; grid-template-columns: auto minmax(160px, 1fr) auto; align-items: center; gap: 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 78%, transparent); }
   .learning-overview[hidden] { display: none; }
   .overview-copy { display: grid; grid-template-columns: auto auto; align-items: baseline; gap: 2px 14px; }
   .overview-copy span { grid-column: 1 / -1; color: var(--text-soft); font-size: 11px; }
@@ -158,45 +161,54 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   .learning-overview > a { color: var(--accent-strong); font-size: 13px; font-weight: 700; }
   .learning-overview > a span { display: inline-block; transition: transform .2s ease; }
   .learning-overview > a:hover span { transform: translateX(3px); }
-  .catalog-filter { margin-bottom: 36px; padding-bottom: 26px; border-bottom: 1px solid var(--line); }
-  .catalog-filter > label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 700; }
+  .catalog-filter { margin-bottom: 30px; padding-bottom: 26px; display: grid; grid-template-columns: minmax(180px, .38fr) minmax(0, 1fr); gap: 18px 34px; border-bottom: 1px solid var(--line); }
+  .catalog-filter > label { display: block; padding-top: 12px; color: var(--text-soft); font-size: 12px; font-weight: 700; }
   .catalog-filter > div { max-width: 520px; display: grid; grid-template-columns: 1fr auto; gap: 8px; }
-  .catalog-filter input { min-width: 0; min-height: 44px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); }
-  .catalog-filter button { min-height: 44px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; }
-  .catalog-filter p { margin: 7px 0 0; color: var(--text-soft); font-size: 11px; }
-  .chapter-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: -42px 0 84px; }
-  .chapter-jump a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--text-soft); font-size: 12px; transition: border-color .2s ease, color .2s ease; }
-  .chapter-jump a:hover { border-color: var(--accent); color: var(--text); }
+  .catalog-filter input { min-width: 0; min-height: 46px; padding: 10px 13px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-raised); color: var(--text); transition: border-color .2s ease, background .2s ease; }
+  .catalog-filter input:focus { border-color: var(--accent); background: var(--surface); outline: none; }
+  .catalog-filter button { min-height: 46px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; transition: border-color .2s ease, color .2s ease, transform .2s ease; }
+  .catalog-filter button:hover { border-color: var(--accent); color: var(--accent-strong); }
+  .catalog-filter button:active { transform: translateY(1px); }
+  .catalog-filter p { grid-column: 2; margin: -8px 0 0; color: var(--text-soft); font-size: 11px; }
+  .chapter-jump { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; margin: 0 0 96px; border: 1px solid var(--line); background: var(--line); }
+  .chapter-jump a { min-height: 78px; display: grid; align-content: center; gap: 3px; padding: 13px 14px; background: var(--bg); color: var(--text-soft); font-size: 12px; transition: background .2s ease, color .2s ease; }
+  .chapter-jump a:hover { background: var(--surface); color: var(--text); }
   .chapter-jump span { color: var(--accent-strong); font-weight: 800; }
-  .chapter-list { display: grid; gap: 100px; }
-  .catalog-chapter { scroll-margin-top: 92px; display: grid; grid-template-columns: minmax(250px, .72fr) minmax(0, 1.28fr); gap: clamp(40px, 7vw, 100px); }
-  .catalog-chapter > header { align-self: start; position: sticky; top: 100px; display: grid; grid-template-columns: 52px 1fr auto; gap: 18px; }
-  .role { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--accent); border-radius: 50%; color: var(--accent-strong); font-size: 20px; font-weight: 800; }
+  .chapter-list { display: grid; gap: 118px; }
+  .catalog-chapter { scroll-margin-top: 92px; display: grid; grid-template-columns: minmax(250px, .66fr) minmax(0, 1.34fr); gap: clamp(44px, 8vw, 118px); }
+  .catalog-chapter > header { align-self: start; position: sticky; top: 100px; display: grid; grid-template-columns: 58px 1fr auto; gap: 18px; padding-top: 4px; }
+  .role { width: 52px; height: 52px; display: grid; place-items: center; border-bottom: 1px solid var(--accent); color: var(--accent-strong); font-size: 34px; line-height: 1; font-weight: 800; }
   .catalog-chapter small { color: var(--text-soft); }
-  .catalog-chapter h2 { margin: 3px 0 10px; font-size: 28px; line-height: 1.25; }
-  .catalog-chapter header p { margin: 0; color: var(--text-soft); font-size: 14px; }
-  ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-content: start; }
+  .catalog-chapter h2 { margin: 3px 0 10px; font-size: clamp(28px, 3vw, 38px); line-height: 1.16; letter-spacing: -.035em; text-wrap: balance; }
+  .catalog-chapter header p { max-width: 30ch; margin: 0; color: var(--text-soft); font-size: 14px; line-height: 1.75; }
+  ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; align-content: start; border: 1px solid var(--line); background: var(--line); }
   ol[hidden] { display: none; }
-  li a { min-height: 86px; display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; padding: 14px 15px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); transition: border-color .2s ease, transform .2s ease; }
-  li a:hover { border-color: var(--accent); transform: translateY(-2px); }
-  li a.completed { border-color: color-mix(in srgb, var(--accent) 46%, var(--line)); }
-  li a.completed::after { content: '已读'; position: absolute; top: 6px; right: 8px; color: var(--accent-strong); font-size: 9px; }
+  li a { min-height: 92px; display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; align-items: center; padding: 16px 17px; background: var(--bg); transition: background .2s ease, color .2s ease, transform .2s ease; }
+  li a:hover { background: var(--surface); color: var(--accent-strong); transform: translateX(3px); }
+  li a.completed { background: color-mix(in srgb, var(--surface) 76%, var(--accent) 8%); }
+  li a.completed::after { content: '已读'; position: absolute; top: 8px; right: 10px; color: var(--accent-strong); font-size: 9px; }
   li a { position: relative; }
   li span { color: var(--text-soft); font-family: ui-monospace, monospace; font-size: 11px; }
-  li strong { font-size: 14px; line-height: 1.5; }
+  li strong { font-size: 14px; line-height: 1.5; text-wrap: pretty; }
   li i { color: var(--text-soft); font-style: normal; }
   .chapter-toggle { display: none; }
   @media (max-width: 800px) {
-    .catalog { width: calc(100% - 28px); padding-top: 52px; }
-    .catalog-head { margin-bottom: 44px; }
+    .catalog { width: calc(100% - 28px); padding-top: 58px; }
+    .catalog-head { min-height: auto; grid-template-columns: 1fr; gap: 28px; margin-bottom: 44px; padding-bottom: 38px; }
+    .catalog-head h1 { font-size: clamp(36px, 9.6vw, 42px); line-height: 1.12; letter-spacing: -.045em; }
+    .catalog-search { justify-self: start; margin: 0; }
     .learning-overview { margin: 0 0 44px; grid-template-columns: 1fr auto; gap: 16px; }
     .overview-progress { grid-column: 1 / -1; grid-row: 2; }
     .learning-overview > a { grid-column: 2; grid-row: 1; }
-    .catalog-filter { margin-bottom: 28px; }
+    .catalog-filter { grid-template-columns: 1fr; gap: 10px; margin-bottom: 28px; }
+    .catalog-filter > label { padding-top: 0; }
+    .catalog-filter p { grid-column: 1; margin-top: -4px; }
     .chapter-jump { flex-wrap: nowrap; overflow-x: auto; margin: 0 -14px 58px; padding: 0 14px 8px; scrollbar-width: none; }
-    .chapter-jump a { flex: 0 0 auto; }
+    .chapter-jump { display: flex; border: 0; background: transparent; }
+    .chapter-jump a { flex: 0 0 auto; min-height: 58px; border: 1px solid var(--line); }
     .catalog-chapter { grid-template-columns: 1fr; gap: 28px; }
-    .catalog-chapter > header { position: static; }
+    .catalog-chapter > header { position: static; grid-template-columns: 48px 1fr auto; }
+    .role { width: 42px; height: 42px; font-size: 28px; }
     .chapter-toggle { display: inline-flex; align-items: center; justify-content: center; min-width: 52px; min-height: 44px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--text-soft); font-size: 12px; cursor: pointer; }
     ol { grid-template-columns: 1fr; }
   }
