@@ -1,4 +1,6 @@
 ---
+import { siteConfig } from '../site.config';
+
 const { current = '', hasSidebar = false } = Astro.props;
 ---
 
@@ -6,38 +8,80 @@ const { current = '', hasSidebar = false } = Astro.props;
   <div class="header-inner">
     <a class="brand" href="/">
       <span class="brand-mark">M</span>
-      <span>Mi姐交易笔记</span>
+      <span>{siteConfig.name}</span>
     </a>
-    <nav class="header-nav" aria-label="主导航">
-      <a href="/" aria-current={current === 'home' ? 'page' : undefined}>知识地图</a>
-      <a href="/tutorial" aria-current={current === 'tutorial' ? 'page' : undefined}>全部教程</a>
-    </nav>
+
     <div class="header-actions">
-      <button class="command-trigger hide-mobile" type="button" data-search-open aria-label="搜索教程">
+      <button class="command-trigger" type="button" data-search-open aria-label={siteConfig.search.label}>
         <svg class="icon icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <span class="command-label">搜索教程…</span>
+        <span class="command-label">{siteConfig.search.placeholder}</span>
         <kbd class="kbd" data-kbd>⌘K</kbd>
-      </button>
-      <button class="icon-button mobile-only" type="button" data-search-open aria-label="搜索教程">
-        <svg class="icon icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       </button>
       <button class="icon-button" type="button" data-theme-toggle data-theme-state="light" aria-label="切换明暗主题">
         <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.8 6.8 0 0 0 10.7 10.7Z"></path></svg>
         <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4.5"></line><line x1="12" y1="19.5" x2="12" y2="22"></line><line x1="2" y1="12" x2="4.5" y2="12"></line><line x1="19.5" y1="12" x2="22" y2="12"></line><line x1="4.9" y1="4.9" x2="6.7" y2="6.7"></line><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"></line><line x1="4.9" y1="19.1" x2="6.7" y2="17.3"></line><line x1="17.3" y1="6.7" x2="19.1" y2="4.9"></line></svg>
         <svg class="icon icon-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor" stroke="none"></path></svg>
       </button>
-      {hasSidebar ? (
-        <button class="quiet-button mobile-only" type="button" data-sidebar-open aria-label="打开章节导航">目录</button>
-      ) : current === 'home' ? (
-        <a class="quiet-button mobile-only" href="/tutorial">教程</a>
-      ) : (
-        <a class="quiet-button mobile-only" href="/">地图</a>
+    </div>
+
+    <button class="menu-trigger" type="button" data-mobile-menu-open aria-label="打开站点导航" aria-expanded="false" aria-controls="site-nav-panel">
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="header-panel" id="site-nav-panel" data-mobile-menu>
+      <div class="drawer-head">
+        <span>站点导航</span>
+        <button class="quiet-button" type="button" data-mobile-menu-close>关闭</button>
+      </div>
+      <nav class="header-nav" aria-label="主导航">
+        {siteConfig.nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={current === item.key ? 'page' : undefined}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noreferrer' : undefined}
+          >
+            {item.icon?.type === 'x' && (
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.9 2h3.28l-7.16 8.18L23.44 22h-6.59l-5.16-6.75L5.78 22H2.5l7.66-8.75L2.08 2h6.76l4.66 6.16L18.9 2Zm-1.15 17.92h1.82L7.85 3.97H5.9l11.85 15.95Z" />
+              </svg>
+            )}
+            {item.icon?.type === 'github' && (
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 .5a12 12 0 0 0-3.8 23.38c.6.12.82-.26.82-.58v-2.05c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.74.08-.74 1.2.08 1.84 1.24 1.84 1.24 1.08 1.83 2.82 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.66-.3-5.46-1.33-5.46-5.92 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.53.12-3.18 0 0 1.01-.32 3.3 1.23A11.42 11.42 0 0 1 12 5.96c1.02 0 2.04.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.6-2.8 5.61-5.48 5.91.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.83.58A12 12 0 0 0 12 .5Z" />
+              </svg>
+            )}
+            {item.label}
+          </a>
+        ))}
+      </nav>
+      {hasSidebar && (
+        <button class="quiet-button sidebar-trigger" type="button" data-sidebar-open aria-label="打开章节导航">{siteConfig.lessonSidebar.label}</button>
       )}
     </div>
+    <button class="mobile-menu-scrim" type="button" data-mobile-menu-close aria-label="关闭站点导航"></button>
   </div>
 </header>
 
 <script>
   const isMac = /\b(Mac|iPhone|iPad)\b/.test(navigator.platform) || (navigator.userAgentData && navigator.userAgentData.platform && /mac/i.test(navigator.userAgentData.platform));
   document.querySelectorAll('[data-kbd]').forEach((kbd) => { kbd.textContent = isMac ? '⌘K' : 'Ctrl K'; });
+  const root = document.documentElement;
+  const menuOpenButton = document.querySelector('[data-mobile-menu-open]');
+  const openMobileMenu = () => {
+    root.classList.add('mobile-menu-visible');
+    menuOpenButton?.setAttribute('aria-expanded', 'true');
+  };
+  const closeMobileMenu = () => {
+    root.classList.remove('mobile-menu-visible');
+    menuOpenButton?.setAttribute('aria-expanded', 'false');
+  };
+  menuOpenButton?.addEventListener('click', openMobileMenu);
+  document.querySelectorAll('[data-mobile-menu-close], .header-nav a, [data-search-open], [data-sidebar-open]').forEach((element) => {
+    element.addEventListener('click', closeMobileMenu);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeMobileMenu();
+  });
 </script>

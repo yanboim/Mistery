@@ -28,6 +28,17 @@ npm run content:split  # 从 Mi姐.md 重新切分并覆盖 lessons
 npm run content:build -- --split
 ```
 
+## 站点配置
+
+站点名、正式域名、导航、页脚文案、GitHub 源文件编辑链接等统一维护在 `src/site.config.ts`。
+
+常见修改：
+
+- 改域名：更新 `siteConfig.url`
+- 改站点名：更新 `siteConfig.name`
+- 改导航：更新 `siteConfig.nav`
+- 改 GitHub 编辑入口：更新 `siteConfig.github.repo`、`branch` 或 `contentPath`
+
 ## 内容更新
 
 日常维护请直接编辑 `src/content/lessons/` 下的小文件。每篇教程需要保留 frontmatter：

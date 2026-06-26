@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { chapters } from '../data/chapters';
+import { getSourceEditURL, withSiteTitle } from '../site.config';
 
 const { lesson, lessons, headings = [], previous, next } = Astro.props;
 const currentChapter = chapters.find((chapter) => chapter.number === lesson.data.chapter);
@@ -10,11 +11,11 @@ const progress = Math.round(((currentIndex + 1) / chapterLessons.length) * 100);
 const readingMinutes = Math.max(1, Math.ceil(lesson.body.replace(/\s/g, '').length / 350));
 const tocHeadings = headings.filter((heading) => heading.depth <= 4);
 const hasToc = tocHeadings.length > 0;
-const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lessons/${lesson.id}.md`;
+const editURL = getSourceEditURL(lesson.id);
 ---
 
 <BaseLayout
-  title={`${lesson.data.title} | Mi姐交易笔记`}
+  title={withSiteTitle(lesson.data.title)}
   description={lesson.data.description}
   current="tutorial"
   lessons={lessons}
@@ -58,7 +59,7 @@ const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lesson
     <main class:list={["lesson-main", { "without-toc": !hasToc }]} id="main-content" data-lesson-id={lesson.id}>
       <article>
         <header class="lesson-head">
-          <a class="chapter-link" href={`/tutorial#chapter-${lesson.data.chapter}`}>第{currentChapter?.numeral}章 / {lesson.data.chapterTitle}</a>
+          <a class="chapter-link" href={`/tutorial/chapter-${lesson.data.chapter}`}>第{currentChapter?.numeral}章 / {lesson.data.chapterTitle}</a>
           <h1>{lesson.data.title}</h1>
           <div class="lesson-meta">
             <span>本章第 {lesson.data.chapterOrder} 节</span>
@@ -195,7 +196,7 @@ const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lesson
   li a { display: grid; grid-template-columns: 28px 1fr; gap: 6px; padding: 8px 9px; border-left: 1px solid var(--line); color: var(--text-soft); font-size: 12px; line-height: 1.45; transition: background .2s ease, color .2s ease, border-color .2s ease; }
   li a:hover { color: var(--text); background: color-mix(in srgb, var(--surface) 62%, transparent); }
   li a.active { border-left-color: var(--accent); background: var(--surface); color: var(--text); font-weight: 650; }
-  li a span { color: var(--text-soft); font-family: ui-monospace, monospace; font-size: 9px; padding-top: 2px; }
+  li a span { color: var(--text-soft); font-family: var(--font-code); font-size: 9px; padding-top: 2px; }
   .lesson-main { min-width: 0; display: grid; grid-template-columns: minmax(0, 780px) 190px; gap: clamp(50px, 7vw, 104px); justify-content: center; padding: 76px clamp(30px, 5vw, 76px) 118px; }
   .lesson-main.without-toc { grid-template-columns: minmax(0, 780px); }
   .lesson-main article { min-width: 0; }
@@ -214,7 +215,7 @@ const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lesson
   .chapter-progress small { color: var(--text-soft); font-size: 11px; }
   .chapter-progress i { width: 100%; height: 5px; overflow: hidden; border-radius: 999px; background: var(--line); }
   .chapter-progress i::before { content: ''; display: block; width: var(--chapter-progress); height: 100%; border-radius: inherit; background: var(--accent); }
-  .chapter-progress strong { color: var(--text-soft); font-family: ui-monospace, monospace; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .chapter-progress strong { color: var(--text-soft); font-family: var(--font-code); font-size: 13px; font-variant-numeric: tabular-nums; }
   .prose { padding-top: 46px; font-size: 16.5px; line-height: 2.04; overflow-wrap: anywhere; }
   .prose :global(p) { margin: 0 0 1.55em; text-wrap: pretty; }
   .prose :global(.prose-lead) { color: color-mix(in srgb, var(--text) 88%, var(--accent)); font-size: 1.08em; line-height: 1.9; }
@@ -230,7 +231,7 @@ const editURL = `https://github.com/yanboim/Mistery/edit/main/src/content/lesson
   .prose :global(ul), .prose :global(ol) { margin: 1.4em 0; padding-left: 1.4em; }
   .prose :global(li) { margin: .55em 0; padding-left: .3em; }
   .prose :global(hr) { border: 0; border-top: 1px solid var(--line); margin: 3em 0; }
-  .prose :global(code) { padding: .15em .4em; border-radius: 5px; background: var(--code); font-family: ui-monospace, monospace; font-size: .9em; }
+  .prose :global(code) { padding: .15em .4em; border-radius: 5px; background: var(--code); font-family: var(--font-code); font-size: .9em; }
   .prose :global(table) { width: 100%; display: block; overflow-x: auto; border-collapse: collapse; margin: 2em 0; }
   .prose :global(th), .prose :global(td) { padding: 10px 13px; border-bottom: 1px solid var(--line); text-align: left; }
   .lesson-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 78px; padding-top: 30px; border-top: 1px solid var(--line); background: transparent; }

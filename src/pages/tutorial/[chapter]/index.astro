@@ -1,0 +1,145 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { chapters } from '../../../data/chapters';
+import { withSiteTitle } from '../../../site.config';
+
+export async function getStaticPaths() {
+  const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
+  return chapters.map((chapter) => ({
+    params: { chapter: `chapter-${chapter.number}` },
+    props: {
+      chapter,
+      lessons,
+      chapterLessons: lessons.filter((lesson) => lesson.data.chapter === chapter.number),
+    },
+  }));
+}
+
+const { chapter, lessons, chapterLessons } = Astro.props;
+const firstLesson = chapterLessons[0];
+---
+
+<BaseLayout
+  title={withSiteTitle(`第${chapter.numeral}章：${chapter.title}`)}
+  description={chapter.summary}
+  current="tutorial"
+  lessons={lessons}
+>
+  <main class="chapter-page" id="main-content" data-chapter-page={chapter.number}>
+    <nav class="chapter-breadcrumb" aria-label="面包屑">
+      <a href="/tutorial">全部教程</a>
+      <span aria-hidden="true">/</span>
+      <span>第{chapter.numeral}章</span>
+    </nav>
+
+    <header class="chapter-hero">
+      <span class="chapter-role">{chapter.role}</span>
+      <div>
+        <p>第{chapter.numeral}章 · {chapterLessons.length} 篇教程</p>
+        <h1>{chapter.title}</h1>
+        <div class="chapter-progress-line" aria-label="本章学习进度">
+          <i data-chapter-progress-bar></i>
+        </div>
+      </div>
+      <aside>
+        <span>已读进度</span>
+        <strong><b data-chapter-completed>0</b> / {chapterLessons.length}</strong>
+        <small data-chapter-percent>0%</small>
+        {firstLesson && <a href={`/tutorial/${firstLesson.id}`} data-chapter-start>开始本章 <span aria-hidden="true">→</span></a>}
+      </aside>
+    </header>
+
+    <section class="chapter-summary">
+      <h2>这一章解决什么问题</h2>
+      <p>{chapter.summary}</p>
+    </section>
+
+    <section class="chapter-lessons" aria-labelledby="chapter-lessons-title">
+      <div>
+        <h2 id="chapter-lessons-title">本章目录</h2>
+        <p>按顺序阅读，或者直接进入你当前关心的问题。</p>
+      </div>
+      <ol>
+        {chapterLessons.map((lesson) => (
+          <li>
+            <a href={`/tutorial/${lesson.id}`} data-lesson-link={lesson.id}>
+              <span>{String(lesson.data.chapterOrder).padStart(2, '0')}</span>
+              <strong>{lesson.data.title}</strong>
+              <small data-read-state>未读</small>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  const completed = new Set(JSON.parse(localStorage.getItem('mjie-completed-lessons') || '[]'));
+  const links = [...document.querySelectorAll('[data-lesson-link]')];
+  const readLinks = links.filter((link) => completed.has(link.getAttribute('data-lesson-link')));
+  const completedNode = document.querySelector('[data-chapter-completed]');
+  const percentNode = document.querySelector('[data-chapter-percent]');
+  const progressBar = document.querySelector('[data-chapter-progress-bar]');
+  const startLink = document.querySelector('[data-chapter-start]');
+  const lastLesson = localStorage.getItem('mjie-last-lesson');
+  const lastInChapter = lastLesson && links.find((link) => link.getAttribute('data-lesson-link') === lastLesson);
+  const percentage = links.length ? Math.round((readLinks.length / links.length) * 100) : 0;
+
+  if (completedNode) completedNode.textContent = String(readLinks.length);
+  if (percentNode) percentNode.textContent = `${percentage}%`;
+  progressBar?.style.setProperty('--chapter-completion', `${percentage}%`);
+  if (lastInChapter && startLink instanceof HTMLAnchorElement) {
+    startLink.href = `/tutorial/${lastLesson}`;
+    startLink.textContent = '继续本章 →';
+  }
+
+  links.forEach((link) => {
+    const state = link.querySelector('[data-read-state]');
+    const isRead = completed.has(link.getAttribute('data-lesson-link'));
+    link.toggleAttribute('data-read', isRead);
+    if (state) state.textContent = isRead ? '已读' : '未读';
+  });
+</script>
+
+<style>
+  .chapter-page { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 58px 0 110px; }
+  .chapter-breadcrumb { display: flex; gap: 9px; align-items: center; margin-bottom: 54px; color: var(--text-soft); font-size: 12px; }
+  .chapter-breadcrumb a { color: var(--accent-strong); border-bottom: 1px solid currentColor; }
+  .chapter-hero { display: grid; grid-template-columns: 76px minmax(0, 1fr) minmax(210px, 260px); gap: clamp(24px, 5vw, 70px); align-items: start; padding-bottom: 42px; border-bottom: 1px solid var(--line); }
+  .chapter-role { color: var(--accent-strong); font-size: clamp(48px, 8vw, 92px); font-weight: 800; line-height: .9; }
+  .chapter-hero p { margin: 0 0 14px; color: var(--accent-strong); font-size: 13px; font-weight: 700; }
+  .chapter-hero h1 { max-width: 9em; margin: 0; font-size: clamp(44px, 7vw, 88px); line-height: 1.04; letter-spacing: -.06em; text-wrap: balance; }
+  .chapter-progress-line { width: min(360px, 100%); height: 5px; margin-top: 30px; overflow: hidden; border-radius: 999px; background: var(--line); }
+  .chapter-progress-line i { display: block; width: var(--chapter-completion, 0%); height: 100%; border-radius: inherit; background: var(--accent); transition: width .35s ease; }
+  .chapter-hero aside { display: grid; gap: 8px; padding: 18px; border: 1px solid var(--line); background: var(--surface); }
+  .chapter-hero aside span, .chapter-hero aside small { color: var(--text-soft); font-size: 12px; }
+  .chapter-hero aside strong { font-family: var(--font-code); font-size: 28px; line-height: 1.1; }
+  .chapter-hero aside a { min-height: 42px; margin-top: 8px; display: inline-flex; align-items: center; justify-content: center; border-radius: 7px; background: var(--accent); color: var(--accent-ink); font-size: 13px; font-weight: 700; }
+  .chapter-summary { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: clamp(28px, 7vw, 96px); padding: 54px 0; border-bottom: 1px solid var(--line); }
+  .chapter-summary h2, .chapter-lessons h2 { margin: 0; font-size: 18px; letter-spacing: -.02em; }
+  .chapter-summary p { max-width: 58ch; margin: 0; color: var(--text-soft); font-size: 17px; line-height: 1.9; }
+  .chapter-lessons { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: clamp(28px, 7vw, 96px); padding-top: 54px; }
+  .chapter-lessons > div { position: sticky; top: calc(var(--header-height) + 34px); align-self: start; }
+  .chapter-lessons > div p { color: var(--text-soft); font-size: 13px; line-height: 1.7; }
+  .chapter-lessons ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .chapter-lessons a { min-height: 76px; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); transition: color .2s ease, background .2s ease, padding .2s ease; }
+  .chapter-lessons a:hover { padding-left: 10px; color: var(--accent-strong); background: color-mix(in srgb, var(--surface) 42%, transparent); }
+  .chapter-lessons a > span { color: var(--text-soft); font-family: var(--font-code); font-size: 11px; }
+  .chapter-lessons strong { font-size: 15px; line-height: 1.55; }
+  .chapter-lessons small { color: var(--text-soft); font-size: 11px; }
+  .chapter-lessons a[data-read] small { color: var(--accent-strong); }
+
+  @media (max-width: 820px) {
+    .chapter-page { width: min(100% - 28px, 620px); padding: 36px 0 84px; }
+    .chapter-breadcrumb { margin-bottom: 34px; }
+    .chapter-hero, .chapter-summary, .chapter-lessons { grid-template-columns: 1fr; gap: 22px; }
+    .chapter-role { font-size: 54px; }
+    .chapter-hero h1 { font-size: 42px; }
+    .chapter-hero aside { max-width: none; }
+    .chapter-lessons > div { position: static; }
+    .chapter-lessons a { grid-template-columns: 34px minmax(0, 1fr); }
+    .chapter-lessons small { grid-column: 2; margin-top: -10px; }
+  }
+</style>

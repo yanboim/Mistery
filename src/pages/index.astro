@@ -48,7 +48,7 @@ const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.bo
           const first = chapterLessons[0];
           return (
             first && (
-              <a class="chapter-row" href={`/tutorial/${first.id}`}>
+              <a class="chapter-row" href={`/tutorial/chapter-${chapter.number}`}>
                 <span class="chapter-role">{chapter.role}</span>
                 <span class="chapter-copy">
                   <small>第{chapter.numeral}章</small>
@@ -121,7 +121,7 @@ const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.bo
   .study-method > p { margin: 0 0 24px; color: var(--text-soft); font-size: 12px; }
   .study-method ol { margin: 0; padding: 0; display: grid; gap: 22px; list-style: none; }
   .study-method li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; }
-  .study-method li > span { padding-top: 2px; color: var(--accent-strong); font-family: ui-monospace, monospace; font-size: 10px; }
+  .study-method li > span { padding-top: 2px; color: var(--accent-strong); font-family: var(--font-code); font-size: 10px; }
   .study-method li div { display: grid; gap: 3px; }
   .study-method strong { font-size: 14px; }
   .study-method small { color: var(--text-soft); font-size: 12px; line-height: 1.6; }
@@ -129,7 +129,7 @@ const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.bo
   .course-facts div { padding: 0 24px; border-left: 1px solid var(--line); }
   .course-facts div:first-child { padding-left: 0; border-left: 0; }
   .course-facts dt { color: var(--text-soft); font-size: 11px; }
-  .course-facts dd { margin: 3px 0 0; font-family: ui-monospace, monospace; font-size: 26px; font-weight: 760; font-variant-numeric: tabular-nums; }
+  .course-facts dd { margin: 3px 0 0; font-family: var(--font-code); font-size: 26px; font-weight: 760; font-variant-numeric: tabular-nums; }
   .course-facts .fact-copy { padding-top: 4px; font-family: inherit; font-size: 14px; font-weight: 650; }
   .framework-section { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 140px 0 150px; display: grid; grid-template-columns: minmax(260px, .7fr) minmax(0, 1.3fr); gap: clamp(70px, 10vw, 150px); align-items: start; }
   .framework-intro { position: sticky; top: 110px; }
@@ -148,7 +148,7 @@ const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.bo
   .chapter-copy strong { margin-top: 2px; font-size: 23px; letter-spacing: -.025em; }
   .chapter-copy > span { max-width: 48ch; margin-top: 7px; color: var(--text-soft); font-size: 13px; line-height: 1.65; }
   .chapter-meta { color: var(--text-soft); white-space: nowrap; font-size: 11px; }
-  .chapter-meta b { color: var(--text); font-family: ui-monospace, monospace; font-size: 16px; font-variant-numeric: tabular-nums; }
+  .chapter-meta b { color: var(--text); font-family: var(--font-code); font-size: 16px; font-variant-numeric: tabular-nums; }
   .chapter-arrow { color: var(--text-soft); }
   .closing-section { width: min(1180px, calc(100% - 40px)); margin: 0 auto 120px; padding: 72px 0 8px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 50px; align-items: end; border-top: 1px solid var(--line); }
   .closing-section h2 { max-width: 760px; }

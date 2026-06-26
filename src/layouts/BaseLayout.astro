@@ -1,19 +1,28 @@
 ---
 import Header from '../components/Header.astro';
 import SearchDialog from '../components/SearchDialog.astro';
+import { getCanonicalSiteURL, siteConfig } from '../site.config';
 import '../styles/global.css';
 
 const {
-  title = 'Mi姐交易笔记',
-  description = '从交易基础到宏观认知的系统化中文教程',
+  title = siteConfig.name,
+  description = siteConfig.description,
   current = '',
   lessons = [],
   hasSidebar = false,
   schemaType = 'WebPage',
 } = Astro.props;
-const siteURL = Astro.site ?? new URL(Astro.url.origin);
+const siteURL = Astro.site ?? getCanonicalSiteURL();
 const canonicalURL = new URL(Astro.url.pathname, siteURL);
-const ogImageURL = new URL('/og.svg', siteURL);
+const ogImageURL = new URL(siteConfig.ogImage, siteURL);
+const toFontStack = (fonts: string[]) => fonts.join(', ');
+const fontVariables = `
+  :root {
+    --font-body: ${toFontStack(siteConfig.fonts.body)};
+    --font-heading: ${toFontStack(siteConfig.fonts.heading)};
+    --font-code: ${toFontStack(siteConfig.fonts.code)};
+  }
+`;
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': schemaType,
@@ -25,14 +34,14 @@ const structuredData = {
   inLanguage: 'zh-CN',
   isPartOf: {
     '@type': 'WebSite',
-    name: 'Mi姐交易笔记',
+    name: siteConfig.name,
     url: siteURL.href,
   },
 };
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={siteConfig.locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,8 +58,12 @@ const structuredData = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL.href} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#f4f2ed" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content={siteConfig.themeColor} />
+    <link rel="icon" href={siteConfig.favicon} type="image/svg+xml" />
+    {siteConfig.fonts.stylesheets.map((href) => (
+      <link rel="stylesheet" href={href} />
+    ))}
+    <style is:inline set:html={fontVariables}></style>
     <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <script is:inline>
@@ -64,7 +77,23 @@ const structuredData = {
     <Header current={current} hasSidebar={hasSidebar} />
     <slot />
     <footer class="site-footer">
-      本站内容由《Mi姐 · 股市交易文集》整理，仅供学习与交流，不构成投资建议。
+      <p>
+        {siteConfig.footerSource.prefix}
+        <a href={siteConfig.footerSource.href} target="_blank" rel="noreferrer">{siteConfig.footerSource.linkLabel}</a>
+        {siteConfig.footerSource.suffix}
+      </p>
+      {siteConfig.footerLinks.length > 0 && (
+        <nav aria-label="页脚链接">
+          {siteConfig.footerLinks.map((link) => (
+            <a href={link.href} target={link.external ? '_blank' : undefined} rel={link.external ? 'noreferrer' : undefined}>{link.label}</a>
+          ))}
+        </nav>
+      )}
+      <small>
+        © {siteConfig.copyright.year}{' '}
+        <a href={siteConfig.copyright.href} target="_blank" rel="noreferrer">{siteConfig.copyright.owner}</a>.
+        {' '}{siteConfig.copyright.text}
+      </small>
     </footer>
     <SearchDialog lessons={lessons} />
     <script>

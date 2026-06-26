@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
+import { siteConfig } from './src/site.config';
 
 export default defineConfig({
-  site: 'https://mi.yanbo.im',
+  site: siteConfig.url,
   trailingSlash: 'never',
 });

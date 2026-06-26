@@ -24,7 +24,22 @@ try {
   check('首页有主标题', await page.locator('h1').count() === 1);
   check('首页学习方法包含 3 个步骤', await page.locator('.study-method li').count() === 3);
   check('首页渲染 6 个章节索引', await page.locator('.chapter-row').count() === 6);
+  check('首页章节索引进入章节页', (await page.locator('.chapter-row').first().getAttribute('href')) === '/tutorial/chapter-1');
   check('首页展示真实课程统计', (await page.locator('.course-facts').innerText()).includes('308'));
+  check('桌面导航包含源码仓库入口', await page.locator('.header-nav a[href="https://github.com/yanboim/Mistery"][target="_blank"]').count() === 1);
+  check('桌面导航包含 X 图标入口', await page.locator('.header-nav a[href="https://x.com/ImYanBoss"][target="_blank"] svg.nav-icon').count() === 1);
+  check('桌面导航源码仓库使用图标', await page.locator('.header-nav a[href="https://github.com/yanboim/Mistery"] svg.nav-icon').count() === 1);
+  check('页脚第一行包含 Mi姐 X 链接', await page.locator('.site-footer p a[href="https://x.com/Mimiwftt"][target="_blank"]').count() === 1);
+  check('页脚不再单独显示 Mi姐 X 第二行', await page.locator('.site-footer nav[aria-label="页脚链接"]').count() === 0);
+  check('页脚包含版权信息', (await page.locator('.site-footer small').innerText()).includes('©') && (await page.locator('.site-footer small').innerText()).includes('YanBo'));
+  check('页脚版权包含 YanBo X 链接', await page.locator('.site-footer small a[href="https://x.com/ImYanBoss"][target="_blank"]').count() === 1);
+  check('页面加载 LXGW WenKai 字体样式', await page.locator('link[href*="lxgw-wenkai-webfont/1.7.0"][rel="stylesheet"]').count() === 1);
+  check('正文和代码字体变量优先使用 LXGW WenKai', await page.evaluate(() => {
+    const styles = getComputedStyle(document.documentElement);
+    return styles.getPropertyValue('--font-body').includes('LXGW WenKai')
+      && styles.getPropertyValue('--font-heading').includes('LXGW WenKai')
+      && styles.getPropertyValue('--font-code').includes('LXGW WenKai');
+  }));
   check('首页包含 canonical', (await page.locator('link[rel="canonical"]').getAttribute('href')) === 'https://mi.yanbo.im/');
   check('首页包含分享图', (await page.locator('meta[property="og:image"]').getAttribute('content')) === 'https://mi.yanbo.im/og.svg');
   check('首页包含结构化数据', await page.locator('script[type="application/ld+json"]').count() === 1);
@@ -41,12 +56,14 @@ try {
 
   const sitemap = await (await desktop.request.get(`${baseURL}/sitemap.xml`)).text();
   check('站点地图包含全部教程路径', sitemap.includes('/tutorial/chapter-1/001') && sitemap.includes('/tutorial/chapter-6/139'));
+  check('站点地图包含章节页面', sitemap.includes('/tutorial/chapter-1') && sitemap.includes('/tutorial/chapter-6'));
   const robots = await (await desktop.request.get(`${baseURL}/robots.txt`)).text();
   check('robots 声明 sitemap', robots.includes('Sitemap: https://mi.yanbo.im/sitemap.xml'));
 
   await page.goto(`${baseURL}/tutorial/chapter-1/001`, { waitUntil: 'networkidle' });
   check('教程标题正确', (await page.locator('.lesson-head h1').innerText()).includes('写给最近几个月新入市的朋友们'));
   check('教程页提供源文件编辑链接', (await page.locator('.source-edit-link').getAttribute('href')) === 'https://github.com/yanboim/Mistery/edit/main/src/content/lessons/chapter-1/001.md');
+  check('教程页章节入口进入章节页', (await page.locator('.chapter-link').getAttribute('href')) === '/tutorial/chapter-1');
   check('相邻教程空白区域不露灰色底', await page.locator('.lesson-pager').evaluate((element) => getComputedStyle(element).backgroundColor === 'rgba(0, 0, 0, 0)'));
   check('教程页结构化数据为 Article', await page.locator('script[type="application/ld+json"]').evaluate((element) => JSON.parse(element.textContent || '{}')['@type'] === 'Article'));
   check('教程正文已渲染', await page.locator('.prose p').count() > 2);
@@ -76,7 +93,12 @@ try {
   await page.screenshot({ path: 'artifacts/lesson-desktop.png', fullPage: false });
   await page.goto(`${baseURL}/tutorial/chapter-1/002`, { waitUntil: 'networkidle' });
   check('无页内目录时正文居中', await page.locator('.lesson-main.without-toc').count() === 1);
+  await page.goto(`${baseURL}/tutorial/chapter-1`, { waitUntil: 'networkidle' });
+  check('章节页标题正确', (await page.locator('.chapter-hero h1').innerText()) === '交易基础认知');
+  check('章节页展示本章教程列表', await page.locator('.chapter-lessons a').count() === 47);
+  check('章节页提供开始或继续本章入口', (await page.locator('[data-chapter-start]').getAttribute('href'))?.startsWith('/tutorial/chapter-1/'));
   await page.goto(`${baseURL}/tutorial`, { waitUntil: 'networkidle' });
+  check('全部教程每章提供章节页入口', await page.locator('.chapter-page-link[href="/tutorial/chapter-1"]').count() === 1);
   check('目录页不重复放置全站搜索按钮', await page.locator('.catalog-search').count() === 0);
   check('目录页不重复放置文本筛选框', await page.locator('[data-catalog-filter]').count() === 0);
   const firstChapterLayout = await page.locator('.catalog-chapter').first().evaluate((section) => {
@@ -141,6 +163,34 @@ try {
   mobilePage.on('pageerror', (error) => errors.push(`mobile pageerror: ${error.message}`));
   await mobilePage.goto(`${baseURL}/tutorial`, { waitUntil: 'networkidle' });
   check('移动端目录页无横向溢出', await mobilePage.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
+  check('移动端站点导航默认收起为抽屉', await mobilePage.evaluate(() => {
+    const panel = document.querySelector('[data-mobile-menu]');
+    const trigger = document.querySelector('[data-mobile-menu-open]');
+    if (!panel || !trigger) return false;
+    const matrix = new DOMMatrixReadOnly(getComputedStyle(panel).transform);
+    return getComputedStyle(trigger).display !== 'none' && matrix.m41 > 200;
+  }));
+  await mobilePage.locator('[data-mobile-menu-open]').click();
+  await mobilePage.waitForTimeout(320);
+  check('移动端站点导航可打开', await mobilePage.evaluate(() => document.documentElement.classList.contains('mobile-menu-visible')));
+  check('移动端抽屉显示同一套导航', await mobilePage.locator('[data-mobile-menu] .header-nav a:visible').count() === 4);
+  check('移动端抽屉包含源码仓库入口', await mobilePage.locator('[data-mobile-menu] .header-nav a[href="https://github.com/yanboim/Mistery"][target="_blank"]').count() === 1);
+  check('移动端抽屉包含 X 图标入口', await mobilePage.locator('[data-mobile-menu] .header-nav a[href="https://x.com/ImYanBoss"][target="_blank"] svg.nav-icon').count() === 1);
+  check('移动端搜索和主题切换放在抽屉外', await mobilePage.evaluate(() => {
+    const search = document.querySelector('.site-header > .header-inner > .header-actions [data-search-open]');
+    const theme = document.querySelector('.site-header > .header-inner > .header-actions [data-theme-toggle]');
+    const searchInDrawer = document.querySelector('[data-mobile-menu] [data-search-open]');
+    const themeInDrawer = document.querySelector('[data-mobile-menu] [data-theme-toggle]');
+    const isVisibleInViewport = (element) => {
+      if (!element) return false;
+      const rect = element.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0 && rect.top >= 0 && rect.bottom <= window.innerHeight;
+    };
+    return isVisibleInViewport(search) && isVisibleInViewport(theme) && !searchInDrawer && !themeInDrawer;
+  }));
+  await mobilePage.locator('[data-mobile-menu-close]').first().click();
+  await mobilePage.waitForTimeout(240);
+  check('移动端站点导航可关闭', await mobilePage.evaluate(() => !document.documentElement.classList.contains('mobile-menu-visible')));
   check('移动端课程目录默认只展开一章', await mobilePage.locator('.catalog-chapter ol:visible').count() === 1);
   check('目录显示章节完成进度', (await mobilePage.locator('[data-chapter-progress="1"]').innerText()).includes('2 / 47'));
   check('章节跳转显示完成百分比', (await mobilePage.locator('[data-chapter-jump-progress="1"]').innerText()) === '4%');
@@ -151,6 +201,8 @@ try {
   await mobilePage.locator('[data-progress-filter="all"]').click();
   await mobilePage.goto(`${baseURL}/tutorial/chapter-2/001`, { waitUntil: 'networkidle' });
   check('移动端无横向溢出', await mobilePage.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
+  await mobilePage.locator('[data-mobile-menu-open]').click();
+  await mobilePage.waitForTimeout(320);
   await mobilePage.locator('[data-sidebar-open]').click();
   await mobilePage.waitForTimeout(350);
   check('移动端目录可打开', await mobilePage.evaluate(() => document.documentElement.classList.contains('sidebar-visible')));
