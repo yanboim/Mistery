@@ -65,8 +65,18 @@ try {
   check('教程页提供源文件编辑链接', (await page.locator('.source-edit-link').getAttribute('href')) === 'https://github.com/yanboim/Mistery/edit/main/src/content/lessons/chapter-1/001.md');
   check('教程页章节入口进入章节页', (await page.locator('.chapter-link').getAttribute('href')) === '/tutorial/chapter-1');
   check('相邻教程空白区域不露灰色底', await page.locator('.lesson-pager').evaluate((element) => getComputedStyle(element).backgroundColor === 'rgba(0, 0, 0, 0)'));
+  check('相邻教程导航保持紧凑高度', await page.locator('.lesson-pager a.next').evaluate((element) => element.getBoundingClientRect().height <= 86));
   check('教程页结构化数据为 Article', await page.locator('script[type="application/ld+json"]').evaluate((element) => JSON.parse(element.textContent || '{}')['@type'] === 'Article'));
   check('教程正文已渲染', await page.locator('.prose p').count() > 2);
+  check('教程正文启用 Heti 中文排版容器', await page.locator('.prose.heti[data-typography="heti"]').count() === 1);
+  check('教程正文排版保持紧凑阅读密度', await page.locator('.prose').evaluate((element) => {
+    const style = getComputedStyle(element);
+    const firstHeading = element.querySelector('h2');
+    const headingStyle = firstHeading ? getComputedStyle(firstHeading) : null;
+    return Number.parseFloat(style.lineHeight) <= 29
+      && Number.parseFloat(style.fontSize) <= 17
+      && (!headingStyle || Number.parseFloat(headingStyle.fontSize) <= 25);
+  }));
   check('当前教程在侧栏高亮', await page.locator('.lesson-sidebar a.active').count() === 1);
   check('教程侧栏不重复放置全站搜索按钮', await page.locator('.lesson-sidebar [data-search-open]').count() === 0);
   check('教程目录总标题固定，章节区域独立滚动', await page.locator('.lesson-sidebar').evaluate((sidebar) => {
@@ -91,6 +101,14 @@ try {
   check('滚动到底部时阅读进度完成', Number(await page.locator('.reading-progress').evaluate((element) => getComputedStyle(element).getPropertyValue('--reading-progress'))) > 0.98);
   check('教程页无框架错误浮层', await page.locator('.vite-error-overlay, #webpack-dev-server-client-overlay').count() === 0);
   await page.screenshot({ path: 'artifacts/lesson-desktop.png', fullPage: false });
+  await page.goto(`${baseURL}/tutorial/chapter-5/001`, { waitUntil: 'networkidle' });
+  check('Heti 自动处理中英文混排间距', await page.locator('.prose heti-spacing').count() > 0);
+  await page.goto(`${baseURL}/tutorial/chapter-4/008`, { waitUntil: 'networkidle' });
+  check('短标题在桌面宽度下不被人为换行', await page.locator('.lesson-head h1').evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const lineHeight = Number.parseFloat(getComputedStyle(element).lineHeight);
+    return rect.height < lineHeight * 1.45;
+  }));
   await page.goto(`${baseURL}/tutorial/chapter-1/002`, { waitUntil: 'networkidle' });
   check('无页内目录时正文居中', await page.locator('.lesson-main.without-toc').count() === 1);
   await page.goto(`${baseURL}/tutorial/chapter-1`, { waitUntil: 'networkidle' });
