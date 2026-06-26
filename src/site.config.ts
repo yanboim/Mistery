@@ -21,7 +21,7 @@ export const siteConfig = {
   url: 'https://mi.yanbo.im',
   locale: 'zh-CN',
   themeColor: '#f4f2ed',
-  ogImage: '/og.svg',
+  ogImage: '/og.png',
   favicon: '/favicon.svg',
   fonts: {
     stylesheets: [

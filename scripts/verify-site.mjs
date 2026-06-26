@@ -41,7 +41,8 @@ try {
       && styles.getPropertyValue('--font-code').includes('LXGW WenKai');
   }));
   check('首页包含 canonical', (await page.locator('link[rel="canonical"]').getAttribute('href')) === 'https://mi.yanbo.im/');
-  check('首页包含分享图', (await page.locator('meta[property="og:image"]').getAttribute('content')) === 'https://mi.yanbo.im/og.svg');
+  check('首页包含 PNG 分享图', (await page.locator('meta[property="og:image"]').getAttribute('content')) === 'https://mi.yanbo.im/og.png');
+  check('首页声明分享图尺寸和类型', await page.locator('meta[property="og:image:type"][content="image/png"]').count() === 1 && await page.locator('meta[property="og:image:width"][content="1200"]').count() === 1 && await page.locator('meta[property="og:image:height"][content="630"]').count() === 1);
   check('首页包含结构化数据', await page.locator('script[type="application/ld+json"]').count() === 1);
   check('首页无横向溢出', await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
   await page.screenshot({ path: 'artifacts/home-desktop.png', fullPage: true });
@@ -226,6 +227,11 @@ try {
   check('移动端目录可打开', await mobilePage.evaluate(() => document.documentElement.classList.contains('sidebar-visible')));
   check('移动端目录可见', await mobilePage.locator('[data-sidebar]').isVisible());
   check('移动端目录进入视口', (await mobilePage.locator('[data-sidebar]').boundingBox())?.x >= -1);
+  check('移动端目录关闭按钮使用图标且不挤占标题', await mobilePage.locator('.sidebar-head [data-sidebar-close]').evaluate((button) => {
+    const buttonRect = button.getBoundingClientRect();
+    const titleRect = button.parentElement.querySelector('strong').getBoundingClientRect();
+    return button.textContent.trim() === '' && buttonRect.left > titleRect.right + 120;
+  }));
   await mobilePage.screenshot({ path: 'artifacts/lesson-mobile-menu.png', fullPage: false });
   await mobilePage.locator('.sidebar-head [data-sidebar-close]').click();
   await mobilePage.waitForTimeout(350);
