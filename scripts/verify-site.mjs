@@ -41,8 +41,8 @@ try {
       && styles.getPropertyValue('--font-code').includes('LXGW WenKai');
   }));
   check('首页包含 canonical', (await page.locator('link[rel="canonical"]').getAttribute('href')) === 'https://mi.yanbo.im/');
-  check('首页包含 JPG 分享图', (await page.locator('meta[property="og:image"]').getAttribute('content')) === 'https://mi.yanbo.im/og-card.jpg');
-  check('首页声明分享图尺寸和类型', await page.locator('meta[property="og:image:type"][content="image/jpeg"]').count() === 1 && await page.locator('meta[property="og:image:width"][content="1200"]').count() === 1 && await page.locator('meta[property="og:image:height"][content="630"]').count() === 1);
+  check('首页包含 JPG 分享图', (await page.locator('meta[property="og:image"]').getAttribute('content')) === 'https://mi.yanbo.im/twitter-card-v3.jpg');
+  check('首页声明分享图尺寸和类型', await page.locator('meta[property="og:image:secure_url"][content="https://mi.yanbo.im/twitter-card-v3.jpg"]').count() === 1 && await page.locator('meta[property="og:image:type"][content="image/jpeg"]').count() === 1 && await page.locator('meta[property="og:image:width"][content="1200"]').count() === 1 && await page.locator('meta[property="og:image:height"][content="630"]').count() === 1);
   check('首页包含结构化数据', await page.locator('script[type="application/ld+json"]').count() === 1);
   check('首页无横向溢出', await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
   await page.screenshot({ path: 'artifacts/home-desktop.png', fullPage: true });
