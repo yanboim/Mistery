@@ -248,8 +248,9 @@ const editURL = getSourceEditURL(lesson.id);
   .prose :global(hr) { border: 0; border-top: 1px solid var(--line); margin: 1.8em 0; }
   .prose :global(code) { padding: .15em .4em; border-radius: 5px; background: var(--code); font-family: var(--font-code); font-size: .9em; }
   .prose :global(img) { display: block; max-width: 82%; max-height: 72vh; width: auto; height: auto; margin: 1.8em auto; border-radius: 10px; border: 1px solid var(--line); }
-  .prose :global(table) { width: 100%; display: block; overflow-x: auto; border-collapse: collapse; margin: 1.45em 0; }
-  .prose :global(th), .prose :global(td) { padding: 10px 13px; border-bottom: 1px solid var(--line); text-align: left; }
+  .prose :global(table) { width: fit-content; max-width: 100%; display: block; overflow-x: auto; border-collapse: collapse; margin: 1.45em 0; font-size: .96em; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  .prose :global(th), .prose :global(td) { min-width: 12em; padding: 10px 13px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .prose :global(th) { background: color-mix(in srgb, var(--surface) 64%, transparent); color: var(--text); font-weight: 750; }
   .lesson-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 42px; padding-top: 18px; border-top: 1px solid var(--line); background: transparent; }
   .lesson-pager a { min-height: 72px; display: flex; flex-direction: column; justify-content: center; padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--bg); transition: background .2s ease, color .2s ease, transform .2s ease; }
   .lesson-pager a:not(.next) { border-right: 1px solid var(--line); }
