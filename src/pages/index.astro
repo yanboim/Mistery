@@ -2,60 +2,63 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { chapters } from '../data/chapters';
+import { siteConfig } from '../site.config';
 
 const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
 const grouped = new Map(chapters.map((chapter) => [chapter.number, lessons.filter((lesson) => lesson.data.chapter === chapter.number)]));
+const visibleChapters = chapters.filter((chapter) => (grouped.get(chapter.number)?.length ?? 0) > 0);
 const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.body)).length;
+const copy = siteConfig.copy.home;
 ---
 
 <BaseLayout current="home" lessons={lessons}>
   <main id="main-content">
     <section class="hero">
       <div class="hero-copy">
-        <p class="hero-kicker">从认知到执行</p>
-        <h1>把交易经验，整理成一条学习路径。</h1>
-        <p class="hero-intro">308 篇中文短教程，帮你从基础认知走到独立判断。</p>
+        <p class="hero-kicker">{copy.kicker}</p>
+        <h1>{copy.titleLines[0]}<br />{copy.titleLines[1]}</h1>
+        <p class="hero-intro">{lessons.length}{copy.intro.suffix}</p>
         <div class="hero-actions">
-          <a class="primary-action" href="/tutorial/chapter-1/001" data-continue-link>开始第一课</a>
-          <button class="secondary-action" type="button" data-search-open>搜索主题</button>
+          <a class="primary-action" href="/tutorial/chapter-1/001" data-continue-link data-resume-copy={copy.actions.resume}>{copy.actions.start}</a>
+          <button class="secondary-action" type="button" data-search-open>{copy.actions.search}</button>
         </div>
       </div>
-      <aside class="study-method" aria-label="学习方法">
-        <p>一套可以持续的阅读方法</p>
+      <aside class="study-method" aria-label={copy.studyMethod.label}>
+        <p>{copy.studyMethod.title}</p>
         <ol>
-          <li><span>01</span><div><strong>先看框架</strong><small>明确问题属于认知、工具还是执行。</small></div></li>
-          <li><span>02</span><div><strong>每次解决一个问题</strong><small>短篇阅读，不用一次记住所有内容。</small></div></li>
-          <li><span>03</span><div><strong>回到交易中验证</strong><small>标记已读，用复盘修正自己的判断。</small></div></li>
+          {copy.studyMethod.steps.map((step, index) => (
+            <li><span>{String(index + 1).padStart(2, '0')}</span><div><strong>{step.title}</strong><small>{step.description}</small></div></li>
+          ))}
         </ol>
       </aside>
     </section>
 
     <dl class="course-facts" aria-label="课程统计">
-      <div><dt>知识维度</dt><dd>6</dd></div>
-      <div><dt>短教程</dt><dd>{lessons.length}</dd></div>
-      <div><dt>已结构化文章</dt><dd>{structuredLessons}</dd></div>
-      <div><dt>阅读方式</dt><dd class="fact-copy">顺序学习或按问题进入</dd></div>
+      <div><dt>{copy.facts.dimension}</dt><dd>{visibleChapters.length}</dd></div>
+      <div><dt>{copy.facts.lessons}</dt><dd>{lessons.length}</dd></div>
+      <div><dt>{copy.facts.structured}</dt><dd>{structuredLessons}</dd></div>
+      <div><dt>{copy.facts.readingMode}</dt><dd class="fact-copy">{copy.facts.readingModeValue}</dd></div>
     </dl>
 
     <section class="framework-section">
       <div class="framework-intro">
-        <h2>六个维度，从市场认知走到交易行动。</h2>
-        <a href="/tutorial">浏览全部教程 <span aria-hidden="true">→</span></a>
+        <h2>{copy.framework.titleLines[0]}<br />{copy.framework.titleLines[1]}</h2>
+        <a href="/tutorial">{copy.framework.action} <span aria-hidden="true">→</span></a>
       </div>
       <div class="chapter-list">
-        {chapters.map((chapter) => {
+        {visibleChapters.map((chapter) => {
           const chapterLessons = grouped.get(chapter.number) ?? [];
           const first = chapterLessons[0];
           return (
             first && (
               <a class="chapter-row" href={`/tutorial/chapter-${chapter.number}`}>
-                <span class="chapter-role">{chapter.role}</span>
-                <span class="chapter-copy">
-                  <small>第{chapter.numeral}章</small>
+                  <span class="chapter-role">{chapter.role}</span>
+                  <span class="chapter-copy">
+                  <small>{copy.unit.chapterPrefix}{chapter.numeral}章</small>
                   <strong>{chapter.title}</strong>
                   <span>{chapter.summary}</span>
                 </span>
-                <span class="chapter-meta"><b>{chapterLessons.length}</b> 篇</span>
+                <span class="chapter-meta"><b>{chapterLessons.length}</b> {copy.unit.article}</span>
                 <span class="chapter-arrow" aria-hidden="true">↗</span>
               </a>
             )
@@ -66,9 +69,9 @@ const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.bo
 
     <section class="closing-section">
       <div>
-        <h2>先建立自己的判断，再做每一次交易。</h2>
+        <h2>{copy.closing.title}</h2>
       </div>
-      <a href="/tutorial">查看完整目录 <span aria-hidden="true">→</span></a>
+      <a href="/tutorial">{copy.closing.action} <span aria-hidden="true">→</span></a>
     </section>
   </main>
 </BaseLayout>
@@ -78,7 +81,7 @@ const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.bo
   const continueLink = document.querySelector('[data-continue-link]');
   if (lastLesson && continueLink instanceof HTMLAnchorElement) {
     continueLink.href = `/tutorial/${lastLesson}`;
-    continueLink.textContent = '继续上次阅读';
+    continueLink.textContent = continueLink.dataset.resumeCopy || continueLink.textContent;
   }
 </script>
 
@@ -96,7 +99,7 @@ const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.bo
     align-items: center;
   }
   .hero-kicker { margin: 0 0 20px; color: var(--accent-strong); font-size: 14px; font-weight: 700; }
-  h1 { margin: 0; max-width: 820px; font-size: clamp(48px, 6.1vw, 82px); line-height: 1.06; letter-spacing: -.055em; font-weight: 780; text-wrap: balance; }
+  h1 { margin: 0; max-width: 940px; font-size: clamp(48px, 5.55vw, 74px); line-height: 1.08; letter-spacing: -.055em; font-weight: 780; text-wrap: balance; }
   .hero-intro { max-width: 480px; margin: 26px 0 0; color: var(--text-soft); font-size: 17px; line-height: 1.75; text-wrap: pretty; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
   .primary-action, .secondary-action {
@@ -132,8 +135,8 @@ const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.bo
   .course-facts dd { margin: 3px 0 0; font-family: var(--font-code); font-size: 26px; font-weight: 760; font-variant-numeric: tabular-nums; }
   .course-facts .fact-copy { padding-top: 4px; font-family: inherit; font-size: 14px; font-weight: 650; }
   .framework-section { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 140px 0 150px; display: grid; grid-template-columns: minmax(260px, .7fr) minmax(0, 1.3fr); gap: clamp(70px, 10vw, 150px); align-items: start; }
-  .framework-intro { position: sticky; top: 110px; }
-  .framework-intro h2, .closing-section h2 { margin: 0; font-size: clamp(34px, 4vw, 52px); line-height: 1.16; letter-spacing: -.04em; text-wrap: balance; }
+  .framework-intro { position: sticky; top: 110px; max-width: 520px; }
+  .framework-intro h2, .closing-section h2 { margin: 0; font-size: clamp(34px, 3.7vw, 50px); line-height: 1.18; letter-spacing: -.04em; text-wrap: balance; }
   .framework-intro > a { display: inline-flex; align-items: center; gap: 8px; margin-top: 28px; color: var(--accent-strong); font-size: 13px; font-weight: 700; }
   .framework-intro > a span, .closing-section > a span { transition: transform .2s ease; }
   .framework-intro > a:hover span, .closing-section > a:hover span { transform: translateX(4px); }
@@ -157,7 +160,7 @@ const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.bo
     .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 72px; gap: 72px; }
     .study-method { max-width: 620px; }
     .framework-section { grid-template-columns: 1fr; gap: 54px; }
-    .framework-intro { position: static; max-width: 680px; }
+    .framework-intro { position: static; max-width: 760px; }
   }
   @media (max-width: 700px) {
     .hero, .course-facts, .framework-section, .closing-section { width: calc(100% - 28px); }
@@ -173,7 +176,7 @@ const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.bo
     .course-facts dd { font-size: 22px; }
     .course-facts .fact-copy { max-width: 12ch; font-size: 12px; }
     .framework-section { padding: 96px 0 108px; }
-    .framework-intro h2, .closing-section h2 { font-size: 36px; }
+    .framework-intro h2, .closing-section h2 { font-size: 34px; line-height: 1.22; }
     .chapter-row, .chapter-row:nth-child(even) { min-height: 154px; margin-left: 0; grid-template-columns: 42px minmax(0, 1fr) 18px; gap: 14px; }
     .chapter-role { font-size: 30px; }
     .chapter-copy strong { font-size: 20px; }

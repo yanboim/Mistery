@@ -194,6 +194,46 @@ button { color: inherit; }
 .site-footer a:hover { color: var(--accent); border-color: currentColor; }
 .site-footer small { font-size: 12px; color: color-mix(in srgb, var(--text-soft) 78%, transparent); }
 
+.back-to-top {
+  position: fixed;
+  z-index: 29;
+  right: max(22px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-raised) 88%, transparent);
+  color: var(--text-soft);
+  box-shadow: 0 12px 34px rgba(38, 32, 23, .12);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(.94);
+  backdrop-filter: blur(14px);
+  transition:
+    opacity .2s ease,
+    transform .22s ease,
+    border-color .2s ease,
+    background .2s ease,
+    color .2s ease;
+}
+.back-to-top[data-visible] {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+.back-to-top:hover {
+  border-color: color-mix(in srgb, var(--accent) 64%, var(--line));
+  background: var(--surface-raised);
+  color: var(--accent-strong);
+  transform: translateY(-2px) scale(1);
+}
+.back-to-top:active { transform: translateY(0) scale(.98); }
+
 .search-dialog {
   width: min(680px, calc(100% - 28px));
   max-height: min(680px, calc(100dvh - 40px));
@@ -351,6 +391,12 @@ button { color: inherit; }
     border-radius: 11px;
   }
   .quiet-button { min-height: 40px; padding-inline: 12px; }
+  .back-to-top {
+    right: max(14px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    width: 40px;
+    height: 40px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

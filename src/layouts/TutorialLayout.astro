@@ -6,6 +6,7 @@ import { getSourceEditURL, withSiteTitle } from '../site.config';
 const { lesson, lessons, headings = [], previous, next } = Astro.props;
 const currentChapter = chapters.find((chapter) => chapter.number === lesson.data.chapter);
 const chapterLessons = lessons.filter((item) => item.data.chapter === lesson.data.chapter);
+const visibleChapters = chapters.filter((chapter) => lessons.some((item) => item.data.chapter === chapter.number));
 const currentIndex = chapterLessons.findIndex((item) => item.id === lesson.id);
 const progress = Math.round(((currentIndex + 1) / chapterLessons.length) * 100);
 const readingMinutes = Math.max(1, Math.ceil(lesson.body.replace(/\s/g, '').length / 350));
@@ -33,7 +34,7 @@ const editURL = getSourceEditURL(lesson.id);
         </button>
       </div>
       <nav aria-label="教程章节">
-        {chapters.map((chapter) => {
+        {visibleChapters.map((chapter) => {
           const items = lessons.filter((item) => item.data.chapter === chapter.number);
           return (
             <details open={chapter.number === lesson.data.chapter}>

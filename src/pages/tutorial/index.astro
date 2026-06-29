@@ -5,57 +5,74 @@ import { chapters } from '../../data/chapters';
 import { siteConfig, withSiteTitle } from '../../site.config';
 
 const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
+const visibleChapters = chapters.filter((chapter) => lessons.some((lesson) => lesson.data.chapter === chapter.number));
+const copy = siteConfig.copy.tutorial;
+const pageDescription = copy.description.replace('{siteName}', siteConfig.name);
 ---
 
-<BaseLayout title={withSiteTitle('全部教程')} description={`浏览 ${siteConfig.name} 的全部章节与教程`} current="tutorial" lessons={lessons}>
-  <main class="catalog" id="main-content">
+<BaseLayout title={withSiteTitle(copy.title)} description={pageDescription} current="tutorial" lessons={lessons}>
+  <main
+    class="catalog"
+    id="main-content"
+    data-catalog-copy
+    data-filter-status-all={copy.filter.statusAll}
+    data-filter-status-matched={copy.filter.statusMatched}
+    data-filter-read={copy.filter.read}
+    data-filter-unread={copy.filter.unread}
+    data-chapter-read-template={copy.chapter.readTemplate}
+    data-chapter-collapse={copy.chapter.collapse}
+    data-chapter-expand={copy.chapter.expand}
+    data-progress-complete-template={copy.overview.completeTemplate}
+  >
     <header class="catalog-head">
-      <p>完整课程目录</p>
-      <h1>从一个问题开始，逐步建立自己的交易框架。</h1>
+      <p>{copy.kicker}</p>
+      <h1>{copy.titleLines[0]}<br />{copy.titleLines[1]}</h1>
     </header>
-    <section class="learning-overview" data-learning-overview hidden aria-label="学习进度">
+    <section class="learning-overview" data-learning-overview hidden aria-label={copy.overview.label}>
       <div class="overview-copy">
-        <span>学习记录</span>
+        <span>{copy.overview.record}</span>
         <strong><b data-completed-count>0</b> / {lessons.length}</strong>
-        <small data-progress-copy>已完成 0%</small>
+        <small data-progress-copy>{copy.overview.completeTemplate.replace('{percent}', '0')}</small>
       </div>
       <div class="overview-progress" aria-hidden="true"><i data-progress-bar></i></div>
-      <a href="/tutorial/chapter-1/001" data-resume-link>继续阅读 <span aria-hidden="true">→</span></a>
+      <a href="/tutorial/chapter-1/001" data-resume-link>{copy.overview.resume} <span aria-hidden="true">→</span></a>
     </section>
-    <div class="catalog-filter">
-      <span>学习状态</span>
-      <div class="progress-filter" role="group" aria-label="按学习状态筛选">
-        <button type="button" aria-pressed="true" data-progress-filter="all">全部</button>
-        <button type="button" aria-pressed="false" data-progress-filter="unread">未读</button>
-        <button type="button" aria-pressed="false" data-progress-filter="read">已读</button>
+    <div class="catalog-sticky-controls">
+      <div class="catalog-filter">
+        <span>{copy.filter.label}</span>
+        <div class="progress-filter" role="group" aria-label="按学习状态筛选">
+          <button type="button" aria-pressed="true" data-progress-filter="all">{copy.filter.all}</button>
+          <button type="button" aria-pressed="false" data-progress-filter="unread">{copy.filter.unread}</button>
+          <button type="button" aria-pressed="false" data-progress-filter="read">{copy.filter.read}</button>
+        </div>
+        <p aria-live="polite" data-filter-status>{copy.filter.statusAll.replace('{count}', String(lessons.length))}</p>
       </div>
-      <p aria-live="polite" data-filter-status>共 {lessons.length} 篇教程</p>
+      <nav class="chapter-jump" aria-label={copy.chapterJumpLabel}>
+        {visibleChapters.map((chapter) => (
+          <a href={`#chapter-${chapter.number}`}>
+            <span>{chapter.role}</span>
+            {chapter.title}
+            <small data-chapter-jump-progress={chapter.number}>0%</small>
+          </a>
+        ))}
+      </nav>
     </div>
-    <p class="catalog-empty" hidden data-catalog-empty>当前状态下没有教程。切回“全部”查看完整目录。</p>
-    <nav class="chapter-jump" aria-label="快速跳转到章节">
-      {chapters.map((chapter) => (
-        <a href={`#chapter-${chapter.number}`}>
-          <span>{chapter.role}</span>
-          {chapter.title}
-          <small data-chapter-jump-progress={chapter.number}>0%</small>
-        </a>
-      ))}
-    </nav>
+    <p class="catalog-empty" hidden data-catalog-empty>{copy.empty}</p>
     <div class="chapter-list">
-      {chapters.map((chapter) => {
+      {visibleChapters.map((chapter) => {
         const items = lessons.filter((lesson) => lesson.data.chapter === chapter.number);
         return (
           <section id={`chapter-${chapter.number}`} class="catalog-chapter" data-catalog-chapter>
             <header>
               <span class="role">{chapter.role}</span>
               <div>
-                <small>第{chapter.numeral}章，<span class="chapter-read-count" data-chapter-progress={chapter.number} data-chapter-total={items.length}>0 / {items.length} 已读</span></small>
+                <small>{copy.chapter.prefix}{chapter.numeral}{copy.chapter.separator}<span class="chapter-read-count" data-chapter-progress={chapter.number} data-chapter-total={items.length}>{copy.chapter.readTemplate.replace('{read}', '0').replace('{total}', String(items.length))}</span></small>
                 <h2>{chapter.title}</h2>
                 <p>{chapter.summary}</p>
                 <div class="chapter-progress-line" aria-hidden="true"><i data-chapter-progress-bar={chapter.number}></i></div>
-                <a class="chapter-page-link" href={`/tutorial/chapter-${chapter.number}`}>进入章节页 <span aria-hidden="true">→</span></a>
+                <a class="chapter-page-link" href={`/tutorial/chapter-${chapter.number}`}>{copy.chapter.enter} <span aria-hidden="true">→</span></a>
               </div>
-              <button class="chapter-toggle" type="button" aria-expanded="true" aria-controls={`chapter-lessons-${chapter.number}`} data-chapter-toggle>收起</button>
+              <button class="chapter-toggle" type="button" aria-expanded="true" aria-controls={`chapter-lessons-${chapter.number}`} data-chapter-toggle>{copy.chapter.collapse}</button>
             </header>
             <ol id={`chapter-lessons-${chapter.number}`}>
               {items.map((lesson) => (
@@ -76,6 +93,9 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
 </BaseLayout>
 
 <script>
+  const catalogRoot = document.querySelector('[data-catalog-copy]');
+  const copy = catalogRoot?.dataset || {};
+  const formatCopy = (template, values) => Object.entries(values).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, String(value)), template || '');
   const mobileCatalog = window.matchMedia('(max-width: 800px)');
   const sections = [...document.querySelectorAll('[data-catalog-chapter]')];
   const setSection = (section, expanded) => {
@@ -83,7 +103,7 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
     const list = section.querySelector('ol');
     if (!button || !list) return;
     button.setAttribute('aria-expanded', String(expanded));
-    button.textContent = expanded ? '收起' : '展开';
+    button.textContent = expanded ? copy.chapterCollapse || '收起' : copy.chapterExpand || '展开';
     list.hidden = !expanded;
   };
   const syncCatalog = () => {
@@ -116,7 +136,7 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
       const total = Number(element.getAttribute('data-chapter-total') || 0);
       const completed = lessonLinks.filter((link) => link.getAttribute('data-chapter-number') === chapter && completedSet.has(link.getAttribute('data-lesson-link'))).length;
       const percentage = total ? Math.round((completed / total) * 100) : 0;
-      element.textContent = `${completed} / ${total} 已读`;
+      element.textContent = formatCopy(copy.chapterReadTemplate || '{read} / {total} 已读', { read: completed, total });
       document.querySelector(`[data-chapter-progress-bar="${CSS.escape(chapter)}"]`)?.style.setProperty('--chapter-completion', `${percentage}%`);
       document.querySelector(`[data-chapter-jump-progress="${CSS.escape(chapter)}"]`).textContent = `${percentage}%`;
     });
@@ -144,8 +164,12 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
     });
     if (activeProgressFilter === 'all') syncCatalog();
     if (emptyState) emptyState.hidden = visible > 0;
-    const filterName = activeProgressFilter === 'read' ? '已读' : activeProgressFilter === 'unread' ? '未读' : '';
-    if (filterStatus) filterStatus.textContent = filterName ? `找到 ${visible} 篇 ${filterName}教程` : `共 ${lessonLinks.length} 篇教程`;
+    const filterName = activeProgressFilter === 'read' ? copy.filterRead || '已读' : activeProgressFilter === 'unread' ? copy.filterUnread || '未读' : '';
+    if (filterStatus) {
+      filterStatus.textContent = filterName
+        ? formatCopy(copy.filterStatusMatched || '找到 {count} 篇 {filter}教程', { count: visible, filter: filterName })
+        : formatCopy(copy.filterStatusAll || '共 {count} 篇教程', { count: lessonLinks.length });
+    }
   };
   progressButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -164,7 +188,7 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
     if (completed.length && overview) {
       const percentage = Math.round((completed.length / lessonLinks.length) * 100);
       overview.querySelector('[data-completed-count]').textContent = String(completed.length);
-      overview.querySelector('[data-progress-copy]').textContent = `已完成 ${percentage}%`;
+      overview.querySelector('[data-progress-copy]').textContent = formatCopy(copy.progressCompleteTemplate || '已完成 {percent}%', { percent: percentage });
       overview.querySelector('[data-progress-bar]').style.width = `${percentage}%`;
       const resume = overview.querySelector('[data-resume-link]');
       const lastLesson = localStorage.getItem('mjie-last-lesson');
@@ -177,11 +201,11 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
 </script>
 
 <style>
-  .catalog { position: relative; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 58px 0 130px; overflow: visible; }
+  .catalog { --catalog-sticky-height: 226px; position: relative; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 58px 0 130px; overflow: visible; }
   .catalog::before { content: ''; position: absolute; z-index: -1; top: -210px; right: -220px; width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 9%, transparent), transparent 68%); pointer-events: none; }
   .catalog-head { min-height: 300px; display: grid; align-items: end; gap: 96px; margin-bottom: 44px; padding-bottom: 42px; border-bottom: 1px solid var(--line); }
   .catalog-head > p { margin: 0; color: var(--accent-strong); font-size: 14px; font-weight: 700; }
-  .catalog-head h1 { max-width: 850px; margin: 0; font-size: clamp(44px, 6.5vw, 78px); line-height: 1.06; letter-spacing: -.055em; text-wrap: balance; }
+  .catalog-head h1 { max-width: 1050px; margin: 0; font-size: clamp(44px, 5.6vw, 72px); line-height: 1.08; letter-spacing: -.055em; text-wrap: balance; }
   .learning-overview { margin: -28px 0 70px; padding: 24px 26px; display: grid; grid-template-columns: auto minmax(160px, 1fr) auto; align-items: center; gap: 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 78%, transparent); }
   .learning-overview[hidden] { display: none; }
   .overview-copy { display: grid; grid-template-columns: auto auto; align-items: baseline; gap: 2px 14px; }
@@ -194,6 +218,8 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   .learning-overview > a { color: var(--accent-strong); font-size: 13px; font-weight: 700; }
   .learning-overview > a span { display: inline-block; transition: transform .2s ease; }
   .learning-overview > a:hover span { transform: translateX(3px); }
+  .catalog-sticky-controls { position: sticky; z-index: 24; top: var(--header-height); margin: 0 0 96px; padding: 24px 0 38px; background: color-mix(in srgb, var(--bg) 94%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--line) 84%, transparent); backdrop-filter: blur(18px); }
+  .catalog-sticky-controls::before { content: ''; position: absolute; z-index: -1; inset: 0 -20px; background: color-mix(in srgb, var(--bg) 94%, transparent); }
   .catalog-filter { margin-bottom: 30px; padding-bottom: 26px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
   .catalog-filter > span { color: var(--text-soft); font-size: 12px; font-weight: 700; }
   .catalog-filter button { min-height: 46px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; transition: border-color .2s ease, color .2s ease, transform .2s ease; }
@@ -205,14 +231,14 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
   .catalog-filter p { margin: 0 0 0 auto; color: var(--text-soft); font-size: 11px; }
   .catalog-empty { margin: -12px 0 44px; padding: 22px 24px; border: 1px solid var(--line); background: var(--surface); color: var(--text-soft); font-size: 14px; }
   .catalog-empty[hidden] { display: none; }
-  .chapter-jump { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; margin: 0 0 96px; border: 1px solid var(--line); background: var(--line); }
+  .chapter-jump { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; margin: 0; border: 1px solid var(--line); background: var(--line); }
   .chapter-jump a { min-height: 86px; display: grid; align-content: center; gap: 3px; padding: 13px 14px; background: var(--bg); color: var(--text-soft); font-size: 12px; transition: background .2s ease, color .2s ease; }
   .chapter-jump a:hover { background: var(--surface); color: var(--text); }
   .chapter-jump span { color: var(--accent-strong); font-weight: 800; }
   .chapter-jump small { color: var(--text-soft); font-family: var(--font-code); font-size: 10px; font-variant-numeric: tabular-nums; }
   .chapter-list { display: grid; gap: 118px; }
-  .catalog-chapter { scroll-margin-top: 92px; display: grid; grid-template-columns: minmax(250px, .66fr) minmax(0, 1.34fr); gap: clamp(44px, 8vw, 118px); align-items: start; }
-  .catalog-chapter > header { align-self: start; position: sticky; top: calc(var(--header-height) + 32px); display: grid; grid-template-columns: 58px 1fr auto; gap: 18px; padding-top: 4px; }
+  .catalog-chapter { scroll-margin-top: calc(var(--header-height) + var(--catalog-sticky-height) + 28px); display: grid; grid-template-columns: minmax(250px, .66fr) minmax(0, 1.34fr); gap: clamp(44px, 8vw, 118px); align-items: start; }
+  .catalog-chapter > header { align-self: start; position: sticky; top: calc(var(--header-height) + var(--catalog-sticky-height) + 28px); display: grid; grid-template-columns: 58px 1fr auto; gap: 18px; padding-top: 4px; }
   .role { width: 52px; height: 52px; display: grid; place-items: center; border-bottom: 1px solid var(--accent); color: var(--accent-strong); font-size: 34px; line-height: 1; font-weight: 800; }
   .catalog-chapter small { color: var(--text-soft); }
   .chapter-read-count { font-variant-numeric: tabular-nums; }
@@ -236,20 +262,21 @@ const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b
     .catalog-chapter { min-height: calc(100dvh - var(--header-height)); }
   }
   @media (max-width: 800px) {
-    .catalog { width: calc(100% - 28px); padding-top: 44px; }
+    .catalog { --catalog-sticky-height: 188px; width: calc(100% - 28px); padding-top: 44px; }
     .catalog-head { min-height: auto; gap: 56px; margin-bottom: 34px; padding-bottom: 32px; }
     .catalog-head h1 { font-size: clamp(36px, 9.6vw, 42px); line-height: 1.12; letter-spacing: -.045em; }
     .learning-overview { margin: 0 0 44px; grid-template-columns: 1fr auto; gap: 16px; }
     .overview-progress { grid-column: 1 / -1; grid-row: 2; }
     .learning-overview > a { grid-column: 2; grid-row: 1; }
-    .catalog-filter { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 28px; }
+    .catalog-sticky-controls { top: var(--header-height); margin: 0 0 58px; padding: 18px 0 20px; }
+    .catalog-filter { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 18px; padding-bottom: 18px; }
     .catalog-filter .progress-filter { width: 100%; }
     .progress-filter button { flex: 1; }
     .catalog-filter p { margin: -4px 0 0; }
-    .chapter-jump { flex-wrap: nowrap; overflow-x: auto; margin: 0 -14px 58px; padding: 0 14px 8px; scrollbar-width: none; }
+    .chapter-jump { flex-wrap: nowrap; overflow-x: auto; margin: 0 -14px; padding: 0 14px 8px; scrollbar-width: none; }
     .chapter-jump { display: flex; border: 0; background: transparent; }
     .chapter-jump a { flex: 0 0 auto; min-height: 58px; border: 1px solid var(--line); }
-    .catalog-chapter { min-height: auto; grid-template-columns: 1fr; gap: 28px; }
+    .catalog-chapter { min-height: auto; scroll-margin-top: calc(var(--header-height) + 176px); grid-template-columns: 1fr; gap: 28px; }
     .catalog-chapter > header { position: static; grid-template-columns: 48px 1fr auto; padding-top: 0; }
     .role { width: 42px; height: 42px; font-size: 28px; }
     .chapter-toggle { display: inline-flex; align-items: center; justify-content: center; min-width: 52px; min-height: 44px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--text-soft); font-size: 12px; cursor: pointer; }

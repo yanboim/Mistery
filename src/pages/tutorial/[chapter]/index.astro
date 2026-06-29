@@ -6,14 +6,20 @@ import { withSiteTitle } from '../../../site.config';
 
 export async function getStaticPaths() {
   const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
-  return chapters.map((chapter) => ({
-    params: { chapter: `chapter-${chapter.number}` },
-    props: {
+  return chapters
+    .map((chapter) => ({
       chapter,
-      lessons,
       chapterLessons: lessons.filter((lesson) => lesson.data.chapter === chapter.number),
-    },
-  }));
+    }))
+    .filter(({ chapterLessons }) => chapterLessons.length > 0)
+    .map(({ chapter, chapterLessons }) => ({
+      params: { chapter: `chapter-${chapter.number}` },
+      props: {
+        chapter,
+        lessons,
+        chapterLessons,
+      },
+    }));
 }
 
 const { chapter, lessons, chapterLessons } = Astro.props;
