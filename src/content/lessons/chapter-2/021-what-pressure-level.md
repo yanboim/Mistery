@@ -3,9 +3,7 @@ title: "什么是压力位"
 description: "一、什么是压力位？ 压力位是指价格上涨过程中，遇到上方阻力，容易出现回调、盘整或反转的位置。它往往是过去价格高点、密集成交区域、均线交汇处等。 二、压力位的操作方法 三、 1. 高抛减仓/止盈 适用于已有仓位的情况：当股"
 slug: "what-pressure-level"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 68
-chapterOrder: 21
+order: 21
 ---
 一、什么是压力位？
 

@@ -77,14 +77,13 @@ google: {
 ---
 title: "教程标题"
 description: "教程摘要"
+slug: "lesson-semantic-slug"
 chapter: 1
-chapterTitle: "章节标题"
 order: 1
-chapterOrder: 1
 ---
 ```
 
-新增教程时，在对应章节目录中新建文件，例如 `src/content/lessons/chapter-6/140.md`，并填写完整 frontmatter。网站会根据 `order` 生成全站顺序、上一篇/下一篇和搜索索引，根据 `chapterOrder` 显示章节内编号。
+新增教程时，在对应章节目录中新建文件，例如 `src/content/lessons/chapter-6/140-lesson-semantic-slug.md`，并填写完整 frontmatter。网站会根据 `chapter + order` 生成全站顺序、上一篇/下一篇和搜索索引，章节标题统一从站点配置读取。
 
 ## 重新切分
 

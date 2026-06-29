@@ -3,9 +3,7 @@ title: "低位起涨趋势股有可能获得更高的盈亏比"
 description: "趋势股的特点： - 价格运动方向明确，通常持续时间较长，波动幅度大。 - 这种特性可以给交易者更多的利润空间。 止损设置： - 趋势行情中通常止损点相对明确（比如支撑位或移动均线附近）， 所以风险可以更好地控制。盈利潜力"
 slug: "low-base-trend-stocks-risk-reward"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 67
-chapterOrder: 20
+order: 20
 ---
 趋势股的特点：
 

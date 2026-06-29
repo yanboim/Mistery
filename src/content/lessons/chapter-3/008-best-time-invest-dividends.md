@@ -3,9 +3,7 @@ title: "红利投资最佳时机"
 description: "衰退期：现金流稳定的红利股可对冲市场下跌风险，兼具防御性与 收益性。 - 滞胀/过热期：相对债券，股息股仍具一定吸引力。 - 次佳时机：复苏期（若偏好稳定而非高风险成长股）。 - 较弱时机：繁荣期（市场更追逐成长和高 b"
 slug: "best-time-invest-dividends"
 chapter: 3
-chapterTitle: "交易策略方法"
-order: 103
-chapterOrder: 8
+order: 8
 ---
 - 衰退期：现金流稳定的红利股可对冲市场下跌风险，兼具防御性与
 

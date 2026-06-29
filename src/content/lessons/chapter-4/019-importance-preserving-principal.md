@@ -3,9 +3,7 @@ title: "保住本金的重要性"
 description: "一、为什么保住本金如此重要？ 1. 本金亏损后，回本难度呈“指数级”增加 本金亏损后，回本所需的涨幅远大于亏损的幅度，恢复的难度呈现“非线性”增长。举例： - 亏损 10% → 需要上涨 11.1% 才能回本 - 亏损 "
 slug: "importance-preserving-principal"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 124
-chapterOrder: 19
+order: 19
 ---
 一、为什么保住本金如此重要？
 ## 1. 本金亏损后，回本难度呈“指数级”增加

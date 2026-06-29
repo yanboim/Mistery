@@ -1,14 +1,14 @@
 import { getCollection } from 'astro:content';
 import { chapters } from '../data/chapters';
 import { getCanonicalSiteURL } from '../site.config';
-import { getLessonURL } from '../utils/lesson-url';
+import { compareLessons, getLessonURL } from '../utils/lesson-url';
 
 const escapeXml = (value: string) =>
   value.replace(/[<>&'"]/g, (char) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' })[char] ?? char);
 
 export async function GET({ site }: { site: URL }) {
   const siteURL = site ?? getCanonicalSiteURL();
-  const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
+  const lessons = (await getCollection('lessons')).sort(compareLessons);
   const chapterPaths = chapters.map((chapter) => `/tutorial/chapter-${chapter.number}`);
   const paths = ['/', '/tutorial', ...chapterPaths, ...lessons.map((lesson) => getLessonURL(lesson))];
   const body = `<?xml version="1.0" encoding="UTF-8"?>

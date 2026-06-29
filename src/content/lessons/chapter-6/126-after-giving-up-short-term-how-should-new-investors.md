@@ -3,9 +3,7 @@ title: "放弃短线后，新股民应该如何重建正确的投资体系？"
 description: "一、认知重建：先把错误认知全部扔掉 短线失败之后，第一步不是找策略，而是重新校准自己的“大脑逻辑”。 1. 接受一个现实：普通人不是靠短线暴富的 短线的盈利来源是： - 信息差 - 速度优势 - 交易系统 - 心理素质 "
 slug: "after-giving-up-short-term-how-should-new-investors"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 295
-chapterOrder: 126
+order: 126
 ---
 ## 一、认知重建：先把错误认知全部扔掉
 

@@ -3,9 +3,7 @@ title: "每天睡觉前看三遍能够帮助你实现财富自由"
 description: "1. 不要着急赚钱 因为股票上涨的时间太少了，股票上涨的时间通常只有 10%到 20%，80%到90%的时间它是不涨的，都是处在于下跌或者说横盘整理当中。大家有心的话可以自己去做一下统计看看是不是这样的一个规律多数时间要"
 slug: "read-before-bed-financial-freedom"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 44
-chapterOrder: 44
 ---
 1. 不要着急赚钱
 

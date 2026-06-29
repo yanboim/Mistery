@@ -3,9 +3,7 @@ title: "市场运行的底层逻辑"
 description: "存量资金与增量资金的博弈，是市场运行的底层逻辑。在市场中，存量资金代表着原有的参与者，他们大多在行情里反复博弈，主要通过调仓换股、短线进出等方式推动市场波动。而增量资金则是市场的新鲜血液，它们往往带着新的信心、新的预期和"
 slug: "underlying-logic-market-operation"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 43
-chapterOrder: 43
 ---
 存量资金与增量资金的博弈，是市场运行的底层逻辑。
 

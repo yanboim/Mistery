@@ -3,9 +3,7 @@ title: "中国股市牛市进化论"
 description: "从消息博弈到智能交易的时代迁徙 一、1990s：政策驱动 + 供给稀缺的原始积累阶段 代表牛市：1996 年-1997 年 牛市背景特点：股市刚成立，上市公司稀缺，信息不对称严重。政策试水频繁，市场对“政策面”极度敏感。"
 slug: "evolution-bull-market-china-stock-market"
 chapter: 5
-chapterTitle: "宏观经济认知"
-order: 166
-chapterOrder: 14
+order: 14
 ---
 从消息博弈到智能交易的时代迁徙
 

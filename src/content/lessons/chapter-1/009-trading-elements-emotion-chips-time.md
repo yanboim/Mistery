@@ -3,9 +3,7 @@ title: "交易三要素：情绪 筹码 时间"
 description: "一、情绪：交易的内心控制器 情绪指的是交易者对市场涨跌的感受，包括贪婪、恐惧、焦躁、兴奋、懊悔等。很多人因为情绪无法自控而追高杀跌、频繁交易，结果亏损累累。 - 贪婪：行情上涨就怕错过，盲目加仓或追涨； - 恐惧：行情下"
 slug: "trading-elements-emotion-chips-time"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 9
-chapterOrder: 9
 ---
 ## 一、情绪：交易的内心控制器
 

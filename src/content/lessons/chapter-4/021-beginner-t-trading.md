@@ -3,9 +3,7 @@ title: "关于新手做 T"
 description: "新手就别考虑日内级别的做 T 了，很难把握分时级别的浪型。 首先你们要学习一下波浪理论，然后要看懂大盘是上涨趋势（正 T 先买后卖）还是下跌趋势（反 T 先卖后买），相对简单的就是黄金分割位，一般跌下来都会在那里起稳，可"
 slug: "beginner-t-trading"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 126
-chapterOrder: 21
+order: 21
 ---
 新手就别考虑日内级别的做 T 了，很难把握分时级别的浪型。
 

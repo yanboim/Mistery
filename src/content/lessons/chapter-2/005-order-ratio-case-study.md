@@ -3,9 +3,7 @@ title: "委比案例分析"
 description: "案例 1：委比 + 量比放大 → 买入信号✅ - 某股股价在低位横盘，委比从 +10% 升至 +65%，量比从 1.2 升至 3. 0。 - 表明有大量买盘涌入，股价可能突破平台，进入拉升阶段。 案例 2：委比 + 股价"
 slug: "order-ratio-case-study"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 52
-chapterOrder: 5
+order: 5
 ---
 ✅案例 1：委比 + 量比放大 → 买入信号
 

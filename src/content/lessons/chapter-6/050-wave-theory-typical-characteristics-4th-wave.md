@@ -3,9 +3,7 @@ title: "波浪理论里，第 4 浪的典型特征"
 description: "价格回撤不深（通常不超过第 3 浪涨幅的 38.2%）， - 但调整时间相对较长，往往表现为横盘震荡、反复折返。 为什么会这样？ 1. 第 3 浪太强 - 第 3 浪往往是“主升浪”，资金大规模涌入，趋势力量非常强。 -"
 slug: "wave-theory-typical-characteristics-4th-wave"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 219
-chapterOrder: 50
+order: 50
 ---
 - 价格回撤不深（通常不超过第 3 浪涨幅的 38.2%），
   - 但调整时间相对较长，往往表现为横盘震荡、反复折返。

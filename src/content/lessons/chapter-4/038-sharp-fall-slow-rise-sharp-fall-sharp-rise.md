@@ -3,9 +3,7 @@ title: "急跌缓涨与急跌急涨"
 description: "一、急跌缓涨 - 常见含义： - 主力通过快速打压，让跟风盘和浮筹恐慌出局。 - 随后缓慢拉升，边涨边吸筹，确认市场跟随度。 - 逻辑成立条件： - 必须发生在相对低位或中途洗盘阶段。 - 成交量呈现“急跌放量 → 缓涨"
 slug: "sharp-fall-slow-rise-sharp-fall-sharp-rise"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 143
-chapterOrder: 38
+order: 38
 ---
 ## 一、急跌缓涨
   - 常见含义：

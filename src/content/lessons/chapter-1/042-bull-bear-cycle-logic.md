@@ -3,9 +3,7 @@ title: "多空循环的逻辑"
 description: "1. 多方循环： - 市场在上涨阶段中，每次下跌往往只是阶段性修正，整体仍处于多 头趋势。 - 典型心态：恐慌性抛售后价格快速反弹，杀跌时往往是买入机会。 - 操作思路：逢低做多、追涨。 2. 空方循环： - 市场在下跌"
 slug: "bull-bear-cycle-logic"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 42
-chapterOrder: 42
 ---
 
 **1. 多方循环：**

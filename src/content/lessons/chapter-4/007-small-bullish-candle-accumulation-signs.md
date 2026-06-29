@@ -3,9 +3,7 @@ title: "小阳建仓的特征"
 description: "1. 位置低：多出现在前期经过大幅下跌或充分调整后的底部区域； 2. 量价配合良好：成交量稳步放大，但不突兀，显示是有计划地吸筹； 3. 阳线不大：K 线实体小，不拉长阳，避免引起市场注意； 4. 波动可控：股价稳中有升"
 slug: "small-bullish-candle-accumulation-signs"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 112
-chapterOrder: 7
+order: 7
 ---
 ## 1. 位置低
 

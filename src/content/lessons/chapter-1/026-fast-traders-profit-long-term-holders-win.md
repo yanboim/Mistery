@@ -3,9 +3,7 @@ title: "做得快的人赚一波，做得慢的人吃一生"
 description: "慢就是快，快就是慢 -- 趋势交易的本质，是“留得住”利润在股市中，“慢”并不是指行动迟缓，而是指心态沉稳、有节奏地应对波动。很多时候，想“赚快钱”反而最容易被甩下车、踏错节奏；而真正把握趋势、跟随逻辑做票的人，看似慢，"
 slug: "fast-traders-profit-long-term-holders-win"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 26
-chapterOrder: 26
 ---
 ## 慢就是快，快就是慢
 

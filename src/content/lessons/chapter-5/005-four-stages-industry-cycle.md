@@ -3,9 +3,7 @@ title: "产业周期的四个阶段"
 description: "1. 萌芽期（导入期） 核心特征：新技术或新需求出现，市场刚起步，参与者少但竞争格局未定。风险收益：高风险高回报，亏损常态化，估值严重依赖预期。典型表现：市场教育阶段；技术路线不确定；政策引导或扶持显著。案例：2023 "
 slug: "four-stages-industry-cycle"
 chapter: 5
-chapterTitle: "宏观经济认知"
-order: 157
-chapterOrder: 5
+order: 5
 ---
 ## 1. 萌芽期（导入期）
 

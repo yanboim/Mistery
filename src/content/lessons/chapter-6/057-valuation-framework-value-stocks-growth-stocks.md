@@ -3,9 +3,7 @@ title: "价值股与成长股的估值框架"
 description: "一、价值股的判断逻辑（基于 PE、PB 与 ROE 的买卖逻辑） 价值股往往是 盈利稳定、分红较好、成长性有限 的公司（如银行、保险、消费类龙头）。 1. 特征 - ROE 稳定且相对较高（比如银行长期维持 10% 以上"
 slug: "valuation-framework-value-stocks-growth-stocks"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 226
-chapterOrder: 57
+order: 57
 ---
 ## 一、价值股的判断逻辑（基于 PE、PB 与 ROE 的买卖逻辑）
 

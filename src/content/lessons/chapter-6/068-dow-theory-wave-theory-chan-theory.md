@@ -3,9 +3,7 @@ title: "从道氏理论到波浪理论到缠论"
 description: "从市场分析方法的发展脉络来看，缠论可以看作是对前两者的继承与升华。 - 道氏理论 奠定了现代技术分析的基础，强调趋势的存在与延续； - 波浪理论 在此基础上，将市场走势划分为更精细的波动结构，揭示 了群体心理与价格运行的"
 slug: "dow-theory-wave-theory-chan-theory"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 237
-chapterOrder: 68
+order: 68
 ---
 从市场分析方法的发展脉络来看，缠论可以看作是对前两者的继承与升华。
 

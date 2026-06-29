@@ -1,10 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
 import TutorialLayout from '../../layouts/TutorialLayout.astro';
-import { getLessonStableId, getLessonURL } from '../../utils/lesson-url';
+import { compareLessons, getLessonStableId, getLessonURL } from '../../utils/lesson-url';
 
 export async function getStaticPaths() {
-  const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
+  const lessons = (await getCollection('lessons')).sort(compareLessons);
   return lessons.flatMap((lesson, index) => {
     const props = {
       lesson,

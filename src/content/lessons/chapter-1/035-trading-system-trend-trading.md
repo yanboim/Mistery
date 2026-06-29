@@ -3,9 +3,7 @@ title: "趋势交易的交易系统"
 description: "一、核心理念：顺势而为，买强卖弱 - 系统类型：中短期趋势交易系统（持仓周期数天到数周） - 适用市场：股票、期货、数字货币等 - 交易频率：低频操作，避免频繁买卖 - 核心指标：均线系统（MA）、成交量、MACD、趋势"
 slug: "trading-system-trend-trading"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 35
-chapterOrder: 35
 ---
 ## 一、核心理念：顺势而为，买强卖弱
   - 系统类型：中短期趋势交易系统（持仓周期数天到数周）

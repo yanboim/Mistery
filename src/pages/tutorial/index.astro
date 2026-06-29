@@ -3,9 +3,9 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { chapters } from '../../data/chapters';
 import { siteConfig, withSiteTitle } from '../../site.config';
-import { getLessonStableId, getLessonURL } from '../../utils/lesson-url';
+import { compareLessons, getLessonStableId, getLessonURL } from '../../utils/lesson-url';
 
-const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
+const lessons = (await getCollection('lessons')).sort(compareLessons);
 const visibleChapters = chapters.filter((chapter) => lessons.some((lesson) => lesson.data.chapter === chapter.number));
 const copy = siteConfig.copy.tutorial;
 const pageDescription = copy.description.replace('{siteName}', siteConfig.name);
@@ -80,7 +80,7 @@ const firstLesson = lessons[0];
               {items.map((lesson) => (
                 <li>
                   <a href={getLessonURL(lesson)} data-lesson-link={getLessonStableId(lesson)} data-lesson-url={getLessonURL(lesson)} data-chapter-number={chapter.number}>
-                    <span>{String(lesson.data.chapterOrder).padStart(2, '0')}</span>
+                    <span>{String(lesson.data.order).padStart(2, '0')}</span>
                     <strong>{lesson.data.title}</strong>
                     <i aria-hidden="true">→</i>
                   </a>

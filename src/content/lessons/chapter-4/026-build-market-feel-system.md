@@ -3,9 +3,7 @@ title: "如何建立你的盘感系统"
 description: "1. 看 1000 小时 K 线图，会开始有初步盘感； 2. 看 1 万小时 K 线图，才算真正建立交易直觉。 这其实是借用了“1 万小时定律”的概念。意思是：任何技能的掌握都需要长期的、刻意的练习。在交易中，大量反复看"
 slug: "build-market-feel-system"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 131
-chapterOrder: 26
+order: 26
 ---
 1. 看 1000 小时 K 线图，会开始有初步盘感；
 2. 看 1 万小时 K 线图，才算真正建立交易直觉。

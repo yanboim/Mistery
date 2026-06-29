@@ -3,9 +3,7 @@ title: "为什么收费指导只给个股买卖点，而不教交易体系"
 description: "当你付费找人指导时，你会发现一个现象： - 他愿意告诉你哪只股票该买、哪只该卖 - 但几乎不会教你真正的交易体系 - 更不会教你底层逻辑、资金结构、心理纪律、风险管理 原因很简单：如果你学会了这些底层方法，你就不再需要他"
 slug: "why-paid-guidance-only-give-trading-points-individual-stocks"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 305
-chapterOrder: 136
+order: 136
 ---
 当你付费找人指导时，你会发现一个现象：
 

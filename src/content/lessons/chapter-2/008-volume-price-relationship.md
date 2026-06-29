@@ -3,9 +3,7 @@ title: "量价关系"
 description: "1. 量增价涨 - 意思：成交量放大，价格上涨。 - 解读：主力资金积极介入，买盘强劲，是一种良性的上涨信号，趋 势可能延续。 - 通常出现在：上涨初期或突破关键阻力位时。 2. 量增价跌 - 意思：成交量放大，但价格下"
 slug: "volume-price-relationship"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 55
-chapterOrder: 8
+order: 8
 ---
 ### 1. 量增价涨
   - 意思：成交量放大，价格上涨。

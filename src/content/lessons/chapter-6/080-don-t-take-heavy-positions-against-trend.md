@@ -3,9 +3,7 @@ title: "逆势不重仓"
 description: "成交量是“水”，价格是“船” - 没有水，船再好也走不动 - 价格上涨 ≠ 有人拉，而是： - 有持续新增资金 - 能在更高价位不断承接筹码 很多散户盯着 K 线，其实真正该盯的是： - 成交量是否放大 - 放量是否能维"
 slug: "don-t-take-heavy-positions-against-trend"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 249
-chapterOrder: 80
+order: 80
 ---
 成交量是“水”，价格是“船”
 

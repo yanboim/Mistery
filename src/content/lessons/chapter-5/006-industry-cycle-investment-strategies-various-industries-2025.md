@@ -3,9 +3,7 @@ title: "2025 年各行业产业周期投资策略"
 description: "1. 新能源与新能源汽车（成长期）产业周期：随着全球对环保和可持 续发展的需求增加，新能源（尤其是电池、光伏、风电等）和新能源汽车（尤其是电动汽车）处于高速成长阶段。投资策略：重点关注：在电动汽车、电池技术、光伏设备、氢"
 slug: "industry-cycle-investment-strategies-various-industries-2025"
 chapter: 5
-chapterTitle: "宏观经济认知"
-order: 158
-chapterOrder: 6
+order: 6
 ---
 ## 1. 新能源与新能源汽车（成长期）产业周期
 

@@ -3,9 +3,7 @@ title: "启示和风险教育"
 description: "1. 风险控制永远优先于收益追求 投资的首要目标不是暴赚，而是不亏大钱。控制回撤，是投资能长期活下去的前提。 2. 越早止损，代价越小 及时止损避免进入“深坑”，你才不需要未来翻倍才能“回血”。 3. 越跌越补，可能越套"
 slug: "implications-risk-education"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 110
-chapterOrder: 5
+order: 5
 ---
 ## 1. 风险控制永远优先于收益追求
 

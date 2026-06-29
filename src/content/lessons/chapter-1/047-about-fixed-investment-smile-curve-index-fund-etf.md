@@ -3,9 +3,7 @@ title: "关于指数型基金 ETF 的定投微笑曲线"
 description: "下面是一张网图，看到后刚好截图给小白科普一下定投的好处。适合上班族（当一个定期存款）如果你直接买在了最低点（比如咱之前的科创 50 的 950）那是可以直接满仓进的，可是如果你抓不到最低点，那就只能在相对底部开始逢低建仓"
 slug: "about-fixed-investment-smile-curve-index-fund-etf"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 47
-chapterOrder: 47
 ---
 下面是一张网图，看到后刚好截图给小白科普一下定投的好处。
 

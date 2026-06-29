@@ -3,9 +3,7 @@ title: "指数估值的三角关系：PE、ROE 与 PB 的内在逻辑》"
 description: "1. 基础概念回顾 - PE（市盈率） = 市值 ÷ 净利润 → 衡量市场愿意为每一块钱利润付多少钱。 - PB（市净率） = 市值 ÷ 净资产 → 衡量市场愿意为每一块钱净资产付多少钱。 - ROE（净资产收益率） ="
 slug: "triangular-relationship-index-valuation-internal-logic-pe-roe-pb"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 227
-chapterOrder: 58
+order: 58
 ---
 ### 1. 基础概念回顾
   - PE（市盈率） = 市值 ÷ 净利润

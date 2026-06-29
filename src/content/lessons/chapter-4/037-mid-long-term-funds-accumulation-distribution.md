@@ -3,9 +3,7 @@ title: "中长线资金建仓出货解析"
 description: "一、建仓阶段全流程解析（5 大阶段） 1. 潜伏试盘阶段 资金规模：很小（约总仓位 1%-3%）手法特征：小单分批挂单吸筹不抬拉股价通过盘口测试抛压与市场关注度K 线特征：股价低位窄幅震荡，量能低迷时间周期：1 周-1 "
 slug: "mid-long-term-funds-accumulation-distribution"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 142
-chapterOrder: 37
+order: 37
 ---
 ## 一、建仓阶段全流程解析（5 大阶段）
 ## 1. 潜伏试盘阶段

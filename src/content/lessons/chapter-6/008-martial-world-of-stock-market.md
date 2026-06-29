@@ -3,9 +3,7 @@ title: "股市中的武林"
 description: "只做科普，如何修炼你们自己选。交易武林门派体系 少林派 -- 基本面派 - 特点：注重企业财报、行业格局、盈利能力。 - 心法：长期主义，稳扎稳打，以价值投资为内功心法。 - 代表人物：巴菲特、格雷厄姆。 - 优缺点：胜"
 slug: "martial-world-of-stock-market"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 177
-chapterOrder: 8
+order: 8
 ---
 只做科普，如何修炼你们自己选。交易武林门派体系
 

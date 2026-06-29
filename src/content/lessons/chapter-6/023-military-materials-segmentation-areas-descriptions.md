@@ -3,9 +3,7 @@ title: "军工材料细分领域及说明"
 description: "1. 高温合金 应用：航空发动机、燃气轮机、导弹发动机热端部件特性：耐高温、抗蠕变、耐腐蚀代表公司：钢研高纳、抚顺特钢、西部超导 2. 钛合金 应用：飞机结构件、潜艇壳体、导弹外壳特性：高强度、低密度、耐腐蚀代表公司：宝"
 slug: "military-materials-segmentation-areas-descriptions"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 192
-chapterOrder: 23
+order: 23
 ---
 ## 1. 高温合金
 

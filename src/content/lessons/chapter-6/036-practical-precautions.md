@@ -3,9 +3,7 @@ title: "实战注意事项"
 description: "1. 出现在底部或平台突破阶段最可靠； 2. 第三根阳线之后追高要谨慎，防止短线回调； 3. 注意放量是有效量能，非异常大单拉升或对倒成交； 4. 结合大盘环境和个股基本面更安全。"
 slug: "practical-precautions"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 205
-chapterOrder: 36
+order: 36
 ---
 ## 1. 出现在底部或平台突破阶段最可靠；
 ## 2. 第三根阳线之后追高要谨慎，防止短线回调；

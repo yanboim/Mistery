@@ -3,9 +3,7 @@ title: "什么是交易期望值"
 description: "交易期望值（Expected Value, EV）指的是：在一套交易策略下，每次交易平均能带来多少收益（或亏损）。它不是某一笔交易的输赢，而是长期多次重复执行该策略后的“平均每次结果”。举例说明示例一：胜率高但盈亏比差（"
 slug: "what-trading-expected-value"
 chapter: 3
-chapterTitle: "交易策略方法"
-order: 105
-chapterOrder: 10
+order: 10
 ---
 交易期望值（Expected Value, EV）指的是：在一套交易策略下，每次交易平均能带来多少收益（或亏损）。它不是某一笔交易的输赢，而是长期多次重复执行该策略后的“平均每次结果”。举例说明示例一：胜率高但盈亏比差（短线策略常见）✅
 

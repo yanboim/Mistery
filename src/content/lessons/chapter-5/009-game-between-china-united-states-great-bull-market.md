@@ -3,9 +3,7 @@ title: "中美博弈与大牛市"
 description: "一、中美资本“再平衡”：未来的核心变量 1. 美国金融危机是资本流向转折点 - 当前美股高估、科技股泡沫重（尤其是 AI+科技七巨头）； - 美联储利率高位运行，债务危机、财政赤字不可持续； - 一旦爆发金融危机（如债市"
 slug: "game-between-china-united-states-great-bull-market"
 chapter: 5
-chapterTitle: "宏观经济认知"
-order: 161
-chapterOrder: 9
+order: 9
 ---
 ## 一、中美资本“再平衡”：未来的核心变量
 ### 1. 美国金融危机是资本流向转折点

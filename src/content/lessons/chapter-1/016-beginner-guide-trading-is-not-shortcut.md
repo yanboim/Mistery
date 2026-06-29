@@ -3,9 +3,7 @@ title: "新手小白科普篇之炒股不是发财捷径"
 description: "炒股，从来不是一条“捷径发财”的道路。它本质上是一门关于概率学、统计学、逻辑学与心理学的综合学科。市场的不确定性决定了，没有人能准确预测未来，也没有谁能保证带你轻松获利。那些打着“付费炒股，给代码”的人，本质上是依赖收取"
 slug: "beginner-guide-trading-is-not-shortcut"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 16
-chapterOrder: 16
 ---
 炒股，从来不是一条“捷径发财”的道路。
 

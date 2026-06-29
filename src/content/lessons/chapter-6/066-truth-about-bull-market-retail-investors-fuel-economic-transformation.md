@@ -3,9 +3,7 @@ title: "牛市的真相：散户，是经济转型的燃料"
 description: "很多人以为，股市是普通人实现财富跃迁的地方，是国家鼓励全民参与资本市场的阳光大道。但现实却是--你在炒股，国家在转型，而你只是中间被消耗的一环。中国股市每一轮牛市的底层逻辑，其实都指向一个根本目标：经济转型。 一、牛市从"
 slug: "truth-about-bull-market-retail-investors-fuel-economic-transformation"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 235
-chapterOrder: 66
+order: 66
 ---
 很多人以为，股市是普通人实现财富跃迁的地方，是国家鼓励全民参与资本市场的阳光大道。但现实却是--你在炒股，国家在转型，而你只是中间被消耗的一环。中国股市每一轮牛市的底层逻辑，其实都指向一个根本目标：经济转型。
 

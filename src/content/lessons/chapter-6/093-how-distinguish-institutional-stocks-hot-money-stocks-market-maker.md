@@ -3,9 +3,7 @@ title: "如何区分机构票，游资票和庄股"
 description: "一、你一看就觉得“很正常、很合理”的--大概率是机构票 这种股票给你的感觉是：走得慢，但方向清楚；涨的时候不疯，跌的时候不慌；回调像休息，而不是崩溃。它不会天天上热搜，也不靠涨停证明自己。你拿着它，最大的痛苦不是亏钱，而"
 slug: "how-distinguish-institutional-stocks-hot-money-stocks-market-maker"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 262
-chapterOrder: 93
+order: 93
 ---
 ## 一、你一看就觉得“很正常、很合理”的--大概率是机构票
 

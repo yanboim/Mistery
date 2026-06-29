@@ -3,9 +3,7 @@ title: "从改革到资本：看懂中国股市未来三年的大周期"
 description: "一、中国经济与股市改革：核心目标与推进逻辑 中国经济当前的大方向可以概括为四个字：稳、转、优、新 - 稳：稳增长、稳就业、稳预期 - 转：转方式、转结构、转动力 - 优：优化营商环境、优化资源配置、优化资本市场体系 - "
 slug: "china-stock-market-reform-capital-cycle"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 306
-chapterOrder: 137
+order: 137
 ---
 ## 一、中国经济与股市改革：核心目标与推进逻辑
 

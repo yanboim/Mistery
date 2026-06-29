@@ -3,9 +3,7 @@ title: "敲黑板，上课了！半仓滚动交易"
 description: "一、什么是“半仓滚动交易”？ 简单定义：半仓滚动交易指的是在仅使用部分仓位（如总资金的 50%左右）的基础上，进行分批买入、卖出，在涨跌波动中不断调整持仓，以达到波段套利和风险控制的目的。这种方法不会一次性满仓买入或卖出"
 slug: "half-position-rolling-trading"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 132
-chapterOrder: 27
+order: 27
 ---
 一、什么是“半仓滚动交易”？
 

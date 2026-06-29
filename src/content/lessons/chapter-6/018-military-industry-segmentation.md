@@ -3,9 +3,7 @@ title: "军工行业细分"
 description: "一、按产品类别细分 1. 航空装备 军用飞机（歼击机、轰炸机、运输机、教练机等）航空发动机（“工业皇冠上的明珠”）航电系统（飞控、雷达、电子对抗等） 2. 航天装备 卫星（侦察、导航、通信、预警）火箭/运载器军用地面测控"
 slug: "military-industry-segmentation"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 187
-chapterOrder: 18
+order: 18
 ---
 ## 一、按产品类别细分
 ## 1. 航空装备

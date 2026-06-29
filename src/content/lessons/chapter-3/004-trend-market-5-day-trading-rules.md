@@ -3,9 +3,7 @@ title: "趋势行情 5 日线交易法则"
 description: "一、买入策略：主升段 5 日线买入法 适用条件：✅ - 大盘或个股处于明显上升趋势中，已完成筑底并突破重要中期均 线（如 60 日线） - 个股进入主升浪阶段，具备量价配合良好、涨幅有持续性、强于 大盘或板块的特征买入时"
 slug: "trend-market-5-day-trading-rules"
 chapter: 3
-chapterTitle: "交易策略方法"
-order: 99
-chapterOrder: 4
+order: 4
 ---
 ## 一、买入策略：主升段 5 日线买入法
 

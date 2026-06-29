@@ -3,9 +3,7 @@ title: "新手小白科普篇之股票特点"
 description: "牛市中各类股票的特点 1. 价值股 - 牛市初期往往被低估资金吸纳，价格上涨稳健，但涨幅可能不如高 成长股。 - 典型代表：银行、保险。 - 特点：抗风险能力强，波动小，收益稳。 2. 成长股 - 牛市中期至后期表现突出"
 slug: "beginner-guide-stock-characteristics"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 13
-chapterOrder: 13
 ---
 
 ## 牛市中各类股票的特点

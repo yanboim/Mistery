@@ -3,9 +3,7 @@ title: "情绪票 VS 趋势票筑顶特征"
 description: "一、结构节奏上的区别✅ 情绪票筑顶： - 通常节奏快、突然，上涨靠资金推动+情绪共振。 - 顶部常见形态是放量长上影、高开低走、大阴包小阳。 - 分时急杀，容易出现“天地板”、“核按钮”。 - 往往没有明显的出货过程，主"
 slug: "sentiment-stocks-vs-trend-stocks-top-features"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 38
-chapterOrder: 38
 ---
 ## 一、结构节奏上的区别
 

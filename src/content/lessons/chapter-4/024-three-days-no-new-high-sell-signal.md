@@ -3,8 +3,6 @@ title: "3 天不创新高找卖点"
 description: "没有连续上涨就没有卖点没有连续大跌就没有买点其余时间都是观测真正的强势不会有超过 3 天的回调否则就会持续震荡延续（个股也一样）3 天不创新高找卖点"
 slug: "three-days-no-new-high-sell-signal"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 129
-chapterOrder: 24
+order: 24
 ---
 没有连续上涨就没有卖点没有连续大跌就没有买点其余时间都是观测真正的强势不会有超过 3 天的回调否则就会持续震荡延续（个股也一样）3 天不创新高找卖点

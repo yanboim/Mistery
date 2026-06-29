@@ -3,9 +3,7 @@ title: "从行为金融学，看懂交易的风险与机会"
 description: "我们常说，股市是人性的照妖镜。涨跌的背后，不只是数字的波动，更是情绪的起落。传统金融告诉我们：市场是理性的；但行为金融学告诉我们：市场，永远是人性的。 一、风险，从来都不是数据里的，而是情绪里的 当市场疯狂上涨、人人都在"
 slug: "understand-risks-opportunities-trading-behavioral-finance"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 247
-chapterOrder: 78
+order: 78
 ---
 我们常说，股市是人性的照妖镜。涨跌的背后，不只是数字的波动，更是情绪的起落。传统金融告诉我们：市场是理性的；但行为金融学告诉我们：市场，永远是人性的。
 

@@ -3,9 +3,7 @@ title: "下跌趋势里，别轻易加仓"
 description: "很多散户在持股亏损时，会有一个典型心理：“再买一点，说不定就能扭亏。”结果往往是：小亏 → 深套 → 大亏。原因很简单： 1. 你无法确定个股会和大盘同步反转 - 试问，你手里的票能确保在大盘趋势反转时同步反弹吗？ - "
 slug: "downward-trend-don-t-add-positions-easily"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 250
-chapterOrder: 81
+order: 81
 ---
 很多散户在持股亏损时，会有一个典型心理：“再买一点，说不定就能扭亏。”结果往往是：小亏 → 深套 → 大亏。原因很简单：
 

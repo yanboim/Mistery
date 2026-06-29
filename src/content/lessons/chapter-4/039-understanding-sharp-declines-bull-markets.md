@@ -3,9 +3,7 @@ title: "认识牛市中的急跌"
 description: "形成成因： - 短期获利盘集中兑现 - 政策/消息面扰动（比如监管收紧传闻） - 市场涨得过快后的技术性调整 形态特征： - 下跌快但时间短 - 很多龙头股跌幅剧烈，但资金很快回流 - 之后往往继续创新高 这种下跌和熊市"
 slug: "understanding-sharp-declines-bull-markets"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 144
-chapterOrder: 39
+order: 39
 ---
 形成成因：
 

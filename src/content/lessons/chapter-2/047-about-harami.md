@@ -3,9 +3,7 @@ title: "关于孕线"
 description: "1. 什么是孕线？（如 2025 年 5 月 30 日） “孕线”形态由两根 K 线组成，形态特点是：第一根 K 线（母线）实体较大，代表了前期的主导方向（可以是✅阳线，也可以是阴线）。第二根 K 线（子线）实体较小，且"
 slug: "about-harami"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 94
-chapterOrder: 47
+order: 47
 ---
 1. 什么是孕线？（如 2025 年 5 月 30 日）
 

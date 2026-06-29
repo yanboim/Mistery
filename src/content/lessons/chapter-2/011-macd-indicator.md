@@ -3,9 +3,7 @@ title: "MACD 指标"
 description: "1. MACD 指标的组成 - DIF（快线） = 短期 EMA(12) - 长期 EMA(26) - DEA（慢线） = DIF 的 9 日 EMA（即对 DIF 做进一步平滑处理） - MACD 柱 = DIF - "
 slug: "macd-indicator"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 58
-chapterOrder: 11
+order: 11
 ---
 ### 1. MACD 指标的组成
   - DIF（快线） = 短期 EMA(12) - 长期 EMA(26)

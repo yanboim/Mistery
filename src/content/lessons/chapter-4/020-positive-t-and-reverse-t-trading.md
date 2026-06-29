@@ -3,9 +3,7 @@ title: "正 T 与倒 T"
 description: "一、正 T 操作法（低买高卖） 目的： 利用回调加仓，反弹卖出，降低成本。适用： 股价处于震荡或上涨趋势中。操作步骤： 1. 已有仓位：比如你持有某股 1000 股，成本价 10 元。 2. 股价下跌至 9.5 元：判断"
 slug: "positive-t-and-reverse-t-trading"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 125
-chapterOrder: 20
+order: 20
 ---
 ## 一、正 T 操作法（低买高卖）
 

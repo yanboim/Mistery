@@ -3,9 +3,7 @@ title: "普通投资者该如何在“半金融化阶段”配置资产？"
 description: "一、先给结论：半金融化阶段的核心目标 不是赚快钱，而是：抗波动、抗通胀、不被反复收割，同时保留结构性机会。这个阶段，市场的特点是： - 大趋势弱 - 波动反复 - 政策干预多 - 风格频繁切换 单一资产、单一方向，风险都"
 slug: "asset-allocation-for-ordinary-investors"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 286
-chapterOrder: 117
+order: 117
 ---
 ## 一、先给结论：半金融化阶段的核心目标
 

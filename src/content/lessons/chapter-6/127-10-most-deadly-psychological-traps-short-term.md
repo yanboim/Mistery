@@ -3,9 +3,7 @@ title: "短线最致命的 10 大心理陷阱"
 description: "1. 把短线当成“轻松赚快钱”的途径 新手入市第一天就想： - 抓涨停 - 一天赚一周工资 - 甚至一周翻倍 但短线其实是： - 和机构高频、游资、量化对打 - 秒级博弈、系统化交易 - 极高纪律要求 - 多次连续止损的"
 slug: "10-most-deadly-psychological-traps-short-term"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 296
-chapterOrder: 127
+order: 127
 ---
 ## 1. 把短线当成“轻松赚快钱”的途径
 

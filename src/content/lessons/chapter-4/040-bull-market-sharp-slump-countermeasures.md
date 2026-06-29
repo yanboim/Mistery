@@ -3,9 +3,7 @@ title: "牛市急跌与应对思路"
 description: "1. 认识牛市中的急跌 形成成因： - 短期获利盘集中兑现 - 政策/消息面扰动（比如监管收紧传闻） - 市场涨得过快后的技术性调整 形态特征： - 下跌快但时间短 - 很多龙头股跌幅剧烈，但资金很快回流 - 之后往往继"
 slug: "bull-market-sharp-slump-countermeasures"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 145
-chapterOrder: 40
+order: 40
 ---
 1. 认识牛市中的急跌
 

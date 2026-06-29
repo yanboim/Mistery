@@ -3,9 +3,7 @@ title: "错过整轮行情的人"
 description: "很多投资者在牛市中最致命的错误之一：“捂错股”+“不调仓”=错失整轮行情。我们可以从交易心理、策略执行、仓位管理几个角度来剖析： 一、心理陷阱分析1. 沉没成本效应（Sunk CostBias）你已经投入了时间和金钱，所"
 slug: "missing-the-market-cycle"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 18
-chapterOrder: 18
 ---
 很多投资者在牛市中最致命的错误之一：
 

@@ -3,9 +3,7 @@ title: "趋势股的持股方法"
 description: "一、趋势股的买入方法 买入趋势股的关键是： 1. 选择具备上涨逻辑的股票 2. 在趋势启动或回调结束时买入 3. 结合量价关系、形态突破和资金动向，判断买入时机 1. 基本面筛选--选择具备上涨逻辑的个股 趋势的核心是基"
 slug: "how-hold-trend-stocks"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 34
-chapterOrder: 34
 ---
 ## 一、趋势股的买入方法
 

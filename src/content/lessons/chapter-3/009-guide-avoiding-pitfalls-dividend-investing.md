@@ -3,9 +3,7 @@ title: "红利投资避坑指南"
 description: "不要只看股息率 - 股息率高不代表一定有投资价值。 - 如果股价高位才买入，即便分红稳定，本金下跌会远超红利收益。 估值要足够低 - 红利股的性价比核心在于“低估值+稳定分红”。 - 只有在估值被压低时买入，红利才是真正"
 slug: "guide-avoiding-pitfalls-dividend-investing"
 chapter: 3
-chapterTitle: "交易策略方法"
-order: 104
-chapterOrder: 9
+order: 9
 ---
 - **不要只看股息率**
   - 股息率高不代表一定有投资价值。

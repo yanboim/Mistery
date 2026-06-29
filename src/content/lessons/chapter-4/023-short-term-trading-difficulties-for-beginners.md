@@ -3,9 +3,7 @@ title: "关于新手做短线的难点"
 description: "一、新手做短线的难点： 1. 短线需要快节奏的买卖决策：不仅考验技术面（如 K 线、均线、量 价关系），还要求严格的风险控制和纪律。 2. 心态波动大：新手往往拿不住利润，也容易恐慌止损，频繁追涨杀 跌，最终亏损加剧。 "
 slug: "short-term-trading-difficulties-for-beginners"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 128
-chapterOrder: 23
+order: 23
 ---
 ## 一、新手做短线的难点：
 ## 1. 短线需要快节奏的买卖决策

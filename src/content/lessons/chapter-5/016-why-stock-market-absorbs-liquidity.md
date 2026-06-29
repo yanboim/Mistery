@@ -3,9 +3,7 @@ title: "为什么说“只有股市能容纳中国的大放水”"
 description: "1. 房地产已失去吸纳能力 - 房价高、调控严、居民杠杆高，不再适合“吸水”； - 政策明确“房住不炒”，放水进不去。 2. 债市风险高、空间小 - 地方债务严重，放水进债市只会推高风险、效果差； - 债务式增长已接近极"
 slug: "why-stock-market-absorbs-liquidity"
 chapter: 5
-chapterTitle: "宏观经济认知"
-order: 168
-chapterOrder: 16
+order: 16
 ---
 ### 1. 房地产已失去吸纳能力
   - 房价高、调控严、居民杠杆高，不再适合“吸水”；

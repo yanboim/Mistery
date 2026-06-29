@@ -3,9 +3,7 @@ title: "如何在一只股票上做低成本"
 description: "一、什么是“做正 T”？ 做正 T（T+0 高抛低吸方向与趋势一致）适用于：上升趋势 / 上涨通道 / 强势震荡向上核心思路：趋势向上 → 大方向看多 → 利用波动降低成本、提高持仓性价比。做正 T 的逻辑要点 1. 大"
 slug: "lower-cost-basis-stock"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 127
-chapterOrder: 22
+order: 22
 ---
 一、什么是“做正 T”？
 

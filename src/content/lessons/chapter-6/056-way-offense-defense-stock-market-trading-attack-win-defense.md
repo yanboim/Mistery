@@ -3,9 +3,7 @@ title: "股市交易中的攻守之道：进攻为赢，防守为生"
 description: "1. 为什么“防守”比“进攻”更重要？ - 市场的不确定性：任何再强的逻辑、再完美的趋势，都可能被突发 消息或资金情绪打破。 - 资金是有限的：一次大亏可能让你损失几个月甚至几年积累的利润。 - 复利的核心：亏损后需要更"
 slug: "way-offense-defense-stock-market-trading-attack-win-defense"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 225
-chapterOrder: 56
+order: 56
 ---
 1. 为什么“防守”比“进攻”更重要？
   - 市场的不确定性：任何再强的逻辑、再完美的趋势，都可能被突发

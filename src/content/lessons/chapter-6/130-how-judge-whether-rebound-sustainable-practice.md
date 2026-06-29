@@ -3,9 +3,7 @@ title: "实战中如何判断反弹是否有持续性"
 description: "可以看三个信号： 1. 成交量是否健康 - 有效反弹 = 放量上攻 - 无效反弹 = 缩量反弹、量价背离 2. 反弹是否突破关键位置 比如：5 日线、10 日线、压力位。 - 若能站上 → 反弹有延续 - 若涨不过 → "
 slug: "how-judge-whether-rebound-sustainable-practice"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 299
-chapterOrder: 130
+order: 130
 ---
 可以看三个信号：
 

@@ -3,9 +3,7 @@ title: "你不是不会交易，而是交易得太频繁"
 description: "一、从市场运行结构看（为什么机会稀缺） 股市并不是持续上涨或下跌的，而是长期处于以下三种状态： 1. 趋势行情（约 20%） - 明确的上涨或下跌趋势 - 成交量配合，方向清晰 - 顺势交易胜率高、盈亏比好 这是盈利主要"
 slug: "overtrading-problem"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 302
-chapterOrder: 133
+order: 133
 ---
 ## 一、从市场运行结构看（为什么机会稀缺）
 

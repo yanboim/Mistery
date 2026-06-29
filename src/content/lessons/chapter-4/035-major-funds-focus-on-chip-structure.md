@@ -3,9 +3,7 @@ title: "主力根本不看技术面，主力只看筹码结构"
 description: "对大资金来说，价格的曲线、图形、指标只是市场表象，甚至是用 来误导散户的“背景板”。 - 主力更关心的是筹码结构--谁手里有票，持股成本如何分布，资 金的多空力量对比，什么时候筹码被洗出，什么时候可以吸筹。技术面对于主力"
 slug: "major-funds-focus-on-chip-structure"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 140
-chapterOrder: 35
+order: 35
 ---
 - 对大资金来说，价格的曲线、图形、指标只是市场表象，甚至是用
 

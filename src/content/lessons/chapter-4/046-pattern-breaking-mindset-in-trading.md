@@ -3,9 +3,7 @@ title: "破相思维在交易中的应用"
 description: "一、破相一：股价 ≠ 价值表相 很多人买股票是因为“股价低”“大家都在买”“新闻说要涨”。他们认为股价本身代表了公司的价值。破相股价只是市场当下的“心理温度计”，是情绪与预期的映射，而非价值本身。市场短期由情绪驱动，长期"
 slug: "pattern-breaking-mindset-in-trading"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 151
-chapterOrder: 46
+order: 46
 ---
 ## 一、破相一：股价 ≠ 价值表相
 

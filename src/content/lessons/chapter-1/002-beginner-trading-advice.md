@@ -3,9 +3,7 @@ title: "新手小白，给你们一个建议"
 description: "日线只做所有均线都在 250 日线之上的个股。且多头顺次排列。买入点 5 日线。收盘跌破 5 日线减仓。20 日线加回来。直到 5 日线下穿 20 日线死叉离场。且周线 60 周线之上的上升趋势。就只做这一种方式，坚持一"
 slug: "beginner-trading-advice"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 2
-chapterOrder: 2
 ---
 日线只做所有均线都在 250 日线之上的个股。
 

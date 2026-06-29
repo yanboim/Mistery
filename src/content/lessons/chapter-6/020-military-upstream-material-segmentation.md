@@ -3,9 +3,7 @@ title: "军工上游材料细分领域"
 description: "1. 稀有金属与特种金属材料 用途：飞机结构、导弹外壳、核潜艇等高性能部件细分品类：钛及钛合金（轻质高强）：宝钛股份、西部超导、中钛科技高温合金（航空发动机）：钢研高纳、抚顺特钢、西部材料高强钢、装甲钢：中信特钢、大冶特"
 slug: "military-upstream-material-segmentation"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 189
-chapterOrder: 20
+order: 20
 ---
 ## 1. 稀有金属与特种金属材料
 

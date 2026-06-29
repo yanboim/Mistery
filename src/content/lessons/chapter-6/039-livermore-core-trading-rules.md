@@ -3,9 +3,7 @@ title: "利弗莫尔的核心交易法则"
 description: "1. 顺应市场趋势 坚持只沿最小阻力方向交易，在趋势尚未明确时保持空仓，避免逆势操作。一旦价格突破关键阻力或支撑位，且成交量放大时，果断顺势加仓。 2. 关键点位交易 独创“价格关键点理论”：通过观察箱体突破、趋势线形态"
 slug: "livermore-core-trading-rules"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 208
-chapterOrder: 39
+order: 39
 ---
 ## 1. 顺应市场趋势
 

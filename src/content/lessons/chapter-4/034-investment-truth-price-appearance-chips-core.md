@@ -3,9 +3,7 @@ title: "投资真相：价格是表象，筹码才是核心"
 description: "为什么说筹码比价格更重要？ 1. 价格是结果，筹码是原因 - 股票的涨跌，本质上取决于 筹码的供需关系。 - 筹码集中在强者手里，价格就容易被拉升； - 筹码分散在弱手手里，价格就容易被砸下去。 2. 价格会波动，筹码会"
 slug: "investment-truth-price-appearance-chips-core"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 139
-chapterOrder: 34
+order: 34
 ---
 - **为什么说筹码比价格更重要？**
 ### 1. 价格是结果，筹码是原因

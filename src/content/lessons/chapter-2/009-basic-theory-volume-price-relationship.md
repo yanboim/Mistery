@@ -3,9 +3,7 @@ title: "量价关系的基本理论"
 description: "一、量价关系的基本理论 1. 价为因，量为果 - 价格的上涨或下跌是市场买卖力量博弈的结果，成交量是这种力量 的直接反映。 - 价格的波动通常会带动成交量的变化，反之，成交量的变化也可能 引发价格的调整或突破。 2. 量"
 slug: "basic-theory-volume-price-relationship"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 56
-chapterOrder: 9
+order: 9
 ---
 ## 一、量价关系的基本理论
 ### 1. 价为因，量为果

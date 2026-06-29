@@ -3,9 +3,7 @@ title: "平底结构"
 description: "一、什么是“平底结构”？ 平底结构是指股价在一段时间内多次下探到相似的低点但未跌破该低点，形成一个水平支撑区域，这个区域就像是一个“平底”。它反映出市场在该价位有强支撑，空头打压无效，买盘积极承接。 二、形态特征： 1."
 slug: "flat-bottom-structure"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 77
-chapterOrder: 30
+order: 30
 ---
 一、什么是“平底结构”？
 

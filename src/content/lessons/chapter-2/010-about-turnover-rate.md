@@ -3,9 +3,7 @@ title: "关于换手率"
 description: "炒股为什么一定要看换手率因为主力不管是吸筹还是出货都能够通过换手率表现出来 1. 换手率在 3%到 5%之间 说明主力正在吸筹如果说股价正在低位就要特别的关注 2. 换手率大于 8%但是小于 15% 代表主力的资金正在大"
 slug: "about-turnover-rate"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 57
-chapterOrder: 10
+order: 10
 ---
 炒股为什么一定要看换手率
 

@@ -3,9 +3,7 @@ title: "济安线的用法"
 description: "1. 持币观望阶段： 当济安线呈蓝色，辅助线为绿色时，表示市场处 于弱势，应保持观望，避免进场。 2. 买入阶段： 当济安线走平，辅助线上穿济安线，且济安线变为粉 红色，辅助线变为黄色时，表明市场转强，可考虑买入。 3."
 slug: "jian-line-usage"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 90
-chapterOrder: 43
+order: 43
 ---
 ## 1. 持币观望阶段
 

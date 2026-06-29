@@ -3,9 +3,7 @@ title: "三周期选股"
 description: "1. 大周期看方向（是否值得参与） ✅ - 判断股价处于长期上升趋势中； - 回避熊市、平台震荡或下跌趋势中的票； - 常用指标：月线均线多头排列、周线上升通道。 示例：若月线 MACD 刚刚金叉，或周线站稳 MA60，"
 slug: "three-cycle-stock-selection"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 30
-chapterOrder: 30
 ---
 ### 1. 大周期看方向（是否值得参与）
 

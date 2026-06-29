@@ -3,9 +3,7 @@ title: "涨幅和振幅"
 description: "一、定义复习 - 涨幅：收盘价相对前一日收盘价的涨跌比例。 - 振幅：当日最高价与最低价的差额，相对前一日收盘价的比例，反 映一天内价格波动的“区间”。 二、振幅小于涨幅 -- 强势上涨信号 含义： - 说明股价基本是单"
 slug: "price-gain-and-amplitude"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 73
-chapterOrder: 26
+order: 26
 ---
 ## 一、定义复习
   - 涨幅：收盘价相对前一日收盘价的涨跌比例。

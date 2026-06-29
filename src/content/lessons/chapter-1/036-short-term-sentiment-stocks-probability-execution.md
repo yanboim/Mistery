@@ -3,9 +3,7 @@ title: "短线情绪票：概率和执行力"
 description: "短线游资的两个主要特点：概率和执行力1.概率短线本来就不可能次次都对。大佬们都知道，市场充满了不确定性。所以他们更关注的不是单次赚不赚钱，而是自己整体的胜率。只要长期下来，盈亏比合适，账户整体是赚钱的，他们就敢干。 2."
 slug: "short-term-sentiment-stocks-probability-execution"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 36
-chapterOrder: 36
 ---
 短线游资的两个主要特点：概率和执行力
 

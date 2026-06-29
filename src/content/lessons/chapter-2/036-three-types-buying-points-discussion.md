@@ -3,9 +3,7 @@ title: "缠论中的三类买点"
 description: "1. 第一类买点：下跌趋势走完，出现新的上涨中枢后，在背驰确认的 末端形成的第一个买点。 2. 第二类买点：上涨趋势出现回调，价格回到中枢或中枢附近，再次 向上离开时的买点。 3. 第三类买点：当上涨趋势不断延伸，形成了"
 slug: "three-types-buying-points-discussion"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 83
-chapterOrder: 36
+order: 36
 ---
 ## 1. 第一类买点
 

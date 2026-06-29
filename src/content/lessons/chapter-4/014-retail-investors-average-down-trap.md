@@ -3,9 +3,7 @@ title: "解析一下散户最喜欢的两个字“补仓”"
 description: "一、补仓的优点 1. 摊薄成本 - 在股价下跌后补仓，可以拉低整体持仓成本。 - 一旦股价反弹，较低的持仓成本有助于更快解套甚至盈利。 2. 顺势加码 - 如果是在上涨趋势中的“回调”阶段补仓，相当于在趋势没有破坏的 情"
 slug: "retail-investors-average-down-trap"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 119
-chapterOrder: 14
+order: 14
 ---
 ## 一、补仓的优点
 ### 1. 摊薄成本

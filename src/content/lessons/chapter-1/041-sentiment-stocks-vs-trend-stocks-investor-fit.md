@@ -3,9 +3,7 @@ title: "情绪票和趋势票分别适合哪类人群"
 description: "理解行情背后的逻辑是一方面，更重要的是--你是哪类交易者？ 1. 情绪票：适合“短线型选手” 典型特征： - 盘感敏锐，对市场节奏把握好 - 心态稳定，能接受高波动带来的压力 - 熟悉打板、龙头战法等高频策略 - 有时间"
 slug: "sentiment-stocks-vs-trend-stocks-investor-fit"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 41
-chapterOrder: 41
 ---
 理解行情背后的逻辑是一方面，更重要的是--你是哪类交易者？
 

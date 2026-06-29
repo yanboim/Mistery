@@ -3,9 +3,7 @@ title: "反者道之动，弱者道之用"
 description: "一、涨久必跌，跌久必涨 -- 股市的自然周期 股市不是直线上升或直线下跌的，它始终在波动、轮回、反转。 - 牛市的尽头往往藏着熊市的起点 - 熊市的尽头也往往孕育着牛市的萌芽 这正是“反者道之动”在股市中的第一层含义：趋"
 slug: "tao-of-reversal-and-weakness"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 180
-chapterOrder: 11
+order: 11
 ---
 ## 一、涨久必跌，跌久必涨 -- 股市的自然周期
 

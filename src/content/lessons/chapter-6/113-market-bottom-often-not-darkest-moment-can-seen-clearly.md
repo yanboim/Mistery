@@ -3,9 +3,7 @@ title: "市场底部，往往并不是一眼就能看清的“至暗时刻”"
 description: "市场底部，往往并不是一眼就能看清的“至暗时刻”，而是多种力量相互交织、同时存在的阶段。（区域）通常会出现这样一种复杂局面： - 情绪炒作仍在：部分题材被反复点火，制造热闹与活跃度，给市场 “还有机会”的错觉； - 高位拉"
 slug: "market-bottom-often-not-darkest-moment-can-seen-clearly"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 282
-chapterOrder: 113
+order: 113
 ---
 市场底部，往往并不是一眼就能看清的“至暗时刻”，而是多种力量相互交织、同时存在的阶段。（区域）通常会出现这样一种复杂局面：
 

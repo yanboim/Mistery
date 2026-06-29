@@ -3,9 +3,7 @@ title: "最终的风险--第 5 浪的主要特征"
 description: "1. 趋势延续，但力度可能减弱 - 第 3 浪通常是最强的主升浪； - 第 5 浪虽然继续创新高，但 斜率/动能往往不如第 3 浪。 2. 情绪推动明显 - 市场此时已经进入“全民皆知”的阶段； - 新资金因为看到价格创"
 slug: "ultimate-risk-key-characteristics-wave-5"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 220
-chapterOrder: 51
+order: 51
 ---
 ### 1. 趋势延续，但力度可能减弱
   - 第 3 浪通常是最强的主升浪；

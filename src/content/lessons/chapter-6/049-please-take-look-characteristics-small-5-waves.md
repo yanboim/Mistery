@@ -3,9 +3,7 @@ title: "请看一下小 5 浪的特征"
 description: "这里不是让你无脑冲的地方，因为 C3-1 结束之后还有一段回调浪（那里才是你们猛干的地方）小 5 浪只是如何见顶而已（时刻准备提裤子走人）每一小浪的详细特征 i 浪（初升段） - 小幅拉升，启动迹象不明显，成交量不大。 "
 slug: "please-take-look-characteristics-small-5-waves"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 218
-chapterOrder: 49
+order: 49
 ---
 这里不是让你无脑冲的地方，因为 C3-1 结束之后还有一段回调浪（那里才是你们猛干的地方）小 5 浪只是如何见顶而已（时刻准备提裤子走人）每一小浪的详细特征
 

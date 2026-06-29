@@ -3,9 +3,7 @@ title: "如何根据产业周期进行投资布局"
 description: "1. 识别周期所处阶段 查看行业利润增速、产能利用率、库存变化、产品价格（如钢价、硅片价格等）。阅读行业数据月报、龙头企业季报，跟踪政策动向。使用行业 PMI、价格指数（如 Wind 中观数据）作为领先指标。 2. 布局"
 slug: "how-make-investment-layout-according-industry-cycle"
 chapter: 5
-chapterTitle: "宏观经济认知"
-order: 159
-chapterOrder: 7
+order: 7
 ---
 ## 1. 识别周期所处阶段
 

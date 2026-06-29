@@ -3,9 +3,7 @@ title: "关于仓位关系的系统性梳理"
 description: "关于仓位管理，之前已经聊过一些，这里再系统性地梳理一下。在牛市环境中，原则上不空仓，但一定要有结构。可以参考这样的配置思路： - 5 成左右配置在核心主线，承担趋势收益 - 2-3 成用于短线或弹性机会，提高资金效率 -"
 slug: "systematic-review-position-relationships"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 248
-chapterOrder: 79
+order: 79
 ---
 关于仓位管理，之前已经聊过一些，这里再系统性地梳理一下。在牛市环境中，原则上不空仓，但一定要有结构。可以参考这样的配置思路：
 

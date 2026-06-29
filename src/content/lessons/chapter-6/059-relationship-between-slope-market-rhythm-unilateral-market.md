@@ -3,9 +3,7 @@ title: "单边行情中斜率与市场节奏的关系"
 description: "1. 拉升斜率与市场节奏 - 斜率越缓 - 股价上涨更健康，筹码交换充分，获利盘没有过度集中。 - 市场有回调与消化空间，风险相对较低。 - 斜率越陡 - 股价短时间内快速上涨，获利盘迅速累积。 - 上涨过快意味着资金推"
 slug: "relationship-between-slope-market-rhythm-unilateral-market"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 228
-chapterOrder: 59
+order: 59
 ---
 ### 1. 拉升斜率与市场节奏
   - 斜率越缓

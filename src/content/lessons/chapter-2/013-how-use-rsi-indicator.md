@@ -3,9 +3,7 @@ title: "RSI 指标的使用方法"
 description: "（1）超买超卖--寻找买卖点 - RSI > 70：市场进入超买状态，价格可能回调，考虑卖出 - RSI < 30：市场进入超卖状态，价格可能反弹，考虑买入 - RSI > 80 或 RSI < 20：极端超买或超卖，更"
 slug: "how-use-rsi-indicator"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 60
-chapterOrder: 13
+order: 13
 ---
 ### 1. 超买超卖--寻找买卖点
 

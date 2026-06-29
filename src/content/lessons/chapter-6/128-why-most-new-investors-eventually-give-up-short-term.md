@@ -3,9 +3,7 @@ title: "为什么大部分新股民最终会放弃短线？"
 description: "一、短线看似简单，实则是人性与专业性的双重“反人类赛道” 刚入市的新股民觉得短线就是： - 看 K 线•抓涨停•买热点 - 今天买今天卖 但真正的短线是： - 和无数专业量化、高频交易、游资、机构在秒级博弈 - 拼经验、"
 slug: "why-most-new-investors-eventually-give-up-short-term"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 297
-chapterOrder: 128
+order: 128
 ---
 ## 一、短线看似简单，实则是人性与专业性的双重“反人类赛道”
 

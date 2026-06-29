@@ -3,9 +3,7 @@ title: "短线选手必须要会看的情绪周期"
 description: "什么是情绪周期？在 A 股，特别是短线题材股中，市场的资金情绪会像潮水一样 起起落落、有周期律动。这个周期不靠基本面、不靠估值，靠的主要是 炒作情绪。资金在里面“打来打去”，形成一种情绪波动的节奏，我们就叫它：情绪周期。"
 slug: "emotional-cycle-short-term-players-must-understand"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 40
-chapterOrder: 40
 ---
 # 什么是情绪周期？
 

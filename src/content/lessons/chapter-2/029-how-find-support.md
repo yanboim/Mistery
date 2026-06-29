@@ -3,9 +3,7 @@ title: "如何找支撑位"
 description: "1. 均线支撑 常用：20 日、30 日、60 日均线股价下跌接近这些均线，如果出现止跌信号，可能就是支撑位。 2. 前期低点 查找历史上明显的低点或震荡区域底部，那里通常有支撑。越多次触及而不破的低点，支撑越强。 3."
 slug: "how-find-support"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 76
-chapterOrder: 29
+order: 29
 ---
 ## 1. 均线支撑
 

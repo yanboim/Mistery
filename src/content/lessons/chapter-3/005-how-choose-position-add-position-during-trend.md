@@ -3,9 +3,7 @@ title: "趋势中如何选择加仓位置"
 description: "一、趋势中如何选择加仓位置 1. 上涨趋势中加仓 - 首次突破平台或压力位后，缩量回踩不破时加仓（确认突破有效）； - 上升通道内，回踩趋势线或 10 日线附近止跌时加仓； - 出现“放量阳线 + 缩量回踩”的组合形态时"
 slug: "how-choose-position-add-position-during-trend"
 chapter: 3
-chapterTitle: "交易策略方法"
-order: 100
-chapterOrder: 5
+order: 5
 ---
 ## 一、趋势中如何选择加仓位置
 ### 1. 上涨趋势中加仓

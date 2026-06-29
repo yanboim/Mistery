@@ -3,9 +3,7 @@ title: "主力行为学"
 description: "一、熊市： 缓跌急涨--主力出货为主，反弹是诱多 1. 主力目的： 撤退、减仓，逐步出货熊市中，市场情绪低迷，成交量低迷；如果主力一次性砸盘出货，会引发恐慌暴跌，成本高、不好走；所以主力倾向于“慢慢压价”，在下跌途中边跌"
 slug: "market-maker-behavior"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 10
-chapterOrder: 10
 ---
 ## 一、熊市：
 

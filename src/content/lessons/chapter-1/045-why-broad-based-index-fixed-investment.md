@@ -3,9 +3,7 @@ title: "为什么做宽基指数定投"
 description: "因为大多数人没法持续击败市场，而指数却天然代表市场平均水平。通过定投沪深 300、中证 A500 等宽基指数，不追高、不择时，哪怕市场震荡，拉长周期也能稳步增长。 - 它给我的是底气，是基础盘； - 是我在不看盘的时候，"
 slug: "why-broad-based-index-fixed-investment"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 45
-chapterOrder: 45
 ---
 因为大多数人没法持续击败市场，而指数却天然代表市场平均水平。
 

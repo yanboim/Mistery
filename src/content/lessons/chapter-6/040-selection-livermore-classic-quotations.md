@@ -3,9 +3,7 @@ title: "利弗莫尔经典语录精选"
 description: "1. “优秀的投机客总是在等待，总是有耐心，等待着市场证实他们的判断。” 强调交易需要耐心，只有在市场信号明确时才出手，而非频繁操作。 2. “绝不要平摊亏损，一定要牢牢记住这个原则。” 反对补仓摊薄成本，认为亏损是错误"
 slug: "selection-livermore-classic-quotations"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 209
-chapterOrder: 40
+order: 40
 ---
 1. “优秀的投机客总是在等待，总是有耐心，等待着市场证实他们的判断。”
 

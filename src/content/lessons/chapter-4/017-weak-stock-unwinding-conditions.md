@@ -3,9 +3,7 @@ title: "关于弱势股解套的条件"
 description: "一、大盘环境要好 - 大盘企稳回升、有量能，市场有主线热点。 二、强势股条件 - 属于热点板块，资金追捧。 - 成交活跃、弹性大，技术上处于上升趋势。 - 有明确龙头效应或补涨机会。 三、操作要点 - 套牢股减一半仓位，"
 slug: "weak-stock-unwinding-conditions"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 122
-chapterOrder: 17
+order: 17
 ---
 ## 一、大盘环境要好
   - 大盘企稳回升、有量能，市场有主线热点。

@@ -3,9 +3,7 @@ title: "挂单技巧"
 description: "首先，你要知道股票成交它是要遵循两个原则的一个是价格优先原则另一个是时间优先原则价格优先原则就是谁出的价格高，谁的单子就先成交那在相同的价格下，谁挂的时间越早，谁就优先成交这个听上去很简单但其实暗藏了玄机通常，我们以为挂"
 slug: "pending-order-skills"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 49
-chapterOrder: 2
+order: 2
 ---
 首先，你要知道股票成交
 

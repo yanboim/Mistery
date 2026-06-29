@@ -3,9 +3,7 @@ title: "交易策略的实效性：顺势而为，方能稳中求胜"
 description: "1. 策略必须契合当下市场风格 市场风格是不断变化的，行情有时偏趋势、有时偏震荡，有时讲成长、有时偏价值。如果策略脱离了市场主旋律，即便曾经有效，也可能变得毫无实战意义。例如，趋势跟踪策略在震荡市中频繁打止损；抄底反弹策"
 slug: "trend-following-strategy-effectiveness"
 chapter: 3
-chapterTitle: "交易策略方法"
-order: 101
-chapterOrder: 6
+order: 6
 ---
 ## 1. 策略必须契合当下市场风格
 

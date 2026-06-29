@@ -3,9 +3,7 @@ title: "波浪理论的 5 浪上涨 3 浪下跌概述"
 description: "五浪上涨（推动浪）第一浪（起步浪） - 特点：往往发生在市场普遍悲观或冷淡的时候。 - 成交：成交量开始温和放大。 - 心理：少数先知先觉资金进场，大多数人仍不信。 - 交易意义：难参与，因为大部分人看不懂趋势刚开始。 "
 slug: "overview-5-wave-up-3-wave-down-wave-theory"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 221
-chapterOrder: 52
+order: 52
 ---
 ## 五浪上涨（推动浪）第一浪（起步浪）
 

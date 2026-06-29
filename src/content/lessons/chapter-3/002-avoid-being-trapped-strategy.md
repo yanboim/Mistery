@@ -3,9 +3,7 @@ title: "永不被套战法"
 description: "一、只做三种形态： 趋势向上股：均线多头排列。平台放量突破：横盘后放量突破压力位。底部放量反弹：超跌后首次放量阳线。 二、买入前确认： 形态成立 + 放量突破 + 趋势不破成交量必须明显放大，最好高于前均量 1.5 倍 "
 slug: "avoid-being-trapped-strategy"
 chapter: 3
-chapterTitle: "交易策略方法"
-order: 97
-chapterOrder: 2
+order: 2
 ---
 ## 一、只做三种形态：
 

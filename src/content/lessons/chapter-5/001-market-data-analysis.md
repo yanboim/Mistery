@@ -3,9 +3,7 @@ title: "关于数据面"
 description: "必须要关注一些重要经济数据对经济的影响 1. CPI（消费者价格指数） - 定义：CPI 衡量的是居民消费品和服务价格的总体水平变动情况，反 映了通货膨胀或通货紧缩的程度。 - 经济关系： - CPI上升 → 通货膨胀压"
 slug: "market-data-analysis"
 chapter: 5
-chapterTitle: "宏观经济认知"
-order: 153
-chapterOrder: 1
+order: 1
 ---
 必须要关注一些重要经济数据对经济的影响
 

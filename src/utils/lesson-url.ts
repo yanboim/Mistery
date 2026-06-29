@@ -6,7 +6,10 @@ type LessonEntry = CollectionEntry<'lessons'>;
 const HAN_RE = /\p{Script=Han}+/gu;
 
 export const getLessonOrderPrefix = (lesson: Pick<LessonEntry, 'data'>) =>
-  String(lesson.data.chapterOrder).padStart(3, '0');
+  String(lesson.data.order).padStart(3, '0');
+
+export const compareLessons = (a: Pick<LessonEntry, 'data'>, b: Pick<LessonEntry, 'data'>) =>
+  a.data.chapter - b.data.chapter || a.data.order - b.data.order;
 
 export const getLessonStableId = (lesson: Pick<LessonEntry, 'data'>) =>
   `chapter-${lesson.data.chapter}/${getLessonOrderPrefix(lesson)}`;

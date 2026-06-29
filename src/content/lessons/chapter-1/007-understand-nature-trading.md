@@ -3,9 +3,7 @@ title: "认清交易的本质"
 description: "一、没有必胜战法，是认清“交易本质”的第一步 ✔ 市场的不确定性是永恒本质 - 股市本质上是一个复杂系统，由无数参与者的认知、行为、情绪和博弈构成。 - 所谓的“技术战法”、“量化模型”、“基本面分析”等，都只是 对市场"
 slug: "understand-nature-trading"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 7
-chapterOrder: 7
 ---
 ## 一、没有必胜战法，是认清“交易本质”的第一步
 

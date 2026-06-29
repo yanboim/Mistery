@@ -3,9 +3,7 @@ title: "支撑变压力"
 description: "我们用“信达证券”做例： 一、什么是“支撑变压力”？ 这是技术分析中一个经典的概念：当股价跌破某个支撑位后，这个原本支撑它的价位，反过来会变成股价反弹时的压力位。 二、图中的例子分析： 请看图中 15.68，图中缺口附近"
 slug: "support-changes-pressure"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 69
-chapterOrder: 22
+order: 22
 ---
 我们用“信达证券”做例：
 

@@ -3,9 +3,7 @@ title: "乖离率（BIAS）对买卖的指导意义"
 description: "1. 买入参考 - 短线超跌反弹： - BIAS6 < -6%（个股），或 < -4%（大盘/权重股） - 说明股价短期下跌过度，容易出现技术性反弹。 - 若同时处于支撑位、缩量下跌，更具参考价值。 - 波段低吸： - "
 slug: "guiding-significance-bias-trading"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 91
-chapterOrder: 44
+order: 44
 ---
 ### 1. 买入参考
   - 短线超跌反弹：

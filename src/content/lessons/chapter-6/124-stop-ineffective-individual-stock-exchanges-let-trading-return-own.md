@@ -3,9 +3,7 @@ title: "停止无效的个股交流，让交易回到自己的体系里"
 description: "拒绝过度的个股交流，把时间用在独立思考上多数散户亏损不是因为“不懂技术”，而是因为 交流太多，思考太少。群里从早到晚都在讲： - 哪只要涨停了 - 哪只主力在吸筹 - 哪个龙虎榜强 - 哪个分歧转一致 - 哪只票要飞了、"
 slug: "stop-ineffective-individual-stock-exchanges-let-trading-return-own"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 293
-chapterOrder: 124
+order: 124
 ---
 拒绝过度的个股交流，把时间用在独立思考上多数散户亏损不是因为“不懂技术”，而是因为 交流太多，思考太少。群里从早到晚都在讲：
 

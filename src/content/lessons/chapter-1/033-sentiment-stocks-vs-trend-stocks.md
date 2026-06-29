@@ -3,9 +3,7 @@ title: "情绪票 VS 趋势票"
 description: "在市场里混久了，你会发现一个现象：有的股票一飞冲天，几天翻倍， 然后又迅速熄火；有的股票缓慢爬升，不声不响地走出一段大行情。这背后，其实是两类完全不同的逻辑--情绪票与趋势票。很多人把这两者混为一谈，结果容易踏错节奏，赚"
 slug: "sentiment-stocks-vs-trend-stocks"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 33
-chapterOrder: 33
 ---
 在市场里混久了，你会发现一个现象：有的股票一飞冲天，几天翻倍，
 

@@ -3,9 +3,7 @@ title: "新手小白科普篇之 A 股里的几类资金"
 description: "一、国家队资金（政策引导型） 代表：中证金融、汇金公司、证金公司、地方国资平台等 - 特点：规模大，进出通常与政策导向、维稳需求相关。 - 操作方式：在市场波动大、关键时点（如大跌或重要会议前后）入 场，托底或维稳；平时"
 slug: "beginner-guide-a-share-market-funds"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 15
-chapterOrder: 15
 ---
 ## 一、国家队资金（政策引导型）
 

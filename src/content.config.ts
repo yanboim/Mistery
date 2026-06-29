@@ -7,9 +7,7 @@ const lessons = defineCollection({
     title: z.string(),
     description: z.string(),
     chapter: z.number(),
-    chapterTitle: z.string(),
     order: z.number(),
-    chapterOrder: z.number(),
     slug: z.string().optional(),
   }),
 });

@@ -3,9 +3,7 @@ title: "RSI 指标的实战应用"
 description: "（1）震荡行情中，超买超卖信号有效 - 当股价在横盘震荡中，RSI 高于 70 卖出，低于 30 买入较为有效 - 但在单边行情（强势上涨或下跌）中，RSI 可能长时间超买或超卖， 此时不宜盲目进场（2）趋势行情中，看中"
 slug: "practical-applications-rsi-indicator"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 61
-chapterOrder: 14
+order: 14
 ---
 
 ### 1. 震荡行情中，超买超卖信号有效

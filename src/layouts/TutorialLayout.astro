@@ -49,7 +49,7 @@ const editURL = getSourceEditURL(getLessonSourcePath(lesson));
                 {items.map((item) => (
                   <li>
                     <a class:list={{ active: getLessonStableId(item) === lessonStableId }} href={getLessonURL(item)}>
-                      <span>{String(item.data.chapterOrder).padStart(2, '0')}</span>
+                      <span>{String(item.data.order).padStart(2, '0')}</span>
                       {item.data.title}
                     </a>
                   </li>
@@ -64,10 +64,10 @@ const editURL = getSourceEditURL(getLessonSourcePath(lesson));
     <main class:list={["lesson-main", { "without-toc": !hasToc }]} id="main-content" data-lesson-id={lessonStableId}>
       <article>
         <header class="lesson-head">
-          <a class="chapter-link" href={`/tutorial/chapter-${lesson.data.chapter}`}>第{currentChapter?.numeral}章 / {lesson.data.chapterTitle}</a>
+          <a class="chapter-link" href={`/tutorial/chapter-${lesson.data.chapter}`}>第{currentChapter?.numeral}章 / {currentChapter?.title}</a>
           <h1>{lesson.data.title}</h1>
           <div class="lesson-meta">
-            <span>本章第 {lesson.data.chapterOrder} 节</span>
+            <span>本章第 {lesson.data.order} 节</span>
             <span>本章位置 {progress}%</span>
             <span>阅读约 {readingMinutes} 分钟</span>
             <a class="source-edit-link" href={editURL} target="_blank" rel="noreferrer">编辑本文</a>

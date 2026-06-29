@@ -3,9 +3,7 @@ title: "回踩与破位"
 description: "1. 回踩确认：支撑有效，趋势延续 定义：股价突破关键支撑位（如前高、均线、趋势线等）后，短期回落测试支撑，确认该位置有效，随后继续原趋势方向运行。特征： - 回踩后迅速企稳：股价回落至支撑位附近，但不跌破，随后止跌回 "
 slug: "pullback-and-breakdown"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 74
-chapterOrder: 27
+order: 27
 ---
 1. 回踩确认：支撑有效，趋势延续
 

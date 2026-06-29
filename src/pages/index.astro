@@ -3,9 +3,9 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { chapters } from '../data/chapters';
 import { siteConfig } from '../site.config';
-import { getLessonStableId, getLessonURL } from '../utils/lesson-url';
+import { compareLessons, getLessonStableId, getLessonURL } from '../utils/lesson-url';
 
-const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
+const lessons = (await getCollection('lessons')).sort(compareLessons);
 const grouped = new Map(chapters.map((chapter) => [chapter.number, lessons.filter((lesson) => lesson.data.chapter === chapter.number)]));
 const visibleChapters = chapters.filter((chapter) => (grouped.get(chapter.number)?.length ?? 0) > 0);
 const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.body)).length;

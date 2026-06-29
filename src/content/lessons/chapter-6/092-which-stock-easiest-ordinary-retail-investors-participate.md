@@ -3,9 +3,7 @@ title: "普通散户最容易参与的是哪一种股票"
 description: "一、普通散户一定要避开的两类票 第一类：以为自己能玩得转的「游资情绪票」这类票最容易让人产生错觉：涨得快、赚钱像呼吸一样简单。但真相是--你看到的时候，往往已经是情绪中后段；你下得去手的时候，游资已经在考虑撤退。你拼不过"
 slug: "which-stock-easiest-ordinary-retail-investors-participate"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 261
-chapterOrder: 92
+order: 92
 ---
 ## 一、普通散户一定要避开的两类票
 

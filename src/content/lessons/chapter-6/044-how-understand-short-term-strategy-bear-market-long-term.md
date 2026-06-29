@@ -3,9 +3,7 @@ title: "如何理解熊市做短线，牛市做长线"
 description: "一、为什么“熊市做短线”？ 1. 大趋势向下，风险高 熊市中大盘整体处于下行通道，趋势向下是主基调。此时若死拿某只股票，可能越拿越亏，亏的时间成本和资金成本都很高。 2. 反弹机会多但持续性差 熊市中经常出现技术性反弹、"
 slug: "how-understand-short-term-strategy-bear-market-long-term"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 213
-chapterOrder: 44
+order: 44
 ---
 一、为什么“熊市做短线”？
 ## 1. 大趋势向下，风险高

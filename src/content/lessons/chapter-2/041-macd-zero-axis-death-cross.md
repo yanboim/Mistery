@@ -3,9 +3,7 @@ title: "“零轴上死叉”和“零轴下死叉”"
 description: "别一看到跌就幻想“熊市”。什么是“死叉”？✅MACD 有两条线： - DIF（快线） - DEA（慢线） 当快线 DIF 从上向下穿越 DEA，称为“死叉”，通常被认为是卖出信号。零轴上死叉（强势调整） - 通常不是立即"
 slug: "macd-zero-axis-death-cross"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 88
-chapterOrder: 41
+order: 41
 ---
 别一看到跌就幻想“熊市”。什么是“死叉”？✅MACD 有两条线：
 

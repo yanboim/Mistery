@@ -3,9 +3,7 @@ title: "用缠论的背驰理论寻找不同级别的卖点"
 description: "一、什么是“背驰”？ “背驰”是技术分析中一个用来识别趋势终结信号的重要概念。通俗地说，它意味着价格创新高/新低时，动能指标（如 MACD、成交量）却没有同步创新高/新低，显示市场“有价无力”： - 多头背驰：价格创新高"
 slug: "use-divergence-theory-chan-theory-find-selling-points-different"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 85
-chapterOrder: 38
+order: 38
 ---
 一、什么是“背驰”？
 

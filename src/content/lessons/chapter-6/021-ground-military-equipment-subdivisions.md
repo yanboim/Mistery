@@ -3,9 +3,7 @@ title: "地面兵装细分领域"
 description: "1. 主战坦克与装甲车辆 代表装备：99A 主战坦克、08 式轮式装甲车核心系统：动力系统（发动机、传动）、火控系统、主动防护系统代表公司：中国兵器工业集团（北方工业集团、内蒙一机）内蒙一机（600967）：坦克、步战车"
 slug: "ground-military-equipment-subdivisions"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 190
-chapterOrder: 21
+order: 21
 ---
 ## 1. 主战坦克与装甲车辆
 

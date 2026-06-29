@@ -3,9 +3,7 @@ title: "关于仙人指路和射击之星"
 description: "一、什么是“仙人指路”？ “仙人指路”是一个典型的看涨信号，它代表主力资金在启动一波上涨前，有意“试盘”或“试拉”，留下线索给懂得的人看。这个形态通常出现在股价刚刚启动、刚刚突破或横盘末尾阶段。它的典型形态是一根带长上影"
 slug: "immortal-guiding-way-and-shooting-star"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 95
-chapterOrder: 48
+order: 48
 ---
 一、什么是“仙人指路”？
 

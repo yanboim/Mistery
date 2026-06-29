@@ -3,9 +3,7 @@ title: "放量红三兵的含义"
 description: "在红三兵形态中，如果成交量持续放大（放量），这说明多头进攻意愿强烈，资金参与积极，进一步增强了上涨的可信度。 【技术意义】 - 看涨信号：放量红三兵一般视为强烈的上涨信号，预示后市可能有 一轮上涨行情； - 主力介入迹象"
 slug: "meaning-red-three-soldiers-heavy-volume"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 204
-chapterOrder: 35
+order: 35
 ---
 在红三兵形态中，如果成交量持续放大（放量），这说明多头进攻意愿强烈，资金参与积极，进一步增强了上涨的可信度。
 

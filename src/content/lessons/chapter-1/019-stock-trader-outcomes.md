@@ -3,9 +3,7 @@ title: "炒股人的几种结局"
 description: "1. 随波逐流型：最终多数是亏损离场 这类人没有系统，不懂风控，听消息、跟风操作，靠运气交易。他们可能短期内赚到一波钱，但最终会在某一次行情中回吐甚至爆亏。长期来看，这类人在市场中生存下来的概率极低。结局关键词：运气主导"
 slug: "stock-trader-outcomes"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 19
-chapterOrder: 19
 ---
 ## 1. 随波逐流型
 

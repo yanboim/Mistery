@@ -3,9 +3,7 @@ title: "机构资金的浪型轮动规律"
 description: "1. 1 浪 3 浪驱动浪，主线拉升 - 特点：市场情绪高涨，需要带动人气。 - 板块：券商、互金（互联网金融）、科技金融，即所谓“四大金刚”。 - 理由：券商和金融权重能放大杠杆、吸引增量资金，同时最能带动 指数，起“"
 slug: "wave-pattern-rotation-pattern-institutional-funds"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 216
-chapterOrder: 47
+order: 47
 ---
 ### 1. 1 浪 3 浪驱动浪，主线拉升
   - 特点：市场情绪高涨，需要带动人气。

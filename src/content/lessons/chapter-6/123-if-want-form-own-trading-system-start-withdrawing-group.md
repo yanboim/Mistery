@@ -3,9 +3,7 @@ title: "若想形成自己的交易体系，先从“退群”开始"
 description: "长期盈利的投资者，都从群聊里消失了你会发现一个有趣的现象：市场上真正能够长期盈利的人，很少在股市群里活跃。为什么？因为群聊的本质是噪音： - 每天都有无数个股讨论、涨跌预测、热点推荐 - 每一次刺激都会引发你的贪婪或恐惧"
 slug: "if-want-form-own-trading-system-start-withdrawing-group"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 292
-chapterOrder: 123
+order: 123
 ---
 长期盈利的投资者，都从群聊里消失了你会发现一个有趣的现象：市场上真正能够长期盈利的人，很少在股市群里活跃。为什么？因为群聊的本质是噪音：
 

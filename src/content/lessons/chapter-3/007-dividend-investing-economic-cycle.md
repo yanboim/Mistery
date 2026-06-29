@@ -3,9 +3,7 @@ title: "经济周期中的红利投资策略：最佳时机与阶段分析"
 description: "经济周期与红利投资 1. 衰退期（经济下行、企业盈利承压）熊市投资最佳 - 特征：GDP 增长放缓或为负、失业上升、消费疲软、企业盈利下滑。 - 红利投资表现： - 高股息、稳定现金流的企业（如公用事业、必需消费品、电信"
 slug: "dividend-investing-economic-cycle"
 chapter: 3
-chapterTitle: "交易策略方法"
-order: 102
-chapterOrder: 7
+order: 7
 ---
 经济周期与红利投资
 

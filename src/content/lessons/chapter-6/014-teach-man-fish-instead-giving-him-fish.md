@@ -3,9 +3,7 @@ title: "授人以渔而非授人以鱼"
 description: "我只想启发智者，极其厌蠢 一、教你炒股的人：传授的是方法、逻辑和思维 我教的是底层逻辑和独立判断能力，目的是让你： - 学会分析大盘、板块和个股； - 懂得如何制定交易策略； - 知道何时该进，何时该退； - 最终具备独"
 slug: "teach-man-fish-instead-giving-him-fish"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 183
-chapterOrder: 14
+order: 14
 ---
 我只想启发智者，极其厌蠢
 

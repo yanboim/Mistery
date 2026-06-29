@@ -3,9 +3,7 @@ title: "情绪票 VS 趋势票的顶部形态"
 description: "一、情绪票的常见顶部形态（特征：快、猛、突变） ✅ 1. 放量长上影线（高位冲高回落） - 高开冲高，午后跳水收长上影。 - 暗示主力资金高位派发、追涨失败。 - 常见于连板后的第一次“试探”见顶。 2. 炸板断板 - "
 slug: "top-pattern-sentiment-stocks-vs-trend-stocks"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 39
-chapterOrder: 39
 ---
 ## 一、情绪票的常见顶部形态（特征：快、猛、突变）
 

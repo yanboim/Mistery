@@ -3,9 +3,7 @@ title: "牛市持仓"
 description: "1. 弱势震荡 5 成仓，有攻击也有防守空间。 2. 趋势向上时加仓到 7-8 成。 3. 阶段性高点降仓到 3-4 成，规避回调风险。 4. 回调到低点再加仓到 7-8 成，如此循环。 - 仓位动态调整：能跟随趋势灵活"
 slug: "bull-market-holding-strategy"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 114
-chapterOrder: 9
+order: 9
 ---
 1. 弱势震荡 5 成仓，有攻击也有防守空间。
 2. 趋势向上时加仓到 7-8 成。

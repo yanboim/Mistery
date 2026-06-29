@@ -3,9 +3,7 @@ title: "军用化纤细分领域及用途"
 description: "1. 芳纶纤维（对位芳纶、间位芳纶） 用途：防弹衣、防火服、飞行服、复合材料增强性能：高强高模、阻燃耐高温、抗冲击代表公司：泰和新材（002254）：国内对位芳纶龙头，产品型号如“泰美达”中简科技（300777）：芳纶复"
 slug: "military-chemical-fiber-subdivisions-uses"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 193
-chapterOrder: 24
+order: 24
 ---
 ## 1. 芳纶纤维（对位芳纶、间位芳纶）
 

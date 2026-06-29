@@ -3,9 +3,7 @@ title: "牛市熊市，涨跌不决定盈亏"
 description: "牛市与熊市的表面区别通常被理解为价格方向：牛市价格上涨，熊市价格下跌。但如果深入看，其本质区别其实在于市场流动性： 1. 牛市（流动性强） - 流动性高意味着买卖容易成交，市场活跃，价格波动频繁。 - 机会多：在高流动性"
 slug: "bull-market-bear-market-rise-fall-not-determine-profit"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 212
-chapterOrder: 43
+order: 43
 ---
 牛市与熊市的表面区别通常被理解为价格方向：牛市价格上涨，熊市价格下跌。但如果深入看，其本质区别其实在于市场流动性：
 

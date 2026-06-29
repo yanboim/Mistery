@@ -3,9 +3,7 @@ title: "下跌趋势里，不要把做 T 当成加仓"
 description: "很多新股民在下跌趋势中，会犯一个严重错误： - 股票在下跌时，他们想通过“做 T”频繁操作去回本 - 一买一卖，心里想着“跌了一点就补回来” - 最终把短线交易 变成了加仓亏损 本质问题在于： 1. 趋势为王，短线只是战"
 slug: "downward-trend-not-regard-doing-t-adding-position"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 251
-chapterOrder: 82
+order: 82
 ---
 很多新股民在下跌趋势中，会犯一个严重错误：
 

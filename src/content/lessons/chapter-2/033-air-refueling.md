@@ -3,9 +3,7 @@ title: "空中加油"
 description: "一、什么是“空中加油”？ 定义：“空中加油”指的是股价在一波强势上涨之后，并不深度回调，而是在高位横盘或窄幅震荡整固，随后再次突破上行的技术形态。形象地说：上涨途中 = 飞机高空飞行横盘整理 = 空中加油继续上涨 = 加"
 slug: "air-refueling"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 80
-chapterOrder: 33
+order: 33
 ---
 一、什么是“空中加油”？
 

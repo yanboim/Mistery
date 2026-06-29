@@ -3,9 +3,7 @@ title: "道氏理论"
 description: "一、道氏理论的核心内容 道氏理论基于对市场价格行为的观察，提出了六大核心原则，通过这些原则来解释市场趋势和市场行为。 1. 市场具有三种趋势 道氏理论将市场趋势分为三类，分别是：主要趋势（Primary Trend） →"
 slug: "dow-theory"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 93
-chapterOrder: 46
+order: 46
 ---
 ## 一、道氏理论的核心内容
 

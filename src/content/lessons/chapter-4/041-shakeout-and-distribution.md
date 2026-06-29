@@ -3,9 +3,7 @@ title: "震仓与出货"
 description: "一、主力震仓的常见表现 1. K 线走势特征 - 大阴线快速下杀：股价突然下跌，但很快又被拉起。 - 长上下影线：盘中剧烈波动，收盘价却离开极端点，显示有人控盘。 - 宽幅震荡：几天内股价来回大幅波动，让人怀疑趋势。 2"
 slug: "shakeout-and-distribution"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 146
-chapterOrder: 41
+order: 41
 ---
 ## 一、主力震仓的常见表现
 ### 1. K 线走势特征

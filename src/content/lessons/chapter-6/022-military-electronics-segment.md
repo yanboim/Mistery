@@ -3,9 +3,7 @@ title: "军工电子细分领域"
 description: "1. 雷达系统 功能：目标探测、跟踪、导引、预警等技术方向：相控阵雷达、合成孔径雷达（SAR）、毫米波雷达代表公司：中电科 14 所（航天发展）、中航雷达、华力创通 2. 军用通信系统 功能：战术通信、卫星通信、数据链系"
 slug: "military-electronics-segment"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 191
-chapterOrder: 22
+order: 22
 ---
 ## 1. 雷达系统
 

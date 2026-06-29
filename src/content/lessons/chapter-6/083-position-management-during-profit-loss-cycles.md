@@ -3,9 +3,7 @@ title: "盈利周期与亏损周期中的仓位管理"
 description: "一、趋势理论的核心一句话 你赚到的钱，本质来自“趋势对你有利的那一段时间”；你亏掉的钱，几乎都来自“趋势不在，却硬要参与的时间”。趋势不是天天都有，但大多数散户却天天都在交易，这正是亏钱周期的根源。 二、赚钱周期：趋势“"
 slug: "position-management-during-profit-loss-cycles"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 252
-chapterOrder: 83
+order: 83
 ---
 ## 一、趋势理论的核心一句话
 

@@ -3,9 +3,7 @@ title: "主力的吸筹方式"
 description: "一、主力吸筹的核心目标： 以尽量低的价格，拿到尽量多的筹码，并尽量不引起市场注意。✅ 二、主力吸筹常用的方式 1. 震荡吸筹（横盘震荡） - 在一个价格区间来回震荡、上下波动； - 散户因无聊或被洗出，主力悄悄接盘； -"
 slug: "major-funds-accumulation-methods"
 chapter: 4
-chapterTitle: "交易技巧认知"
-order: 136
-chapterOrder: 31
+order: 31
 ---
 ## 一、主力吸筹的核心目标：
 

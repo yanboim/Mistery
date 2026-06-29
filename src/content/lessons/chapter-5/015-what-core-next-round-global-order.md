@@ -3,9 +3,7 @@ title: "下一轮全球秩序的核心是什么？"
 description: "1. 数字货币与金融重构：新货币秩序之争 关键概念：央行数字货币（CBDC）、去美元化、稳定币、金融去中介化发展趋势： - 中国已经在推广数字人民币（e-CNY）并测试跨境支付系统 - 欧洲和美国也在推进数字欧元和数字美"
 slug: "what-core-next-round-global-order"
 chapter: 5
-chapterTitle: "宏观经济认知"
-order: 167
-chapterOrder: 15
+order: 15
 ---
 ## 1. 数字货币与金融重构
 

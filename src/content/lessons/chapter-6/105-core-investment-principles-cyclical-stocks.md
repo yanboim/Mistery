@@ -3,9 +3,7 @@ title: "周期股的投资核心原则"
 description: "就是盈利随经济、供需和价格波动起伏的行业，关键不在公司好坏，而在买卖时点。主要包含： - 强周期：有色、化工、钢铁、煤炭、石油、航运 - 中周期：新能源产业链、半导体制造、工程机械 - 大周期：房地产及地产产业链 - 顺"
 slug: "core-investment-principles-cyclical-stocks"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 274
-chapterOrder: 105
+order: 105
 ---
 就是盈利随经济、供需和价格波动起伏的行业，关键不在公司好坏，而在买卖时点。主要包含：
 

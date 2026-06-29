@@ -3,9 +3,7 @@ title: "什么是顶底拐点"
 description: "顶部拐点：股价从上涨趋势转为下跌趋势的转折点，常用于判断卖 出时机。 - 底部拐点：股价从下跌趋势转为上涨趋势的转折点，常用于判断买 入时机。经典技术工具判断法 1. 趋势线与通道 - 上升趋势线被有效跌破 → 可能为顶"
 slug: "what-top-bottom-inflection-point"
 chapter: 2
-chapterTitle: "交易技术指标"
-order: 78
-chapterOrder: 31
+order: 31
 ---
 - 顶部拐点：股价从上涨趋势转为下跌趋势的转折点，常用于判断卖
 

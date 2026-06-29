@@ -3,9 +3,7 @@ title: "写给最近几个月新入市的朋友们"
 description: "亲爱的股市新朋友：欢迎你走进证券市场。或许你是因为看到身边人赚钱心动而来，或许是想让自己的资金增值，或者只是出于兴趣。但无论起点如何，请记住：股市并不是一个轻松“提款机”，它既有机会，也布满陷阱。很多老股民会说：不经历一"
 slug: "new-traders-recent-months"
 chapter: 1
-chapterTitle: "交易基础认知"
 order: 1
-chapterOrder: 1
 ---
 亲爱的股市新朋友：
 

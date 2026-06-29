@@ -3,9 +3,7 @@ title: "为什么新股民都迷恋超短线？从入市时机到人性弱点的
 description: "一、入市时间节点与市场环境的影响 1. 新股民往往在市场活跃期入场 无论 A 股还是其他市场，大多数新股民不是在熊市底部开户，而是在市场已经涨起来、媒体热度高、身边人赚钱时才进入。 - 牛市或强反弹阶段里，短线涨幅非常亮"
 slug: "why-new-investors-obsessed-ultra-short-term-comprehensive-analysis"
 chapter: 6
-chapterTitle: "Mi 姐谜语"
-order: 298
-chapterOrder: 129
+order: 129
 ---
 ## 一、入市时间节点与市场环境的影响
 ## 1. 新股民往往在市场活跃期入场
