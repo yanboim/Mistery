@@ -1,0 +1,20 @@
+---
+interface Props {
+  analyticsId?: string;
+}
+
+const analyticsId = Astro.props.analyticsId?.trim() ?? '';
+const scriptURL = analyticsId
+  ? `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsId)}`
+  : '';
+---
+
+{analyticsId && (
+  <>
+    <script async src={scriptURL}></script>
+    <script is:inline set:html={`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', ${JSON.stringify(analyticsId)});`} />
+  </>
+)}

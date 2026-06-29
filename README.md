@@ -39,6 +39,36 @@ npm run content:build -- --split
 - 改导航：更新 `siteConfig.nav`
 - 改 GitHub 编辑入口：更新 `siteConfig.github.repo`、`branch` 或 `contentPath`
 
+## Google 收录与统计
+
+网站已经生成 `/sitemap.xml` 和 `/robots.txt`，可以在 Google Search Console 里提交站点地图：
+
+```txt
+https://mi.yanbo.im/sitemap.xml
+```
+
+Google Analytics 通过 `siteConfig.google.analyticsId` 配置，当前默认使用：
+
+```txt
+G-5BHRM3XB5M
+```
+
+部署环境里也可以设置环境变量覆盖：
+
+```bash
+GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
+```
+
+对应配置在 `src/site.config.ts`：
+
+```ts
+google: {
+  analyticsId: env.GOOGLE_ANALYTICS_ID ?? 'G-5BHRM3XB5M',
+},
+```
+
+留空时不会输出 Google Analytics 统计脚本。
+
 ## 内容更新
 
 日常维护请直接编辑 `src/content/lessons/` 下的小文件。每篇教程需要保留 frontmatter：

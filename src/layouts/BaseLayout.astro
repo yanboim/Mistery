@@ -1,5 +1,6 @@
 ---
 import Header from '../components/Header.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 import SearchDialog from '../components/SearchDialog.astro';
 import { getCanonicalSiteURL, siteConfig } from '../site.config';
 import 'heti/umd/heti.min.css';
@@ -16,6 +17,7 @@ const {
 const siteURL = Astro.site ?? getCanonicalSiteURL();
 const canonicalURL = new URL(Astro.url.pathname, siteURL);
 const ogImageURL = new URL(siteConfig.ogImage, siteURL);
+const googleAnalyticsId = siteConfig.google.analyticsId.trim();
 const toFontStack = (fonts: string[]) => fonts.join(', ');
 const fontVariables = `
   :root {
@@ -72,6 +74,7 @@ const structuredData = {
     <style is:inline set:html={fontVariables}></style>
     <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <GoogleAnalytics analyticsId={googleAnalyticsId} />
     <script is:inline>
       const savedTheme = localStorage.getItem('mjie-theme');
       const initialTheme = ['light', 'dark', 'auto'].includes(savedTheme) ? savedTheme : 'light';

@@ -14,15 +14,22 @@ const social = {
   },
 } as const;
 
+// Astro build-time environment variables. Values here can override defaults
+// without changing source code in production deployments.
+const env = typeof process !== 'undefined' ? process.env : {};
+
 export const siteConfig = {
   name: 'Mi姐交易笔记',
   shortName: 'Mi姐',
   description: '从交易基础到宏观认知的系统化中文教程',
+  // Used by Astro, canonical URLs, sitemap.xml, robots.txt, and structured data.
   url: 'https://mi.yanbo.im',
   locale: 'zh-CN',
   themeColor: '#f4f2ed',
+  // Public asset path used for Open Graph and Twitter preview cards.
   ogImage: '/twitter-card-v3.jpg',
   favicon: '/favicon.svg',
+  // Font stacks are exposed as CSS variables by BaseLayout.
   fonts: {
     stylesheets: [
       'https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-webfont/1.7.0/lxgwwenkai-regular.min.css',
@@ -58,6 +65,11 @@ export const siteConfig = {
     label: '搜索教程',
     placeholder: '搜索教程…',
   },
+  // Set GOOGLE_ANALYTICS_ID in the deployment environment to override this ID.
+  // Leave analyticsId empty to disable Google Analytics output entirely.
+  google: {
+    analyticsId: env.GOOGLE_ANALYTICS_ID ?? 'G-5BHRM3XB5M',
+  },
   github,
   social,
 } as const;
@@ -68,5 +80,6 @@ export const withSiteTitle = (title?: string) => (title ? `${title} | ${siteConf
 
 export const getCanonicalSiteURL = () => new URL(siteConfig.url);
 
+// Maps content collection ids such as "chapter-1/001" to GitHub edit URLs.
 export const getSourceEditURL = (contentId: string) =>
   `${siteConfig.github.repo}/edit/${siteConfig.github.branch}/${siteConfig.github.contentPath}/${contentId}.md`;
