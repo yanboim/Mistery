@@ -113,9 +113,14 @@ const editURL = getSourceEditURL(lesson.id);
 </BaseLayout>
 
 <script>
-  import Heti from 'heti/js/heti-addon.js';
-
-  new Heti('.prose.heti').autoSpacing();
+  // Defer heti typography (CJK/Latin auto-spacing) out of the first-paint critical
+  // path: it is purely cosmetic and was a top contributor to Total Blocking Time.
+  const runHeti = async () => {
+    const { default: Heti } = await import('heti/js/heti-addon.js');
+    new Heti('.prose.heti').autoSpacing();
+  };
+  const ric = (cb) => ('requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 2000 }) : setTimeout(cb, 0));
+  ric(runHeti);
 
   const root = document.documentElement;
   const openSidebar = () => root.classList.add('sidebar-visible');

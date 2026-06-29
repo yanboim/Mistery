@@ -68,6 +68,7 @@ const structuredData = {
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content={siteConfig.themeColor} />
     <link rel="icon" href={siteConfig.favicon} type="image/svg+xml" />
+    <link rel="preload" as="font" href="/fonts/lxgwwenkai-regular.subset.woff2" type="font/woff2" crossorigin />
     {siteConfig.fonts.stylesheets.map((href) => (
       <link rel="stylesheet" href={href} />
     ))}

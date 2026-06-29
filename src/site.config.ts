@@ -31,9 +31,10 @@ export const siteConfig = {
   favicon: '/favicon.svg',
   // Font stacks are exposed as CSS variables by BaseLayout.
   fonts: {
-    stylesheets: [
-      'https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-webfont/1.7.0/lxgwwenkai-regular.min.css',
-    ],
+    // Self-hosted subset of LXGW WenKai (see public/fonts/lxgw.css).
+    // Switched from cdnjs: removes a cross-origin render-blocking request,
+    // the third-party cookies Cloudflare set on it, and adds font-display: swap.
+    stylesheets: ['/fonts/lxgw.css'],
     body: ['"LXGW WenKai"', 'Roboto', '"Microsoft YaHei"', 'sans-serif'],
     heading: ['"LXGW WenKai"', 'Roboto', '"Microsoft YaHei"', 'sans-serif'],
     code: ['"LXGW WenKai"', 'Roboto', '"Source Code Pro"', 'ui-monospace', 'monospace'],

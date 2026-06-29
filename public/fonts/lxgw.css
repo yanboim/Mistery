@@ -1,0 +1,11 @@
+/* Self-hosted subset of LXGW WenKai Lite Regular.
+   Subset built from the actual characters used across the site (~2140 glyphs).
+   font-display: swap is the key fix — the original cdnjs CSS omitted it. */
+@font-face {
+  font-family: 'LXGW WenKai';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/lxgwwenkai-regular.subset.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+2000-206F, U+2E80-9FFF, U+F900-FAFF, U+FF00-FFEF;
+}
