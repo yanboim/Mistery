@@ -3,11 +3,13 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { chapters } from '../../data/chapters';
 import { siteConfig, withSiteTitle } from '../../site.config';
+import { getLessonStableId, getLessonURL } from '../../utils/lesson-url';
 
 const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
 const visibleChapters = chapters.filter((chapter) => lessons.some((lesson) => lesson.data.chapter === chapter.number));
 const copy = siteConfig.copy.tutorial;
 const pageDescription = copy.description.replace('{siteName}', siteConfig.name);
+const firstLesson = lessons[0];
 ---
 
 <BaseLayout title={withSiteTitle(copy.title)} description={pageDescription} current="tutorial" lessons={lessons}>
@@ -35,7 +37,7 @@ const pageDescription = copy.description.replace('{siteName}', siteConfig.name);
         <small data-progress-copy>{copy.overview.completeTemplate.replace('{percent}', '0')}</small>
       </div>
       <div class="overview-progress" aria-hidden="true"><i data-progress-bar></i></div>
-      <a href="/tutorial/chapter-1/001" data-resume-link>{copy.overview.resume} <span aria-hidden="true">→</span></a>
+      <a href={firstLesson ? getLessonURL(firstLesson) : '/tutorial'} data-resume-link>{copy.overview.resume} <span aria-hidden="true">→</span></a>
     </section>
     <div class="catalog-sticky-controls">
       <div class="catalog-filter">
@@ -77,7 +79,7 @@ const pageDescription = copy.description.replace('{siteName}', siteConfig.name);
             <ol id={`chapter-lessons-${chapter.number}`}>
               {items.map((lesson) => (
                 <li>
-                  <a href={`/tutorial/${lesson.id}`} data-lesson-link={lesson.id} data-chapter-number={chapter.number}>
+                  <a href={getLessonURL(lesson)} data-lesson-link={getLessonStableId(lesson)} data-lesson-url={getLessonURL(lesson)} data-chapter-number={chapter.number}>
                     <span>{String(lesson.data.chapterOrder).padStart(2, '0')}</span>
                     <strong>{lesson.data.title}</strong>
                     <i aria-hidden="true">→</i>
@@ -192,7 +194,10 @@ const pageDescription = copy.description.replace('{siteName}', siteConfig.name);
       overview.querySelector('[data-progress-bar]').style.width = `${percentage}%`;
       const resume = overview.querySelector('[data-resume-link]');
       const lastLesson = localStorage.getItem('mjie-last-lesson');
-      if (lastLesson) resume.href = `/tutorial/${lastLesson}`;
+      const lastLessonLink = lastLesson && document.querySelector(`[data-lesson-link="${CSS.escape(lastLesson)}"]`);
+      if (resume instanceof HTMLAnchorElement && lastLessonLink instanceof HTMLAnchorElement) {
+        resume.href = lastLessonLink.href;
+      }
       overview.hidden = false;
     }
   } catch {}

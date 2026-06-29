@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { chapters } from '../../../data/chapters';
 import { withSiteTitle } from '../../../site.config';
+import { getLessonStableId, getLessonURL } from '../../../utils/lesson-url';
 
 export async function getStaticPaths() {
   const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
@@ -52,7 +53,7 @@ const firstLesson = chapterLessons[0];
         <span>已读进度</span>
         <strong><b data-chapter-completed>0</b> / {chapterLessons.length}</strong>
         <small data-chapter-percent>0%</small>
-        {firstLesson && <a href={`/tutorial/${firstLesson.id}`} data-chapter-start>开始本章 <span aria-hidden="true">→</span></a>}
+        {firstLesson && <a href={getLessonURL(firstLesson)} data-chapter-start>开始本章 <span aria-hidden="true">→</span></a>}
       </aside>
     </header>
 
@@ -69,7 +70,7 @@ const firstLesson = chapterLessons[0];
       <ol>
         {chapterLessons.map((lesson) => (
           <li>
-            <a href={`/tutorial/${lesson.id}`} data-lesson-link={lesson.id}>
+            <a href={getLessonURL(lesson)} data-lesson-link={getLessonStableId(lesson)} data-lesson-url={getLessonURL(lesson)}>
               <span>{String(lesson.data.chapterOrder).padStart(2, '0')}</span>
               <strong>{lesson.data.title}</strong>
               <small data-read-state>未读</small>
@@ -97,7 +98,7 @@ const firstLesson = chapterLessons[0];
   if (percentNode) percentNode.textContent = `${percentage}%`;
   progressBar?.style.setProperty('--chapter-completion', `${percentage}%`);
   if (lastInChapter && startLink instanceof HTMLAnchorElement) {
-    startLink.href = `/tutorial/${lastLesson}`;
+    startLink.href = lastInChapter.href;
     startLink.textContent = '继续本章 →';
   }
 

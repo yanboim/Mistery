@@ -205,8 +205,10 @@ export const siteConfig = {
 
   // 第三方集成：部署环境设置 GOOGLE_ANALYTICS_ID 后会覆盖默认值。
   // 如果想完全关闭 Google Analytics，可以把 analyticsId 配成空字符串。
+  // allowedHosts 用来限制真实上报域名，避免 localhost / 预览环境污染数据。
   google: {
     analyticsId: env.GOOGLE_ANALYTICS_ID ?? 'G-5BHRM3XB5M',
+    allowedHosts: ['mi.yanbo.im'],
   },
 
   // 外部链接配置对象也暴露出去，方便其他模块复用。
@@ -220,6 +222,6 @@ export const withSiteTitle = (title?: string) => (title ? `${title} | ${siteConf
 
 export const getCanonicalSiteURL = () => new URL(siteConfig.url);
 
-// 把内容集合 id（例如 "chapter-1/001"）转换成 GitHub 源文件编辑地址。
-export const getSourceEditURL = (contentId: string) =>
-  `${siteConfig.github.repo}/edit/${siteConfig.github.branch}/${siteConfig.github.contentPath}/${contentId}.md`;
+// 把内容源文件路径（例如 "chapter-1/001-new-traders-recent-months"）转换成 GitHub 编辑地址。
+export const getSourceEditURL = (sourcePath: string) =>
+  `${siteConfig.github.repo}/edit/${siteConfig.github.branch}/${siteConfig.github.contentPath}/${sourcePath}.md`;

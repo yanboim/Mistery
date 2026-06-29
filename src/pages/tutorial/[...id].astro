@@ -1,21 +1,44 @@
 ---
 import { getCollection, render } from 'astro:content';
 import TutorialLayout from '../../layouts/TutorialLayout.astro';
+import { getLessonStableId, getLessonURL } from '../../utils/lesson-url';
 
 export async function getStaticPaths() {
   const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
-  return lessons.map((lesson, index) => ({
-    params: { id: lesson.id },
-    props: {
+  return lessons.flatMap((lesson, index) => {
+    const props = {
       lesson,
       lessons,
       previous: lessons[index - 1],
       next: lessons[index + 1],
-    },
-  }));
+    };
+    const canonicalPath = getLessonURL(lesson).replace('/tutorial/', '');
+    const legacyPath = getLessonStableId(lesson);
+
+    return [
+      {
+        params: { id: canonicalPath },
+        props,
+      },
+      ...(canonicalPath === legacyPath
+        ? []
+        : [
+            {
+              params: { id: legacyPath },
+              props: {
+                ...props,
+                redirectTo: getLessonURL(lesson),
+              },
+            },
+          ]),
+    ];
+  });
 }
 
-const { lesson, lessons, previous, next } = Astro.props;
+const { lesson, lessons, previous, next, redirectTo } = Astro.props;
+if (redirectTo) {
+  return Astro.redirect(redirectTo, 301);
+}
 const { Content, headings } = await render(lesson);
 ---
 

@@ -1,20 +1,31 @@
 ---
 interface Props {
   analyticsId?: string;
+  allowedHosts?: string[];
 }
 
 const analyticsId = Astro.props.analyticsId?.trim() ?? '';
-const scriptURL = analyticsId
-  ? `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsId)}`
-  : '';
+const allowedHosts = Astro.props.allowedHosts?.map((host) => host.trim()).filter(Boolean) ?? [];
 ---
 
 {analyticsId && (
-  <>
-    <script async src={scriptURL}></script>
-    <script is:inline set:html={`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', ${JSON.stringify(analyticsId)});`} />
-  </>
+  <script is:inline set:html={`(() => {
+  const analyticsId = ${JSON.stringify(analyticsId)};
+  const allowedHosts = ${JSON.stringify(allowedHosts)};
+  const currentHost = window.location.hostname;
+
+  if (!analyticsId || (allowedHosts.length > 0 && !allowedHosts.includes(currentHost))) {
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(analyticsId);
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', analyticsId);
+})();`} />
 )}

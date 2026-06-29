@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "astro": "^7.0.2",
-    "heti": "^0.9.6"
+    "heti": "^0.9.6",
+    "pinyin-pro": "^3.27.0"
   },
   "devDependencies": {
     "playwright": "^1.61.1",

@@ -3,12 +3,15 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { chapters } from '../data/chapters';
 import { siteConfig } from '../site.config';
+import { getLessonStableId, getLessonURL } from '../utils/lesson-url';
 
 const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
 const grouped = new Map(chapters.map((chapter) => [chapter.number, lessons.filter((lesson) => lesson.data.chapter === chapter.number)]));
 const visibleChapters = chapters.filter((chapter) => (grouped.get(chapter.number)?.length ?? 0) > 0);
 const structuredLessons = lessons.filter((lesson) => /^#{2,4}\s/m.test(lesson.body)).length;
 const copy = siteConfig.copy.home;
+const firstLesson = lessons[0];
+const lessonURLMap = Object.fromEntries(lessons.map((lesson) => [getLessonStableId(lesson), getLessonURL(lesson)]));
 ---
 
 <BaseLayout current="home" lessons={lessons}>
@@ -19,7 +22,7 @@ const copy = siteConfig.copy.home;
         <h1>{copy.titleLines[0]}<br />{copy.titleLines[1]}</h1>
         <p class="hero-intro">{lessons.length}{copy.intro.suffix}</p>
         <div class="hero-actions">
-          <a class="primary-action" href="/tutorial/chapter-1/001" data-continue-link data-resume-copy={copy.actions.resume}>{copy.actions.start}</a>
+          <a class="primary-action" href={firstLesson ? getLessonURL(firstLesson) : '/tutorial'} data-continue-link data-resume-copy={copy.actions.resume}>{copy.actions.start}</a>
           <button class="secondary-action" type="button" data-search-open>{copy.actions.search}</button>
         </div>
       </div>
@@ -76,11 +79,12 @@ const copy = siteConfig.copy.home;
   </main>
 </BaseLayout>
 
-<script>
+<script define:vars={{ lessonURLMap }}>
+  const lessonURLById = lessonURLMap;
   const lastLesson = localStorage.getItem('mjie-last-lesson');
   const continueLink = document.querySelector('[data-continue-link]');
-  if (lastLesson && continueLink instanceof HTMLAnchorElement) {
-    continueLink.href = `/tutorial/${lastLesson}`;
+  if (lastLesson && lessonURLById[lastLesson] && continueLink instanceof HTMLAnchorElement) {
+    continueLink.href = lessonURLById[lastLesson];
     continueLink.textContent = continueLink.dataset.resumeCopy || continueLink.textContent;
   }
 </script>

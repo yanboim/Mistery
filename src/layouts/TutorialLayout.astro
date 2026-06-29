@@ -2,17 +2,19 @@
 import BaseLayout from './BaseLayout.astro';
 import { chapters } from '../data/chapters';
 import { getSourceEditURL, withSiteTitle } from '../site.config';
+import { getLessonSourcePath, getLessonStableId, getLessonURL } from '../utils/lesson-url';
 
 const { lesson, lessons, headings = [], previous, next } = Astro.props;
 const currentChapter = chapters.find((chapter) => chapter.number === lesson.data.chapter);
 const chapterLessons = lessons.filter((item) => item.data.chapter === lesson.data.chapter);
 const visibleChapters = chapters.filter((chapter) => lessons.some((item) => item.data.chapter === chapter.number));
-const currentIndex = chapterLessons.findIndex((item) => item.id === lesson.id);
+const lessonStableId = getLessonStableId(lesson);
+const currentIndex = chapterLessons.findIndex((item) => getLessonStableId(item) === lessonStableId);
 const progress = Math.round(((currentIndex + 1) / chapterLessons.length) * 100);
 const readingMinutes = Math.max(1, Math.ceil(lesson.body.replace(/\s/g, '').length / 350));
 const tocHeadings = headings.filter((heading) => heading.depth <= 4);
 const hasToc = tocHeadings.length > 0;
-const editURL = getSourceEditURL(lesson.id);
+const editURL = getSourceEditURL(getLessonSourcePath(lesson));
 ---
 
 <BaseLayout
@@ -46,7 +48,7 @@ const editURL = getSourceEditURL(lesson.id);
               <ol>
                 {items.map((item) => (
                   <li>
-                    <a class:list={{ active: item.id === lesson.id }} href={`/tutorial/${item.id}`}>
+                    <a class:list={{ active: getLessonStableId(item) === lessonStableId }} href={getLessonURL(item)}>
                       <span>{String(item.data.chapterOrder).padStart(2, '0')}</span>
                       {item.data.title}
                     </a>
@@ -59,7 +61,7 @@ const editURL = getSourceEditURL(lesson.id);
       </nav>
     </aside>
 
-    <main class:list={["lesson-main", { "without-toc": !hasToc }]} id="main-content" data-lesson-id={lesson.id}>
+    <main class:list={["lesson-main", { "without-toc": !hasToc }]} id="main-content" data-lesson-id={lessonStableId}>
       <article>
         <header class="lesson-head">
           <a class="chapter-link" href={`/tutorial/chapter-${lesson.data.chapter}`}>第{currentChapter?.numeral}章 / {lesson.data.chapterTitle}</a>
@@ -85,13 +87,13 @@ const editURL = getSourceEditURL(lesson.id);
         </div>
         <nav class="lesson-pager" aria-label="相邻教程">
           {previous ? (
-            <a href={`/tutorial/${previous.id}`}>
+            <a href={getLessonURL(previous)}>
               <small>上一篇</small>
               <strong>{previous.data.title}</strong>
             </a>
           ) : <span></span>}
           {next && (
-            <a class="next" href={`/tutorial/${next.id}`}>
+            <a class="next" href={getLessonURL(next)}>
               <small>下一篇</small>
               <strong>{next.data.title}</strong>
             </a>
@@ -176,6 +178,14 @@ const editURL = getSourceEditURL(lesson.id);
     if (/^第[一-龥]+、?[，、]/.test(paragraph.textContent?.trim() || '')) paragraph.classList.add('prose-point');
   });
 
+  document.querySelectorAll('.prose table').forEach((table) => {
+    if (table.parentElement?.classList.contains('table-scroll')) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'table-scroll';
+    table.parentElement?.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+  });
+
   const tocLinks = [...document.querySelectorAll('.page-toc a')];
   if (tocLinks.length) {
     const byId = new Map(tocLinks.map((link) => [decodeURIComponent(link.getAttribute('href')?.slice(1) || ''), link]));
@@ -249,9 +259,12 @@ const editURL = getSourceEditURL(lesson.id);
   .prose :global(hr) { border: 0; border-top: 1px solid var(--line); margin: 1.8em 0; }
   .prose :global(code) { padding: .15em .4em; border-radius: 5px; background: var(--code); font-family: var(--font-code); font-size: .9em; }
   .prose :global(img) { display: block; max-width: 82%; max-height: 72vh; width: auto; height: auto; margin: 1.8em auto; border-radius: 10px; border: 1px solid var(--line); }
-  .prose :global(table) { width: fit-content; max-width: 100%; display: block; overflow-x: auto; border-collapse: collapse; margin: 1.45em 0; font-size: .96em; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
-  .prose :global(th), .prose :global(td) { min-width: 12em; padding: 10px 13px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .prose :global(.table-scroll) { width: 100%; max-width: 100%; overflow-x: auto; margin: 1.45em 0; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  .prose :global(table) { width: 100%; min-width: min(560px, 100%); border-collapse: collapse; table-layout: auto; font-size: .95em; }
+  .prose :global(th), .prose :global(td) { padding: 10px 13px; border: 1px solid var(--line); text-align: left; vertical-align: top; overflow-wrap: break-word; word-break: normal; }
   .prose :global(th) { background: color-mix(in srgb, var(--surface) 64%, transparent); color: var(--text); font-weight: 750; }
+  .prose :global(th:first-child), .prose :global(td:first-child) { width: 1%; white-space: nowrap; }
+  .prose :global(td:first-child) { text-align: right; font-variant-numeric: tabular-nums; color: color-mix(in srgb, var(--text) 88%, var(--text-soft)); }
   .lesson-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 42px; padding-top: 18px; border-top: 1px solid var(--line); background: transparent; }
   .lesson-pager a { min-height: 72px; display: flex; flex-direction: column; justify-content: center; padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--bg); transition: background .2s ease, color .2s ease, transform .2s ease; }
   .lesson-pager a:not(.next) { border-right: 1px solid var(--line); }

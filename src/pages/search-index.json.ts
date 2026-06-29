@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { getLessonURL } from '../utils/lesson-url';
 
 export async function GET() {
   const lessons = (await getCollection('lessons')).sort((a, b) => a.data.order - b.data.order);
@@ -7,7 +8,7 @@ export async function GET() {
     chapterTitle: lesson.data.chapterTitle,
     description: lesson.data.description,
     content: lesson.body.replace(/[#*_>`\[\]()\-]/g, ' ').replace(/\s+/g, ' ').trim(),
-    href: `/tutorial/${lesson.id}`,
+    href: getLessonURL(lesson),
   }))), {
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
   });
