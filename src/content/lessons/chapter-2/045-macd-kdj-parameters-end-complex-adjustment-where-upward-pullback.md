@@ -1,9 +1,10 @@
 ---
-title: "MACD 和 RSI 技术指标意义和交易策略"
-description: "MACD 和 RSI 技术指标意义和交易策略"
+title: "上涨回调动能减弱的复杂调整末尾的 MACD KDJ 参数"
+description: "当两个指标同时双金叉，买入信号"
 slug: "macd-kdj-parameters-end-complex-adjustment-where-upward-pullback"
 chapter: 2
 order: 45
 ---
-![](../../assets/page-214-img-01.jpeg)
-![](../../assets/page-214-img-02.jpeg)
+当两个指标同时双金叉，买入信号
+![](../../assets/page-215-img-01.jpeg)
+![](../../assets/page-216-img-01.jpeg)
