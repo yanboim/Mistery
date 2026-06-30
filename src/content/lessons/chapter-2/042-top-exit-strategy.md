@@ -5,4 +5,10 @@ slug: "top-exit-strategy"
 chapter: 2
 order: 42
 ---
-里面的指标用法你们自己用人工智能去查询。学会掌握基本的量价关系，均线意义。
+里面的指标用法你们自己用人工智能去查询。
+
+学会掌握基本的量价关系，均线意义。
+
+![](../../assets/page-209-img-01.jpeg)
+![](../../assets/page-210-img-01.jpeg)
+![](../../assets/page-210-img-02.jpeg)
