@@ -20,6 +20,11 @@ const mediaFile = z.object({
   captions: z.string().optional(),
 });
 
+const documentFile = z.object({
+  src: z.string(),
+  title: z.string().optional(),
+});
+
 const reviews = defineCollection({
   loader: glob({ base: './src/content/reviews', pattern: '**/*.md' }),
   schema: z.object({
@@ -39,6 +44,12 @@ const reviews = defineCollection({
       .object({
         type: z.enum(['srt', 'text', 'vtt']).default('srt'),
         src: z.string(),
+      })
+      .optional(),
+    summary: z
+      .object({
+        html: documentFile.optional(),
+        text: documentFile.optional(),
       })
       .optional(),
     source: z
