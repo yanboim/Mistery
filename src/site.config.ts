@@ -211,6 +211,7 @@ export const siteConfig = {
       detailBack: '返回复盘列表',
       source: '原始来源',
       transcript: '字幕文件',
+      transcriptContent: '字幕整理',
       audio: '复盘音频',
       video: '复盘视频',
     },

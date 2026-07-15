@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { siteConfig, withSiteTitle } from '../../site.config';
 import { compareLessons } from '../../utils/lesson-url';
+import { loadTranscriptMarkdown } from '../../utils/transcript';
 
 export async function getStaticPaths() {
   const reviews = await getCollection('reviews');
@@ -20,6 +21,7 @@ const audio = review.data.media?.audio;
 const video = review.data.media?.video;
 const transcript = review.data.transcript;
 const hasWebVttTranscript = transcript?.type === 'vtt' && transcript.src.toLowerCase().endsWith('.vtt');
+const parsedTranscript = transcript?.src ? await loadTranscriptMarkdown(transcript.src, transcript.type) : null;
 
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('zh-CN', {
@@ -76,12 +78,29 @@ const formatDate = (date: Date) =>
           {transcript?.src && (
             <div class="media-block transcript-link">
               <h2>{copy.transcript}</h2>
-              <p>{transcript.type.toUpperCase()} 字幕文件已关联到本篇复盘。</p>
+              <p>
+                {parsedTranscript?.paragraphs.length
+                  ? `已解析为 ${parsedTranscript.paragraphs.length} 段正文。`
+                  : `${transcript.type.toUpperCase()} 字幕文件已关联到本篇复盘。`}
+              </p>
+              {parsedTranscript?.error && <p class="transcript-note">自动解析暂未成功，仍可直接打开字幕源文件。</p>}
               <a href={transcript.src} target="_blank" rel="noreferrer">打开字幕文件 →</a>
             </div>
           )}
         </section>
       )}
+
+      {parsedTranscript?.paragraphs.length ? (
+        <section class="parsed-transcript" aria-labelledby="parsed-transcript-title">
+          <p class="eyebrow">Markdown 内容</p>
+          <h2 id="parsed-transcript-title">字幕整理</h2>
+          <div class="transcript-content heti">
+            {parsedTranscript.paragraphs.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <div class="review-body heti">
         <Content />
@@ -191,6 +210,32 @@ const formatDate = (date: Date) =>
   }
 
   .transcript-link p { margin: 0; color: var(--text-soft); }
+  .transcript-note { margin-top: 8px !important; font-size: 13px; }
+
+  .parsed-transcript {
+    margin: 42px 0 36px;
+    padding: 30px 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .parsed-transcript h2 {
+    margin: 6px 0 22px;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.18;
+    letter-spacing: -.04em;
+  }
+
+  .transcript-content {
+    display: grid;
+    gap: 16px;
+    font-size: 18px;
+    line-height: 1.82;
+  }
+
+  .transcript-content :global(p) {
+    margin: 0;
+    color: var(--text);
+  }
 
   .review-body {
     margin-top: 34px;
@@ -222,6 +267,7 @@ const formatDate = (date: Date) =>
 
     .review-header h1 { font-size: clamp(36px, 12vw, 54px); }
     .media-block { padding: 18px; }
+    .transcript-content { font-size: 17px; line-height: 1.75; }
     .review-body { font-size: 17px; line-height: 1.75; }
   }
 </style>
