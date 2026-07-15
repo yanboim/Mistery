@@ -236,8 +236,8 @@ const firstLesson = lessons[0];
   .catalog-filter p { margin: 0 0 0 auto; color: var(--text-soft); font-size: 11px; }
   .catalog-empty { margin: -12px 0 44px; padding: 22px 24px; border: 1px solid var(--line); background: var(--surface); color: var(--text-soft); font-size: 14px; }
   .catalog-empty[hidden] { display: none; }
-  .chapter-jump { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; margin: 0; border: 1px solid var(--line); background: var(--line); }
-  .chapter-jump a { min-height: 86px; display: grid; align-content: center; gap: 3px; padding: 13px 14px; background: var(--bg); color: var(--text-soft); font-size: 12px; transition: background .2s ease, color .2s ease; }
+  .chapter-jump { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 1px; margin: 0; border: 1px solid var(--line); background: var(--line); }
+  .chapter-jump a { min-width: 0; min-height: 86px; display: grid; align-content: center; gap: 3px; padding: 13px 14px; background: var(--bg); color: var(--text-soft); font-size: 12px; transition: background .2s ease, color .2s ease; }
   .chapter-jump a:hover { background: var(--surface); color: var(--text); }
   .chapter-jump span { color: var(--accent-strong); font-weight: 800; }
   .chapter-jump small { color: var(--text-soft); font-family: var(--font-code); font-size: 10px; font-variant-numeric: tabular-nums; }
