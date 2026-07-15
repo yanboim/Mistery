@@ -13,6 +13,11 @@ export type TranscriptMarkdown = {
   error?: string;
 };
 
+export type RemoteTextDocument = {
+  text: string;
+  error?: string;
+};
+
 const normalizeText = (value: string) =>
   value
     .replace(/^\uFEFF/, '')
@@ -105,22 +110,27 @@ const parseTranscriptText = (source: string, type: TranscriptType) => {
   return { cues: [], paragraphs, sourceText: source };
 };
 
-export const loadTranscriptMarkdown = async (src: string, type: TranscriptType = 'srt'): Promise<TranscriptMarkdown> => {
+export const loadRemoteText = async (src: string, timeoutMs = 5000): Promise<RemoteTextDocument> => {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 5000);
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const response = await fetch(src, { signal: controller.signal });
     if (!response.ok) {
-      return { cues: [], paragraphs: [], sourceText: '', error: `字幕请求失败：${response.status}` };
+      return { text: '', error: `远程文件请求失败：${response.status}` };
     }
 
-    const sourceText = await response.text();
-    return parseTranscriptText(sourceText, type);
+    return { text: await response.text() };
   } catch (error) {
-    const message = error instanceof Error ? error.message : '字幕解析失败';
-    return { cues: [], paragraphs: [], sourceText: '', error: message };
+    const message = error instanceof Error ? error.message : '远程文件读取失败';
+    return { text: '', error: message };
   } finally {
     clearTimeout(timeout);
   }
+};
+
+export const loadTranscriptMarkdown = async (src: string, type: TranscriptType = 'srt'): Promise<TranscriptMarkdown> => {
+  const remoteText = await loadRemoteText(src);
+  if (remoteText.error) return { cues: [], paragraphs: [], sourceText: '', error: remoteText.error };
+  return parseTranscriptText(remoteText.text, type);
 };

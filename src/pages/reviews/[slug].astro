@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { siteConfig, withSiteTitle } from '../../site.config';
 import { compareLessons } from '../../utils/lesson-url';
-import { loadTranscriptMarkdown } from '../../utils/transcript';
+import { loadRemoteText, loadTranscriptMarkdown } from '../../utils/transcript';
 
 export async function getStaticPaths() {
   const reviews = await getCollection('reviews');
@@ -24,6 +24,8 @@ const structuredSummary = review.data.summary?.html;
 const textSummary = review.data.summary?.text;
 const hasWebVttTranscript = transcript?.type === 'vtt' && transcript.src.toLowerCase().endsWith('.vtt');
 const parsedTranscript = transcript?.src ? await loadTranscriptMarkdown(transcript.src, transcript.type) : null;
+const structuredSummaryDocument = structuredSummary?.src ? await loadRemoteText(structuredSummary.src) : null;
+const structuredSummaryHtml = structuredSummaryDocument?.text.trim() ?? '';
 
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('zh-CN', {
@@ -105,13 +107,19 @@ const formatDate = (date: Date) =>
               <a href={structuredSummary.src} target="_blank" rel="noreferrer">新窗口打开</a>
             </div>
           </div>
-          <iframe
-            src={structuredSummary.src}
-            title={structuredSummary.title ?? `${review.data.title} 结构化文稿`}
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            sandbox="allow-scripts allow-same-origin allow-popups"
-          ></iframe>
+          {structuredSummaryHtml ? (
+            <iframe
+              srcdoc={structuredSummaryHtml}
+              title={structuredSummary.title ?? `${review.data.title} 结构化文稿`}
+              loading="lazy"
+              sandbox="allow-scripts allow-popups allow-forms"
+            ></iframe>
+          ) : (
+            <div class="summary-fallback" role="status">
+              <p>结构化文稿暂时无法内嵌展示，可以通过右上角按钮打开源文件。</p>
+              {structuredSummaryDocument?.error && <span>{structuredSummaryDocument.error}</span>}
+            </div>
+          )}
         </section>
       )}
 
@@ -296,13 +304,33 @@ const formatDate = (date: Date) =>
     background: color-mix(in srgb, var(--surface-raised) 68%, transparent);
   }
 
-  .structured-summary iframe {
+  .structured-summary iframe,
+  .summary-fallback {
     width: 100%;
     min-height: min(76vh, 820px);
     border: 1px solid var(--line);
     border-radius: 18px;
     background: #fff;
     box-shadow: 0 18px 60px rgba(38, 32, 23, .08);
+  }
+
+  .summary-fallback {
+    display: grid;
+    place-content: center;
+    gap: 8px;
+    padding: 28px;
+    text-align: center;
+  }
+
+  .summary-fallback p {
+    margin: 0;
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .summary-fallback span {
+    color: var(--text-soft);
+    font-size: 13px;
   }
 
   .parsed-transcript {
@@ -380,7 +408,8 @@ const formatDate = (date: Date) =>
     .media-block { padding: 18px; }
     .summary-head { display: grid; align-items: start; }
     .summary-actions { justify-content: flex-start; }
-    .structured-summary iframe { min-height: 72vh; border-radius: 14px; }
+    .structured-summary iframe,
+    .summary-fallback { min-height: 72vh; border-radius: 14px; }
     .transcript-content { font-size: 17px; line-height: 1.75; }
     .review-body { font-size: 17px; line-height: 1.75; }
   }
