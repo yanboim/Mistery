@@ -8,9 +8,11 @@ const escapeXml = (value: string) =>
 
 export async function GET({ site }: { site: URL }) {
   const siteURL = site ?? getCanonicalSiteURL();
-  const lessons = (await getCollection('lessons')).sort(compareLessons);
+  const [lessons, reviews] = await Promise.all([getCollection('lessons'), getCollection('reviews')]);
+  const sortedLessons = lessons.sort(compareLessons);
+  const reviewPaths = reviews.map((review) => `/reviews/${review.data.slug}`);
   const chapterPaths = chapters.map((chapter) => `/tutorial/chapter-${chapter.number}`);
-  const paths = ['/', '/tutorial', ...chapterPaths, ...lessons.map((lesson) => getLessonURL(lesson))];
+  const paths = ['/', '/tutorial', '/reviews', ...chapterPaths, ...sortedLessons.map((lesson) => getLessonURL(lesson)), ...reviewPaths];
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${paths

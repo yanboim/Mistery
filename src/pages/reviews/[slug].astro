@@ -1,0 +1,227 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig, withSiteTitle } from '../../site.config';
+import { compareLessons } from '../../utils/lesson-url';
+
+export async function getStaticPaths() {
+  const reviews = await getCollection('reviews');
+  return reviews.map((review) => ({
+    params: { slug: review.data.slug },
+    props: { review },
+  }));
+}
+
+const { review } = Astro.props;
+const { Content } = await render(review);
+const lessons = (await getCollection('lessons')).sort(compareLessons);
+const copy = siteConfig.copy.reviews;
+const audio = review.data.media?.audio;
+const video = review.data.media?.video;
+const transcript = review.data.transcript;
+const hasWebVttTranscript = transcript?.type === 'vtt' && transcript.src.toLowerCase().endsWith('.vtt');
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date);
+---
+
+<BaseLayout title={withSiteTitle(review.data.title)} description={review.data.description} current="reviews" lessons={lessons} schemaType="Article">
+  <main id="main-content" class="review-detail">
+    <a class="back-link" href="/reviews">← {copy.detailBack}</a>
+
+    <article>
+      <header class="review-header">
+        <p class="eyebrow">{copy.kicker}</p>
+        <h1>{review.data.title}</h1>
+        <div class="review-info">
+          <time datetime={review.data.date.toISOString()}>{formatDate(review.data.date)}</time>
+          {review.data.source && (
+            <a href={review.data.source.href} target="_blank" rel="noreferrer">{copy.source}：{review.data.source.label}</a>
+          )}
+        </div>
+        {review.data.tags.length > 0 && (
+          <div class="review-tags" aria-label="标签">
+            {review.data.tags.map((tag) => (
+              <span>{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {(audio?.src || video?.src || transcript?.src) && (
+        <section class="media-panel" aria-label="复盘资料">
+          {audio?.src && (
+            <div class="media-block">
+              <h2>{audio.title ?? copy.audio}</h2>
+              <audio controls preload="metadata" src={audio.src}></audio>
+              <a href={audio.src} target="_blank" rel="noreferrer">打开音频源文件</a>
+            </div>
+          )}
+
+          {video?.src && (
+            <div class="media-block">
+              <h2>{video.title ?? copy.video}</h2>
+              <video controls preload="metadata" poster={video.poster}>
+                <source src={video.src} />
+                {hasWebVttTranscript && <track kind="captions" src={transcript.src} srclang="zh" label="中文字幕" default />}
+              </video>
+              <a href={video.src} target="_blank" rel="noreferrer">打开视频源文件</a>
+            </div>
+          )}
+
+          {transcript?.src && (
+            <div class="media-block transcript-link">
+              <h2>{copy.transcript}</h2>
+              <p>{transcript.type.toUpperCase()} 字幕文件已关联到本篇复盘。</p>
+              <a href={transcript.src} target="_blank" rel="noreferrer">打开字幕文件 →</a>
+            </div>
+          )}
+        </section>
+      )}
+
+      <div class="review-body heti">
+        <Content />
+      </div>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .review-detail {
+    width: min(920px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: clamp(50px, 8vw, 92px) 0 clamp(84px, 11vw, 132px);
+  }
+
+  .back-link {
+    display: inline-flex;
+    margin-bottom: 34px;
+    color: var(--accent-strong);
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  .review-header {
+    display: grid;
+    gap: 16px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: var(--accent-strong);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .04em;
+  }
+
+  .review-header h1 {
+    margin: 0;
+    font-size: clamp(42px, 7vw, 76px);
+    line-height: 1.05;
+    letter-spacing: -.055em;
+  }
+
+  .review-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    color: var(--text-soft);
+    font-size: 14px;
+  }
+
+  .review-info a {
+    color: var(--accent-strong);
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  .review-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .review-tags span {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 10px;
+    color: var(--text-soft);
+    font-size: 12px;
+  }
+
+  .media-panel {
+    display: grid;
+    gap: 18px;
+    margin: 34px 0;
+  }
+
+  .media-block {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--surface-raised) 62%, transparent);
+    padding: 22px;
+  }
+
+  .media-block h2 {
+    margin: 0 0 14px;
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  .media-block audio,
+  .media-block video {
+    width: 100%;
+    display: block;
+  }
+
+  .media-block video {
+    border-radius: 10px;
+    background: #000;
+  }
+
+  .media-block a {
+    display: inline-flex;
+    margin-top: 14px;
+    color: var(--accent-strong);
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  .transcript-link p { margin: 0; color: var(--text-soft); }
+
+  .review-body {
+    margin-top: 34px;
+    font-size: 18px;
+    line-height: 1.82;
+  }
+
+  .review-body :global(h2) {
+    margin: 2.1em 0 .8em;
+    padding-top: 1.2em;
+    border-top: 1px solid var(--line);
+    font-size: 26px;
+    line-height: 1.35;
+  }
+
+  .review-body :global(p),
+  .review-body :global(li) { color: var(--text); }
+
+  .review-body :global(a) {
+    color: var(--accent-strong);
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  @media (max-width: 720px) {
+    .review-detail {
+      width: min(100% - 28px, 560px);
+      padding-top: 38px;
+    }
+
+    .review-header h1 { font-size: clamp(36px, 12vw, 54px); }
+    .media-block { padding: 18px; }
+    .review-body { font-size: 17px; line-height: 1.75; }
+  }
+</style>

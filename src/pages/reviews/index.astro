@@ -1,0 +1,171 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig, withSiteTitle } from '../../site.config';
+import { compareLessons } from '../../utils/lesson-url';
+
+const [reviews, lessons] = await Promise.all([getCollection('reviews'), getCollection('lessons')]);
+const sortedReviews = reviews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const sortedLessons = lessons.sort(compareLessons);
+const copy = siteConfig.copy.reviews;
+const title = withSiteTitle(copy.title);
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+
+const getReviewURL = (review: (typeof sortedReviews)[number]) => `/reviews/${review.data.slug}`;
+---
+
+<BaseLayout title={title} description={copy.description} current="reviews" lessons={sortedLessons}>
+  <main id="main-content" class="reviews-page">
+    <section class="reviews-hero" aria-labelledby="reviews-title">
+      <p class="eyebrow">{copy.kicker}</p>
+      <h1 id="reviews-title">
+        {copy.titleLines.map((line) => (
+          <span>{line}</span>
+        ))}
+      </h1>
+      <p>{copy.description}</p>
+    </section>
+
+    <section class="review-list" aria-label="复盘列表">
+      {sortedReviews.length === 0 ? (
+        <p class="empty-state">{copy.empty}</p>
+      ) : (
+        sortedReviews.map((review) => {
+          const hasAudio = Boolean(review.data.media?.audio?.src);
+          const hasVideo = Boolean(review.data.media?.video?.src);
+          const hasTranscript = Boolean(review.data.transcript?.src);
+
+          return (
+            <article class="review-card">
+              <a href={getReviewURL(review)} aria-label={`查看${review.data.title}`}>
+                <time datetime={review.data.date.toISOString()}>{formatDate(review.data.date)}</time>
+                <div>
+                  <h2>{review.data.title}</h2>
+                  <p>{review.data.description}</p>
+                  <div class="review-meta" aria-label="复盘资料类型">
+                    {hasAudio && <span>音频</span>}
+                    {hasVideo && <span>视频</span>}
+                    {hasTranscript && <span>字幕</span>}
+                    {review.data.tags.map((tag) => (
+                      <span>{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </a>
+            </article>
+          );
+        })
+      )}
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .reviews-page {
+    width: min(1120px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: clamp(72px, 10vw, 124px) 0 clamp(88px, 12vw, 140px);
+  }
+
+  .reviews-hero {
+    display: grid;
+    gap: 18px;
+    padding-bottom: clamp(38px, 6vw, 72px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: var(--accent-strong);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .04em;
+  }
+
+  .reviews-hero h1 {
+    margin: 0;
+    max-width: 760px;
+    font-size: clamp(44px, 8vw, 86px);
+    line-height: .98;
+    letter-spacing: -.06em;
+  }
+
+  .reviews-hero h1 span { display: block; }
+
+  .reviews-hero > p:not(.eyebrow) {
+    margin: 0;
+    max-width: 620px;
+    color: var(--text-soft);
+    font-size: 17px;
+  }
+
+  .review-list { display: grid; gap: 0; }
+  .review-card { border-bottom: 1px solid var(--line); }
+
+  .review-card a {
+    display: grid;
+    grid-template-columns: minmax(110px, 150px) minmax(0, 1fr);
+    gap: 28px;
+    padding: 34px 0;
+    transition: color .2s ease, transform .2s ease;
+  }
+
+  .review-card a:hover { color: var(--accent-strong); transform: translateX(4px); }
+
+  .review-card time {
+    color: var(--accent-strong);
+    font-family: var(--font-code);
+    font-size: 13px;
+  }
+
+  .review-card h2 {
+    margin: 0 0 10px;
+    font-size: clamp(24px, 3vw, 36px);
+    line-height: 1.18;
+    letter-spacing: -.035em;
+  }
+
+  .review-card p {
+    margin: 0;
+    max-width: 720px;
+    color: var(--text-soft);
+  }
+
+  .review-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .review-meta span {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 10px;
+    color: var(--text-soft);
+    font-size: 12px;
+  }
+
+  .empty-state { margin: 42px 0 0; color: var(--text-soft); }
+
+  @media (max-width: 720px) {
+    .reviews-page {
+      width: min(100% - 28px, 520px);
+      padding-top: 48px;
+    }
+
+    .reviews-hero h1 { font-size: clamp(38px, 14vw, 58px); }
+
+    .review-card a {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 28px 0;
+    }
+  }
+</style>

@@ -61,6 +61,7 @@ export const siteConfig = {
   nav: [
     { key: 'home', label: '知识地图', href: '/' },
     { key: 'tutorial', label: '全部教程', href: '/tutorial' },
+    { key: 'reviews', label: 'Mi姐复盘', href: '/reviews' },
     { key: 'about-x', label: '关于我', href: social.x.href, external: true, icon: { type: 'x' } },
     { key: 'mi-x', label: 'Mi姐', href: social.sourceX.href, external: true, icon: { type: 'x' } },
     { key: 'repository', label: '源码', href: github.repo, external: true, icon: { type: 'github' } },
@@ -200,6 +201,18 @@ export const siteConfig = {
         collapse: '收起',
         expand: '展开',
       },
+    },
+    reviews: {
+      title: 'Mi姐复盘',
+      description: '按时间整理 Mi 姐的市场复盘，支持文字、图片、音频、视频与字幕。',
+      kicker: '复盘记录',
+      titleLines: ['把市场复盘，', '沉淀成可回看的记录。'],
+      empty: '暂无复盘记录。',
+      detailBack: '返回复盘列表',
+      source: '原始来源',
+      transcript: '字幕文件',
+      audio: '复盘音频',
+      video: '复盘视频',
     },
   },
 
