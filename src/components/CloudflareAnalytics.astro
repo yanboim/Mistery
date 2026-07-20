@@ -1,0 +1,27 @@
+---
+interface Props {
+  token?: string;
+  allowedHosts?: string[];
+}
+
+const token = Astro.props.token?.trim() ?? '';
+const allowedHosts = Astro.props.allowedHosts?.map((host) => host.trim()).filter(Boolean) ?? [];
+---
+
+{token && (
+  <script is:inline set:html={`(() => {
+  const token = ${JSON.stringify(token)};
+  const allowedHosts = ${JSON.stringify(allowedHosts)};
+  const currentHost = window.location.hostname;
+
+  if (!token || (allowedHosts.length > 0 && !allowedHosts.includes(currentHost))) {
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.type = 'module';
+  script.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  script.dataset.cfBeacon = JSON.stringify({ token });
+  document.head.appendChild(script);
+})();`} />
+)}

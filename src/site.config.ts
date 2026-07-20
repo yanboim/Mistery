@@ -217,11 +217,16 @@ export const siteConfig = {
     },
   },
 
-  // 第三方集成：部署环境设置 GOOGLE_ANALYTICS_ID 后会覆盖默认值。
-  // 如果想完全关闭 Google Analytics，可以把 analyticsId 配成空字符串。
+  // 第三方集成：部署环境设置对应环境变量后会覆盖默认值。
   // allowedHosts 用来限制真实上报域名，避免 localhost / 预览环境污染数据。
   google: {
+    // 留空 analyticsId 可以完全关闭 Google Analytics。
     analyticsId: env.GOOGLE_ANALYTICS_ID ?? 'G-5BHRM3XB5M',
+    allowedHosts: ['mi.yanbo.im'],
+  },
+  cloudflare: {
+    // 留空 token 可以完全关闭 Cloudflare Web Analytics。
+    token: env.CLOUDFLARE_WEB_ANALYTICS_TOKEN ?? 'cf0d6bd9432447b791fc5cd3ff855bc1',
     allowedHosts: ['mi.yanbo.im'],
   },
 

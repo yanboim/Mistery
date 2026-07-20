@@ -47,16 +47,18 @@ npm run content:build -- --split
 https://mi.yanbo.im/sitemap.xml
 ```
 
-Google Analytics 通过 `siteConfig.google.analyticsId` 配置，当前默认使用：
+统计脚本统一通过 `src/site.config.ts` 配置，当前默认启用：
 
 ```txt
-G-5BHRM3XB5M
+Google Analytics: G-5BHRM3XB5M
+Cloudflare Web Analytics: cf0d6bd9432447b791fc5cd3ff855bc1
 ```
 
 部署环境里也可以设置环境变量覆盖：
 
 ```bash
 GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
+CLOUDFLARE_WEB_ANALYTICS_TOKEN=你的CloudflareToken
 ```
 
 对应配置在 `src/site.config.ts`：
@@ -64,10 +66,15 @@ GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
 ```ts
 google: {
   analyticsId: env.GOOGLE_ANALYTICS_ID ?? 'G-5BHRM3XB5M',
+  allowedHosts: ['mi.yanbo.im'],
+},
+cloudflare: {
+  token: env.CLOUDFLARE_WEB_ANALYTICS_TOKEN ?? 'cf0d6bd9432447b791fc5cd3ff855bc1',
+  allowedHosts: ['mi.yanbo.im'],
 },
 ```
 
-留空时不会输出 Google Analytics 统计脚本。
+把 `analyticsId` 或 `token` 配成空字符串时，对应统计脚本不会输出。
 
 ## 内容更新
 
