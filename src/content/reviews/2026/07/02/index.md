@@ -23,8 +23,8 @@ summary:
     src: "https://folder.cc.cd/d/20260702/20260702.txt"
     title: "TXT 整理稿"
 source:
-  label: "Mi 姐 X"
-  href: "https://x.com/Mimiwftt"
+  label: "Mi 姐"
+  href: "/mijie"
 ---
 
 本篇收录 2026-07-02 Mi 姐复盘音频、字幕与整理文件。

@@ -1,0 +1,196 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig, withSiteTitle } from '../site.config';
+import { compareLessons } from '../utils/lesson-url';
+
+const lessons = (await getCollection('lessons')).sort(compareLessons);
+---
+
+<BaseLayout
+  title={withSiteTitle('Mi姐暂时离开')}
+  description="Mi姐的原 X 账号暂时无法访问。她只是暂时离开，我们静静等候。"
+  current="mi-x"
+  lessons={lessons}
+>
+  <main id="main-content" class="mijie-away">
+    <section class="away-card" aria-labelledby="away-title">
+      <p class="away-code">404 / 她暂时不在这里</p>
+      <h1 id="away-title">Mi姐只是暂时离开。</h1>
+      <p class="away-lead">有些链接会失效，有些声音会短暂停住。但已经留下来的内容还在，我们就安静地整理、阅读、等候。</p>
+      <div class="breathing-light" aria-hidden="true">
+        <span></span>
+      </div>
+      <div class="away-actions">
+        <a class="primary" href="/reviews">查看复盘记录</a>
+        <a href="/tutorial">继续学习教程</a>
+        <a href="/">返回知识地图</a>
+      </div>
+      <p class="away-note">如果未来她回来，这个入口也可以再重新指向新的公开主页。</p>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .mijie-away {
+    width: min(1040px, calc(100% - 40px));
+    min-height: calc(100dvh - var(--header-height));
+    margin: 0 auto;
+    padding: clamp(72px, 11vh, 132px) 0 clamp(88px, 12vw, 140px);
+    display: grid;
+    align-items: center;
+  }
+
+  .away-card {
+    position: relative;
+    overflow: hidden;
+    min-height: min(660px, calc(100dvh - 170px));
+    display: grid;
+    align-content: center;
+    padding: clamp(34px, 7vw, 76px);
+    border: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+    border-radius: 24px;
+    background:
+      radial-gradient(circle at 78% 24%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 220px),
+      linear-gradient(135deg, color-mix(in srgb, var(--surface-raised) 86%, transparent), color-mix(in srgb, var(--bg) 88%, transparent));
+    box-shadow: 0 24px 80px rgba(38, 32, 23, .08);
+  }
+
+  .away-card::before {
+    content: '';
+    position: absolute;
+    inset: 28px;
+    border: 1px solid color-mix(in srgb, var(--line) 54%, transparent);
+    border-radius: 18px;
+    pointer-events: none;
+  }
+
+  .away-code {
+    margin: 0 0 20px;
+    color: var(--accent-strong);
+    font-family: var(--font-code);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .1em;
+  }
+
+  h1 {
+    max-width: 820px;
+    margin: 0;
+    font-size: clamp(52px, 7vw, 92px);
+    line-height: 1.06;
+    letter-spacing: -.06em;
+    text-wrap: balance;
+  }
+
+  .away-lead {
+    max-width: 620px;
+    margin: 26px 0 0;
+    color: var(--text-soft);
+    font-size: 18px;
+    line-height: 1.85;
+    text-wrap: pretty;
+  }
+
+  .breathing-light {
+    position: absolute;
+    right: clamp(36px, 7vw, 88px);
+    bottom: clamp(36px, 7vw, 88px);
+    width: 88px;
+    height: 88px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface-raised) 72%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--line));
+  }
+
+  .breathing-light span {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 34px color-mix(in srgb, var(--accent) 64%, transparent);
+  }
+
+  .breathing-light span::before,
+  .breathing-light span::after {
+    content: '';
+    position: absolute;
+    inset: -22px;
+    border-radius: inherit;
+    border: 1px solid color-mix(in srgb, var(--accent) 48%, transparent);
+    animation: waitPulse 3s ease-out infinite;
+  }
+
+  .breathing-light span::after {
+    animation-delay: 1.35s;
+  }
+
+  .away-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 38px;
+  }
+
+  .away-actions a {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 10px 18px;
+    background: color-mix(in srgb, var(--surface) 86%, transparent);
+    font-size: 14px;
+    font-weight: 800;
+    transition: transform .2s ease, border-color .2s ease, background .2s ease;
+  }
+
+  .away-actions a.primary {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .away-actions a:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+  }
+
+  .away-note {
+    max-width: 560px;
+    margin: 28px 0 0;
+    color: color-mix(in srgb, var(--text-soft) 78%, transparent);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  @keyframes waitPulse {
+    0% { opacity: .68; transform: scale(.54); }
+    70%, 100% { opacity: 0; transform: scale(1.7); }
+  }
+
+  @media (max-width: 760px) {
+    .mijie-away {
+      width: min(100% - 28px, 560px);
+      padding-top: 46px;
+    }
+
+    .away-card {
+      min-height: auto;
+      padding: 28px;
+      border-radius: 18px;
+    }
+
+    .away-card::before { inset: 14px; border-radius: 14px; }
+    h1 { font-size: clamp(42px, 13vw, 58px); }
+    .away-lead { font-size: 16px; line-height: 1.75; }
+    .breathing-light { position: relative; right: auto; bottom: auto; width: 68px; height: 68px; margin-top: 34px; }
+    .breathing-light span { width: 14px; height: 14px; }
+    .away-actions { display: grid; margin-top: 28px; }
+    .away-actions a { width: 100%; }
+  }
+</style>

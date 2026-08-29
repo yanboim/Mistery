@@ -26,6 +26,7 @@ const hasWebVttTranscript = transcript?.type === 'vtt' && transcript.src.toLower
 const parsedTranscript = transcript?.src ? await loadTranscriptMarkdown(transcript.src, transcript.type) : null;
 const structuredSummaryDocument = structuredSummary?.src ? await loadRemoteText(structuredSummary.src) : null;
 const structuredSummaryHtml = structuredSummaryDocument?.text.trim() ?? '';
+const sourceIsExternal = review.data.source?.href?.startsWith('http') ?? false;
 
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('zh-CN', {
@@ -46,7 +47,7 @@ const formatDate = (date: Date) =>
         <div class="review-info">
           <time datetime={review.data.date.toISOString()}>{formatDate(review.data.date)}</time>
           {review.data.source && (
-            <a href={review.data.source.href} target="_blank" rel="noreferrer">{copy.source}：{review.data.source.label}</a>
+            <a href={review.data.source.href} target={sourceIsExternal ? '_blank' : undefined} rel={sourceIsExternal ? 'noreferrer' : undefined}>{copy.source}：{review.data.source.label}</a>
           )}
         </div>
         {review.data.tags.length > 0 && (

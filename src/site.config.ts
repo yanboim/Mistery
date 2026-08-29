@@ -9,8 +9,8 @@ const social = {
     href: 'https://x.com/ImYanBoss',
   },
   sourceX: {
-    label: 'Mi姐 X：@Mimiwftt',
-    href: 'https://x.com/Mimiwftt',
+    label: 'Mi姐',
+    href: '/mijie',
   },
 } as const;
 
@@ -41,6 +41,25 @@ export const siteConfig = {
     code: ['"LXGW WenKai"', 'Roboto', '"Source Code Pro"', 'ui-monospace', 'monospace'],
   },
 
+  // 站点活跃状态：用于导航栏里的呼吸灯。
+  status: {
+    enabled: true,
+    label: '持续更新',
+    title: '网站仍在维护和更新中',
+  },
+
+  // 全站公告：storageKey 变化后，已关闭公告的用户会再次看到新公告。
+  announcement: {
+    enabled: true,
+    storageKey: 'mjie-announcement-2026-08-29',
+    eyebrow: '最近更新',
+    title: '复盘记录和更新日志已上线',
+    description: '新增 Mi 姐复盘分类、结构化文稿展示、更新记录页面，并继续优化教程目录与移动端体验。',
+    href: '/changelog',
+    action: '查看更新',
+    dismissLabel: '知道了',
+  },
+
   // 内容来源与页脚信息。
   contentSourceTitle: '《Mi姐 · 股市交易文集》',
   footerSource: {
@@ -62,8 +81,9 @@ export const siteConfig = {
     { key: 'home', label: '知识地图', href: '/' },
     { key: 'tutorial', label: '全部教程', href: '/tutorial' },
     { key: 'reviews', label: 'Mi姐复盘', href: '/reviews' },
+    { key: 'changelog', label: '更新记录', href: '/changelog' },
     { key: 'about-x', label: '关于我', href: social.x.href, external: true, icon: { type: 'x' } },
-    { key: 'mi-x', label: 'Mi姐', href: social.sourceX.href, external: true, icon: { type: 'x' } },
+    { key: 'mi-x', label: 'Mi姐', href: social.sourceX.href },
     { key: 'repository', label: '源码', href: github.repo, external: true, icon: { type: 'github' } },
   ],
 
@@ -201,6 +221,15 @@ export const siteConfig = {
         collapse: '收起',
         expand: '展开',
       },
+    },
+    changelog: {
+      title: '更新记录',
+      description: '记录网站内容、功能、体验与维护更新。',
+      kicker: '更新记录',
+      titleLines: ['网站做了什么，', '都在这里留下痕迹。'],
+      intro: '这里记录站点最近的内容整理、功能迭代和体验优化，方便你快速了解新增了什么。',
+      latestLabel: '最新',
+      empty: '暂无更新记录。',
     },
     reviews: {
       title: 'Mi姐复盘',

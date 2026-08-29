@@ -3,6 +3,7 @@ import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
 import Header from '../components/Header.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 import SearchDialog from '../components/SearchDialog.astro';
+import SiteAnnouncement from '../components/SiteAnnouncement.astro';
 import { getCanonicalSiteURL, siteConfig } from '../site.config';
 import 'heti/umd/heti.min.css';
 import '../styles/global.css';
@@ -22,6 +23,7 @@ const googleAnalyticsId = siteConfig.google.analyticsId.trim();
 const googleAnalyticsAllowedHosts = [...siteConfig.google.allowedHosts];
 const cloudflareAnalyticsToken = siteConfig.cloudflare.token.trim();
 const cloudflareAnalyticsAllowedHosts = [...siteConfig.cloudflare.allowedHosts];
+const footerSourceExternal = siteConfig.footerSource.href.startsWith('http');
 const toFontStack = (fonts: string[]) => fonts.join(', ');
 const fontVariables = `
   :root {
@@ -90,11 +92,12 @@ const structuredData = {
   <body>
     <a class="skip-link" href="#main-content">跳到主要内容</a>
     <Header current={current} hasSidebar={hasSidebar} />
+    <SiteAnnouncement />
     <slot />
     <footer class="site-footer">
       <p>
         {siteConfig.footerSource.prefix}
-        <a href={siteConfig.footerSource.href} target="_blank" rel="noreferrer">{siteConfig.footerSource.linkLabel}</a>
+        <a href={siteConfig.footerSource.href} target={footerSourceExternal ? '_blank' : undefined} rel={footerSourceExternal ? 'noreferrer' : undefined}>{siteConfig.footerSource.linkLabel}</a>
         {siteConfig.footerSource.suffix}
       </p>
       {siteConfig.footerLinks.length > 0 && (

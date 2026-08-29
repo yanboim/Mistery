@@ -1,0 +1,37 @@
+---
+import { siteConfig } from '../site.config';
+
+const announcement = siteConfig.announcement;
+---
+
+{announcement.enabled && (
+  <aside
+    class="site-announcement"
+    data-announcement
+    data-announcement-key={announcement.storageKey}
+    aria-label="网站公告"
+  >
+    <div class="announcement-copy">
+      <span>{announcement.eyebrow}</span>
+      <strong>{announcement.title}</strong>
+      <p>{announcement.description}</p>
+    </div>
+    <div class="announcement-actions">
+      <a href={announcement.href}>{announcement.action}</a>
+      <button type="button" data-announcement-close>{announcement.dismissLabel}</button>
+    </div>
+  </aside>
+)}
+
+<script define:vars={{ storageKey: announcement.storageKey }}>
+  const announcementElement = document.querySelector(`[data-announcement-key="${storageKey}"]`);
+  if (announcementElement && localStorage.getItem(storageKey) === 'dismissed') {
+    announcementElement.remove();
+  }
+
+  announcementElement?.querySelector('[data-announcement-close]')?.addEventListener('click', () => {
+    localStorage.setItem(storageKey, 'dismissed');
+    announcementElement.setAttribute('data-hiding', '');
+    setTimeout(() => announcementElement.remove(), 180);
+  });
+</script>
