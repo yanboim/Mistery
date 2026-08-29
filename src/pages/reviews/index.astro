@@ -68,14 +68,14 @@ const getReviewURL = (review: (typeof sortedReviews)[number]) => `/reviews/${rev
 
 <style>
   .reviews-page {
-    width: min(1120px, calc(100% - 40px));
+    width: min(1180px, calc(100% - 40px));
     margin: 0 auto;
     padding: clamp(72px, 10vw, 124px) 0 clamp(88px, 12vw, 140px);
   }
 
   .reviews-hero {
     display: grid;
-    gap: 18px;
+    gap: 24px;
     padding-bottom: clamp(38px, 6vw, 72px);
     border-bottom: 1px solid var(--line);
   }
@@ -90,10 +90,11 @@ const getReviewURL = (review: (typeof sortedReviews)[number]) => `/reviews/${rev
 
   .reviews-hero h1 {
     margin: 0;
-    max-width: 760px;
-    font-size: clamp(44px, 8vw, 86px);
-    line-height: .98;
-    letter-spacing: -.06em;
+    max-width: 1120px;
+    font-size: clamp(48px, 5.55vw, 74px);
+    line-height: 1.08;
+    letter-spacing: -.055em;
+    text-wrap: balance;
   }
 
   .reviews-hero h1 span { display: block; }
@@ -103,6 +104,7 @@ const getReviewURL = (review: (typeof sortedReviews)[number]) => `/reviews/${rev
     max-width: 620px;
     color: var(--text-soft);
     font-size: 17px;
+    line-height: 1.75;
   }
 
   .review-list { display: grid; gap: 0; }
@@ -160,7 +162,7 @@ const getReviewURL = (review: (typeof sortedReviews)[number]) => `/reviews/${rev
       padding-top: 48px;
     }
 
-    .reviews-hero h1 { font-size: clamp(38px, 14vw, 58px); }
+    .reviews-hero h1 { font-size: clamp(43px, 12.5vw, 56px); line-height: 1.08; }
 
     .review-card a {
       grid-template-columns: 1fr;

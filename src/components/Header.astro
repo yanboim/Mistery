@@ -8,7 +8,13 @@ const { current = '', hasSidebar = false } = Astro.props;
   <div class="header-inner">
     <a class="brand" href="/">
       <span class="brand-mark">M</span>
-      <span>{siteConfig.name}</span>
+      <span class="brand-label">{siteConfig.name}</span>
+      {siteConfig.status.enabled && (
+        <span class="live-status" title={siteConfig.status.title} aria-label={siteConfig.status.title}>
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>{siteConfig.status.label}</span>
+        </span>
+      )}
     </a>
 
     <div class="header-actions">

@@ -93,10 +93,15 @@ button { color: inherit; }
   align-items: center;
   gap: 24px;
 }
-.brand { order: 1; display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; font-weight: 780; letter-spacing: .01em; transition: color .2s ease, transform .2s ease; }
+.brand { order: 1; min-width: 0; display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; font-weight: 780; letter-spacing: .01em; transition: color .2s ease, transform .2s ease; }
+.brand-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .brand:hover { color: var(--accent-strong); transform: translateY(-1px); }
 .brand:active { transform: translateY(0); }
 .brand-mark { width: 22px; height: 22px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--accent) 52%, var(--line)); border-radius: 7px; background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--accent-strong); font-family: var(--font-code); font-size: 12px; line-height: 1; }
+.live-status { display: inline-flex; align-items: center; gap: 7px; margin-left: 3px; padding-left: 12px; border-left: 1px solid color-mix(in srgb, var(--line) 78%, transparent); color: var(--text-soft); font-size: 12px; font-weight: 700; letter-spacing: 0; }
+.live-dot { position: relative; width: 8px; height: 8px; border-radius: 999px; background: #44b875; box-shadow: 0 0 0 0 color-mix(in srgb, #44b875 46%, transparent); }
+.live-dot::after { content: ''; position: absolute; inset: -5px; border-radius: inherit; border: 1px solid color-mix(in srgb, #44b875 54%, transparent); animation: livePulse 2.4s ease-out infinite; }
+@keyframes livePulse { 0% { opacity: .72; transform: scale(.58); } 70%, 100% { opacity: 0; transform: scale(1.85); } }
 .header-panel { display: contents; }
 .drawer-head, .menu-trigger, .mobile-menu-scrim { display: none; }
 .header-nav { order: 2; display: flex; align-items: center; gap: 22px; margin-left: auto; color: var(--text-soft); font-size: 14px; }
@@ -177,6 +182,48 @@ button { color: inherit; }
 .icon-button[data-theme-toggle][data-theme-state='light'] .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
 .icon-button[data-theme-toggle][data-theme-state='dark'] .icon-sun { opacity: 1; transform: rotate(0) scale(1); }
 .icon-button[data-theme-toggle][data-theme-state='auto'] .icon-auto { opacity: 1; transform: rotate(0) scale(1); }
+
+.site-announcement {
+  position: relative;
+  z-index: 20;
+  width: min(1180px, calc(100% - 40px));
+  margin: 18px auto 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 15px 16px 15px 18px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 18px 18px, color-mix(in srgb, var(--accent) 13%, transparent), transparent 32px),
+    color-mix(in srgb, var(--surface-raised) 86%, var(--bg));
+  box-shadow: 0 16px 46px rgba(38, 32, 23, .08);
+  transition: opacity .18s ease, transform .18s ease;
+}
+.site-announcement[data-hiding] { opacity: 0; transform: translateY(-8px); }
+.announcement-copy { min-width: 0; display: grid; gap: 3px; }
+.announcement-copy span { color: var(--accent-strong); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.announcement-copy strong { font-size: 15px; line-height: 1.35; }
+.announcement-copy p { margin: 0; color: var(--text-soft); font-size: 13px; line-height: 1.55; }
+.announcement-actions { display: flex; align-items: center; gap: 9px; }
+.announcement-actions a,
+.announcement-actions button {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.announcement-actions a { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); }
+.announcement-actions button { border: 1px solid var(--line); background: transparent; color: var(--text-soft); }
+.announcement-actions a:hover,
+.announcement-actions button:hover { transform: translateY(-1px); }
 
 .site-footer {
   border-top: 1px solid var(--line);
@@ -262,8 +309,8 @@ button { color: inherit; }
     gap: 8px;
   }
   .brand { min-width: 0; gap: 8px; font-size: 14px; }
-  .brand span:last-child { overflow: hidden; text-overflow: ellipsis; }
   .brand-mark { width: 20px; height: 20px; border-radius: 6px; font-size: 11px; }
+  .live-status { display: none; }
   .header-actions {
     margin-left: auto;
     gap: 7px;
@@ -391,6 +438,17 @@ button { color: inherit; }
     border-radius: 11px;
   }
   .quiet-button { min-height: 40px; padding-inline: 12px; }
+  .site-announcement {
+    width: calc(100% - 28px);
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 14px;
+  }
+  .announcement-actions { justify-content: space-between; }
+  .announcement-actions a,
+  .announcement-actions button { flex: 1; }
   .back-to-top {
     right: max(14px, env(safe-area-inset-right));
     bottom: max(16px, env(safe-area-inset-bottom));

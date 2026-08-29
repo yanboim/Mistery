@@ -16,8 +16,8 @@ transcript:
   type: "srt"
   src: "https://folder.cc.cd/d/20260715/20260715.srt"
 source:
-  label: "Mi 姐 X"
-  href: "https://x.com/Mimiwftt"
+  label: "Mi 姐"
+  href: "/mijie"
 ---
 
 本篇收录 2026 年 7 月 15 日 Mi 姐复盘音频与字幕文件，方便后续按日期回看、整理和补充文字笔记。

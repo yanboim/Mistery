@@ -11,8 +11,8 @@ media:
     src: "https://folder.cc.cd/d/20260701/2026-07-01_11-32-22.mp3"
     title: "2026-07-01 Mi 姐复盘音频"
 source:
-  label: "Mi 姐 X"
-  href: "https://x.com/Mimiwftt"
+  label: "Mi 姐"
+  href: "/mijie"
 ---
 
 本篇收录 2026-07-01 Mi 姐复盘音频。

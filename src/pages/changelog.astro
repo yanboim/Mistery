@@ -1,0 +1,245 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { changelogEntries } from '../data/changelog';
+import { siteConfig, withSiteTitle } from '../site.config';
+import { compareLessons } from '../utils/lesson-url';
+
+const lessons = (await getCollection('lessons')).sort(compareLessons);
+const copy = siteConfig.copy.changelog;
+const title = withSiteTitle(copy.title);
+const sortedEntries = [...changelogEntries].sort((a, b) => b.date.localeCompare(a.date));
+const latestEntry = sortedEntries[0];
+
+const typeLabel = {
+  feature: '功能',
+  content: '内容',
+  fix: '修复',
+  design: '体验',
+} as const;
+
+const formatDate = (value: string) =>
+  new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date(`${value}T00:00:00+08:00`));
+---
+
+<BaseLayout title={title} description={copy.description} current="changelog" lessons={lessons}>
+  <main id="main-content" class="changelog-page">
+    <section class="changelog-hero" aria-labelledby="changelog-title">
+      <div>
+        <p class="eyebrow">{copy.kicker}</p>
+        <h1 id="changelog-title">
+          {copy.titleLines.map((line) => (
+            <span>{line}</span>
+          ))}
+        </h1>
+      </div>
+      <p>{copy.intro}</p>
+    </section>
+
+    {latestEntry && (
+      <section class="latest-change" aria-label={copy.latestLabel}>
+        <span>{copy.latestLabel}</span>
+        <div>
+          <time datetime={latestEntry.date}>{formatDate(latestEntry.date)}</time>
+          <strong>{latestEntry.title}</strong>
+          <p>{latestEntry.summary}</p>
+        </div>
+      </section>
+    )}
+
+    <section class="change-list" aria-label="更新记录列表">
+      {sortedEntries.length === 0 ? (
+        <p class="empty-state">{copy.empty}</p>
+      ) : (
+        sortedEntries.map((entry) => (
+          <article class="change-entry">
+            <div class="change-date">
+              <time datetime={entry.date}>{formatDate(entry.date)}</time>
+              <span>{typeLabel[entry.type]}</span>
+            </div>
+            <div class="change-card">
+              <h2>{entry.title}</h2>
+              <p>{entry.summary}</p>
+              <ul>
+                {entry.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))
+      )}
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .changelog-page {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: clamp(64px, 9vw, 112px) 0 clamp(86px, 12vw, 136px);
+  }
+
+  .changelog-hero {
+    display: grid;
+    gap: 24px;
+    padding-bottom: clamp(38px, 6vw, 72px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    margin: 0 0 18px;
+    color: var(--accent-strong);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .04em;
+  }
+
+  .changelog-hero h1 {
+    margin: 0;
+    max-width: 1120px;
+    font-size: clamp(48px, 5.55vw, 74px);
+    line-height: 1.08;
+    letter-spacing: -.055em;
+    text-wrap: balance;
+  }
+
+  .changelog-hero h1 span { display: block; }
+
+  .changelog-hero > p {
+    max-width: 620px;
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 17px;
+    line-height: 1.75;
+    text-wrap: pretty;
+  }
+
+  .latest-change {
+    display: grid;
+    grid-template-columns: 86px minmax(0, 1fr);
+    gap: 24px;
+    margin: 34px 0 12px;
+    padding: 22px 24px;
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--accent) 7%, var(--surface-raised));
+  }
+
+  .latest-change > span {
+    width: max-content;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0 11px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .latest-change div { display: grid; gap: 5px; }
+  .latest-change time { color: var(--accent-strong); font-family: var(--font-code); font-size: 12px; }
+  .latest-change strong { font-size: 22px; line-height: 1.3; }
+  .latest-change p { margin: 0; color: var(--text-soft); font-size: 14px; line-height: 1.65; }
+
+  .change-list {
+    display: grid;
+    margin-top: 34px;
+  }
+
+  .change-entry {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: clamp(24px, 5vw, 70px);
+    padding: 34px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .change-entry:first-child { border-top: 1px solid var(--line); }
+
+  .change-date {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--text-soft);
+    font-size: 13px;
+  }
+
+  .change-date time { font-family: var(--font-code); font-variant-numeric: tabular-nums; }
+
+  .change-date span {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 2px 8px;
+    color: var(--accent-strong);
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .change-card h2 {
+    margin: 0;
+    font-size: clamp(24px, 3vw, 34px);
+    line-height: 1.2;
+    letter-spacing: -.035em;
+  }
+
+  .change-card p {
+    max-width: 680px;
+    margin: 10px 0 0;
+    color: var(--text-soft);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .change-card ul {
+    display: grid;
+    gap: 8px;
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .change-card li {
+    position: relative;
+    padding-left: 18px;
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .change-card li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .75em;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+
+  .empty-state { margin: 42px 0 0; color: var(--text-soft); }
+
+  @media (max-width: 760px) {
+    .changelog-page {
+      width: min(100% - 28px, 560px);
+      padding-top: 48px;
+    }
+
+    .latest-change,
+    .change-entry {
+      grid-template-columns: 1fr;
+    }
+
+    .changelog-hero h1 { font-size: clamp(43px, 12.5vw, 56px); line-height: 1.08; }
+    .latest-change { gap: 12px; padding: 18px; }
+    .change-entry { gap: 14px; padding: 28px 0; }
+    .change-date { justify-content: space-between; }
+  }
+</style>
