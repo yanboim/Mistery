@@ -21,19 +21,23 @@ try {
   page.on('pageerror', (error) => errors.push(`pageerror: ${error.message}`));
 
   await page.goto(baseURL, { waitUntil: 'networkidle' });
-  check('首页有主标题', await page.locator('h1').count() === 1);
+  const searchIndex = await (await desktop.request.get(`${baseURL}/search-index.json`)).json();
+  const lessonCount = searchIndex.length;
+  const chapterCount = new Set(searchIndex.map((lesson) => lesson.href.match(/\/chapter-(\d+)\//)?.[1]).filter(Boolean)).size;
+  const desktopNavCount = await page.locator('.header-nav a').count();
+  check('首页有主标题', await page.locator('main > .hero h1').count() === 1);
   check('首页学习方法包含 3 个步骤', await page.locator('.study-method li').count() === 3);
-  check('首页渲染 6 个章节索引', await page.locator('.chapter-row').count() === 6);
+  check('首页渲染全部章节索引', await page.locator('.chapter-row').count() === chapterCount);
   check('首页章节索引进入章节页', (await page.locator('.chapter-row').first().getAttribute('href')) === '/tutorial/chapter-1');
-  check('首页展示真实课程统计', (await page.locator('.course-facts').innerText()).includes('308'));
+  check('首页展示真实课程统计', (await page.locator('.course-facts').innerText()).includes(String(lessonCount)));
   check('桌面导航包含源码仓库入口', await page.locator('.header-nav a[href="https://github.com/yanboim/Mistery"][target="_blank"]').count() === 1);
   check('桌面导航包含 X 图标入口', await page.locator('.header-nav a[href="https://x.com/ImYanBoss"][target="_blank"] svg.nav-icon').count() === 1);
   check('桌面导航源码仓库使用图标', await page.locator('.header-nav a[href="https://github.com/yanboim/Mistery"] svg.nav-icon').count() === 1);
-  check('页脚第一行包含 Mi姐 X 链接', await page.locator('.site-footer p a[href="https://x.com/Mimiwftt"][target="_blank"]').count() === 1);
+  check('页脚第一行链接到 Mi姐暂离页面', await page.locator('.site-footer p a[href="/mijie"]:not([target])').count() === 1);
   check('页脚不再单独显示 Mi姐 X 第二行', await page.locator('.site-footer nav[aria-label="页脚链接"]').count() === 0);
   check('页脚包含版权信息', (await page.locator('.site-footer small').innerText()).includes('©') && (await page.locator('.site-footer small').innerText()).includes('YanBo'));
   check('页脚版权包含 YanBo X 链接', await page.locator('.site-footer small a[href="https://x.com/ImYanBoss"][target="_blank"]').count() === 1);
-  check('页面加载 LXGW WenKai 字体样式', await page.locator('link[href*="lxgw-wenkai-webfont/1.7.0"][rel="stylesheet"]').count() === 1);
+  check('页面加载本地 LXGW WenKai 字体样式', await page.locator('link[href="/fonts/lxgw.css"][rel="stylesheet"]').count() === 1);
   check('正文和代码字体变量优先使用 LXGW WenKai', await page.evaluate(() => {
     const styles = getComputedStyle(document.documentElement);
     return styles.getPropertyValue('--font-body').includes('LXGW WenKai')
@@ -56,14 +60,14 @@ try {
   check('搜索关闭后焦点返回触发按钮', await page.evaluate(() => document.activeElement?.matches('[data-search-open]')));
 
   const sitemap = await (await desktop.request.get(`${baseURL}/sitemap.xml`)).text();
-  check('站点地图包含全部教程路径', sitemap.includes('/tutorial/chapter-1/001') && sitemap.includes('/tutorial/chapter-6/139'));
-  check('站点地图包含章节页面', sitemap.includes('/tutorial/chapter-1') && sitemap.includes('/tutorial/chapter-6'));
+  check('站点地图包含全部教程路径', searchIndex.every((lesson) => sitemap.includes(lesson.href)));
+  check('站点地图包含章节页面', Array.from({ length: chapterCount }, (_, index) => sitemap.includes(`/tutorial/chapter-${index + 1}`)).every(Boolean));
   const robots = await (await desktop.request.get(`${baseURL}/robots.txt`)).text();
   check('robots 声明 sitemap', robots.includes('Sitemap: https://mi.yanbo.im/sitemap.xml'));
 
   await page.goto(`${baseURL}/tutorial/chapter-1/001`, { waitUntil: 'networkidle' });
   check('教程标题正确', (await page.locator('.lesson-head h1').innerText()).includes('写给最近几个月新入市的朋友们'));
-  check('教程页提供源文件编辑链接', (await page.locator('.source-edit-link').getAttribute('href')) === 'https://github.com/yanboim/Mistery/edit/main/src/content/lessons/chapter-1/001.md');
+  check('教程页提供源文件编辑链接', (await page.locator('.source-edit-link').getAttribute('href')) === 'https://github.com/yanboim/Mistery/edit/main/src/content/lessons/chapter-1/001-new-traders-recent-months.md');
   check('教程页章节入口进入章节页', (await page.locator('.chapter-link').getAttribute('href')) === '/tutorial/chapter-1');
   check('相邻教程空白区域不露灰色底', await page.locator('.lesson-pager').evaluate((element) => getComputedStyle(element).backgroundColor === 'rgba(0, 0, 0, 0)'));
   check('相邻教程导航保持紧凑高度', await page.locator('.lesson-pager a.next').evaluate((element) => element.getBoundingClientRect().height <= 86));
@@ -113,9 +117,11 @@ try {
   await page.goto(`${baseURL}/tutorial/chapter-1/002`, { waitUntil: 'networkidle' });
   check('无页内目录时正文居中', await page.locator('.lesson-main.without-toc').count() === 1);
   await page.goto(`${baseURL}/tutorial/chapter-1`, { waitUntil: 'networkidle' });
+  const chapterOneCount = searchIndex.filter((lesson) => lesson.href.includes('/tutorial/chapter-1/')).length;
   check('章节页标题正确', (await page.locator('.chapter-hero h1').innerText()) === '交易基础认知');
-  check('章节页展示本章教程列表', await page.locator('.chapter-lessons a').count() === 47);
-  check('章节页提供开始或继续本章入口', (await page.locator('[data-chapter-start]').getAttribute('href'))?.startsWith('/tutorial/chapter-1/'));
+  check('章节页展示本章全部教程', await page.locator('.chapter-lessons a').count() === chapterOneCount);
+  const chapterStartHref = await page.locator('[data-chapter-start]').getAttribute('href');
+  check('章节页提供开始或继续本章入口', new URL(chapterStartHref, baseURL).pathname.startsWith('/tutorial/chapter-1/'));
   await page.goto(`${baseURL}/tutorial`, { waitUntil: 'networkidle' });
   check('全部教程每章提供章节页入口', await page.locator('.chapter-page-link[href="/tutorial/chapter-1"]').count() === 1);
   check('目录页不重复放置全站搜索按钮', await page.locator('.catalog-search').count() === 0);
@@ -192,7 +198,7 @@ try {
   await mobilePage.locator('[data-mobile-menu-open]').click();
   await mobilePage.waitForTimeout(320);
   check('移动端站点导航可打开', await mobilePage.evaluate(() => document.documentElement.classList.contains('mobile-menu-visible')));
-  check('移动端抽屉显示同一套导航', await mobilePage.locator('[data-mobile-menu] .header-nav a:visible').count() === 4);
+  check('移动端抽屉显示同一套导航', await mobilePage.locator('[data-mobile-menu] .header-nav a:visible').count() === desktopNavCount);
   check('移动端抽屉包含源码仓库入口', await mobilePage.locator('[data-mobile-menu] .header-nav a[href="https://github.com/yanboim/Mistery"][target="_blank"]').count() === 1);
   check('移动端抽屉包含 X 图标入口', await mobilePage.locator('[data-mobile-menu] .header-nav a[href="https://x.com/ImYanBoss"][target="_blank"] svg.nav-icon').count() === 1);
   check('移动端搜索和主题切换放在抽屉外', await mobilePage.evaluate(() => {
@@ -211,12 +217,12 @@ try {
   await mobilePage.waitForTimeout(240);
   check('移动端站点导航可关闭', await mobilePage.evaluate(() => !document.documentElement.classList.contains('mobile-menu-visible')));
   check('移动端课程目录默认只展开一章', await mobilePage.locator('.catalog-chapter ol:visible').count() === 1);
-  check('目录显示章节完成进度', (await mobilePage.locator('[data-chapter-progress="1"]').innerText()).includes('2 / 47'));
-  check('章节跳转显示完成百分比', (await mobilePage.locator('[data-chapter-jump-progress="1"]').innerText()) === '4%');
+  check('目录显示章节完成进度', (await mobilePage.locator('[data-chapter-progress="1"]').innerText()).includes(`2 / ${chapterOneCount}`));
+  check('章节跳转显示完成百分比', (await mobilePage.locator('[data-chapter-jump-progress="1"]').innerText()) === `${Math.round((2 / chapterOneCount) * 100)}%`);
   await mobilePage.locator('[data-progress-filter="read"]').click();
   check('目录可筛选已读教程', (await mobilePage.locator('[data-filter-status]').innerText()).includes('找到 2 篇 已读教程'));
   await mobilePage.locator('[data-progress-filter="unread"]').click();
-  check('目录可筛选未读教程', (await mobilePage.locator('[data-filter-status]').innerText()).includes('找到 306 篇 未读教程'));
+  check('目录可筛选未读教程', (await mobilePage.locator('[data-filter-status]').innerText()).includes(`找到 ${lessonCount - 2} 篇 未读教程`));
   await mobilePage.locator('[data-progress-filter="all"]').click();
   await mobilePage.goto(`${baseURL}/tutorial/chapter-2/001`, { waitUntil: 'networkidle' });
   check('移动端无横向溢出', await mobilePage.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
@@ -238,6 +244,7 @@ try {
   check('移动端目录可关闭', await mobilePage.evaluate(() => !document.documentElement.classList.contains('sidebar-visible')));
   await mobile.close();
 
+  if (errors.length > 0) console.error(JSON.stringify({ browserErrors: errors }, null, 2));
   check('浏览器无控制台错误', errors.length === 0);
   console.log(JSON.stringify({ status: 'PASS', checks, errors }, null, 2));
 } finally {

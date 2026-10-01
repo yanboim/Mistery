@@ -1,4 +1,12 @@
-<dialog class="search-dialog" aria-labelledby="search-dialog-title" data-search-dialog>
+---
+const { lessons = [] } = Astro.props;
+const lessonCount = lessons.length;
+const emptyPrompt = lessonCount > 0
+  ? `输入关键词，在 ${lessonCount} 篇教程中查找。`
+  : '输入关键词，在全部教程中查找。';
+---
+
+<dialog class="search-dialog" aria-labelledby="search-dialog-title" data-search-dialog data-lesson-count={lessonCount}>
   <h2 id="search-dialog-title" class="sr-only">搜索教程</h2>
   <div class="search-head">
     <input class="search-input" type="search" placeholder="输入标题或正文关键词" aria-label="搜索教程" data-search-input />
@@ -6,7 +14,7 @@
   </div>
   <div class="search-status" aria-live="polite" data-search-status></div>
   <div class="search-results" data-search-results>
-    <p class="search-empty">输入关键词，在 308 篇教程中查找。</p>
+    <p class="search-empty">{emptyPrompt}</p>
   </div>
 </dialog>
 
@@ -16,6 +24,8 @@
   const input = document.querySelector('[data-search-input]');
   const results = document.querySelector('[data-search-results]');
   const status = document.querySelector('[data-search-status]');
+  let lessonCount = Number(dialog?.getAttribute('data-lesson-count') || 0);
+  const getEmptyPrompt = () => `<p class="search-empty">${lessonCount > 0 ? `输入关键词，在 ${lessonCount} 篇教程中查找。` : '输入关键词，在全部教程中查找。'}</p>`;
   let lastSearchTrigger = null;
   const escapeHtml = (value) => value.replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
   const excerpt = (item, query) => {
@@ -37,8 +47,12 @@
         try {
           const response = await fetch('/search-index.json');
           searchItems = await response.json();
+          lessonCount = searchItems.length;
           if (input.value.trim()) input.dispatchEvent(new Event('input'));
-          else status.textContent = '';
+          else {
+            status.textContent = '';
+            results.innerHTML = getEmptyPrompt();
+          }
         } catch {
           status.textContent = '';
           results.innerHTML = '<p class="search-empty">搜索索引加载失败，请刷新页面后重试。</p>';
@@ -64,7 +78,7 @@
     const query = input.value.trim().toLocaleLowerCase('zh-CN');
     if (!query) {
       status.textContent = '';
-      results.innerHTML = '<p class="search-empty">输入关键词，在 308 篇教程中查找。</p>';
+      results.innerHTML = getEmptyPrompt();
       return;
     }
     const allMatches = searchItems
