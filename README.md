@@ -94,6 +94,8 @@ order: 1
 
 ## 重新切分
 
-只有在你想从长文重新导入内容时，才运行 `npm run content:split`。这个命令会删除并重建 `src/content/lessons/` 和 `src/data/lesson-manifest.json`，因此会覆盖手工维护的小文件内容。
+只有在你想从长文重新导入内容时，才运行 `npm run content:split`。默认只会在 `.tmp/content-split/` 生成预览，不会修改现有教程。预览确认无误后，再运行 `npm run content:split -- --force`；它只替换 `Mi姐.md` 中包含的章节，未出现在源文件中的章节会保留。
+
+切分生成的文件遵循当前结构：`序号-英文-slug.md`，frontmatter 会包含对应的 `slug`，`order` 使用章节内序号。
 
 长文切分格式仍然是：一级章节标题使用 `# 第X章：标题`，每篇教程使用 `## 【教程标题】`。
