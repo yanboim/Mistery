@@ -81,7 +81,6 @@ export const siteConfig = {
     { key: 'home', label: '知识地图', href: '/' },
     { key: 'tutorial', label: '全部教程', href: '/tutorial' },
     { key: 'reviews', label: 'Mi姐复盘', href: '/reviews' },
-    { key: 'changelog', label: '更新记录', href: '/changelog' },
     { key: 'about-x', label: '关于我', href: social.x.href, external: true, icon: { type: 'x' } },
     { key: 'mi-x', label: 'Mi姐', href: social.sourceX.href },
     { key: 'repository', label: '源码', href: github.repo, external: true, icon: { type: 'github' } },
