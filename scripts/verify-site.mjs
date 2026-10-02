@@ -31,6 +31,7 @@ try {
   check('首页章节索引进入章节页', (await page.locator('.chapter-row').first().getAttribute('href')) === '/tutorial/chapter-1');
   check('首页展示真实课程统计', (await page.locator('.course-facts').innerText()).includes(String(lessonCount)));
   check('桌面导航包含源码仓库入口', await page.locator('.header-nav a[href="https://github.com/yanboim/Mistery"][target="_blank"]').count() === 1);
+  check('桌面导航包含资源入口', await page.locator('.header-nav a[href="/resources"]').count() === 1);
   check('桌面导航包含 X 图标入口', await page.locator('.header-nav a[href="https://x.com/ImYanBoss"][target="_blank"] svg.nav-icon').count() === 1);
   check('桌面导航源码仓库使用图标', await page.locator('.header-nav a[href="https://github.com/yanboim/Mistery"] svg.nav-icon').count() === 1);
   check('页脚第一行链接到 Mi姐暂离页面', await page.locator('.site-footer p a[href="/mijie"]:not([target])').count() === 1);
@@ -62,6 +63,7 @@ try {
   const sitemap = await (await desktop.request.get(`${baseURL}/sitemap.xml`)).text();
   check('站点地图包含全部教程路径', searchIndex.every((lesson) => sitemap.includes(lesson.href)));
   check('站点地图包含章节页面', Array.from({ length: chapterCount }, (_, index) => sitemap.includes(`/tutorial/chapter-${index + 1}`)).every(Boolean));
+  check('站点地图包含资源页面', sitemap.includes('/resources'));
   const robots = await (await desktop.request.get(`${baseURL}/robots.txt`)).text();
   check('robots 声明 sitemap', robots.includes('Sitemap: https://mi.yanbo.im/sitemap.xml'));
 
@@ -156,6 +158,13 @@ try {
     return Math.abs(firstTop - top) < 2 && Math.abs(secondTop - top) < 2;
   });
   check('桌面目录左侧在当前章节滚动期间吸顶', stickyScrollBehavior);
+  await page.goto(`${baseURL}/resources`, { waitUntil: 'networkidle' });
+  check('资源页显示三个网盘分类', await page.locator('.provider-card').count() === 3);
+  check('资源页显示六个资料入口', await page.locator('.resource-actions a[target="_blank"]').count() === 6);
+  check('每个资料入口都有复制按钮', await page.locator('[data-copy-resource]').count() === 6);
+  await page.locator('[data-copy-resource]').first().click();
+  check('复制资源链接后显示成功反馈', (await page.locator('[data-copy-resource]').first().innerText()) === '已复制');
+  check('资源页无横向溢出', await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
   await desktop.close();
 
   const light = await browser.newContext({ viewport: { width: 1280, height: 800 }, colorScheme: 'light' });
@@ -242,6 +251,9 @@ try {
   await mobilePage.locator('.sidebar-head [data-sidebar-close]').click();
   await mobilePage.waitForTimeout(350);
   check('移动端目录可关闭', await mobilePage.evaluate(() => !document.documentElement.classList.contains('sidebar-visible')));
+  await mobilePage.goto(`${baseURL}/resources`, { waitUntil: 'networkidle' });
+  check('移动端资源卡片单列显示', await mobilePage.locator('.provider-card').first().evaluate((card) => getComputedStyle(card).display === 'flex'));
+  check('移动端资源页无横向溢出', await mobilePage.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
   await mobile.close();
 
   if (errors.length > 0) console.error(JSON.stringify({ browserErrors: errors }, null, 2));

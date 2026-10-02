@@ -12,13 +12,13 @@ export async function GET({ site }: { site: URL }) {
   const sortedLessons = lessons.sort(compareLessons);
   const reviewPaths = reviews.map((review) => `/reviews/${review.data.slug}`);
   const chapterPaths = chapters.map((chapter) => `/tutorial/chapter-${chapter.number}`);
-  const paths = ['/', '/tutorial', '/reviews', ...chapterPaths, ...sortedLessons.map((lesson) => getLessonURL(lesson)), ...reviewPaths];
+  const paths = ['/', '/tutorial', '/reviews', '/resources', ...chapterPaths, ...sortedLessons.map((lesson) => getLessonURL(lesson)), ...reviewPaths];
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${paths
   .map((path) => {
     const loc = new URL(path, siteURL).href;
-    const priority = path === '/' ? '1.0' : path === '/tutorial' ? '0.9' : '0.7';
+    const priority = path === '/' ? '1.0' : path === '/tutorial' ? '0.9' : path === '/resources' ? '0.8' : '0.7';
     return `  <url>
     <loc>${escapeXml(loc)}</loc>
     <changefreq>weekly</changefreq>
