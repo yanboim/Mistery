@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: '2026-10-02',
+    title: '新增资料资源页面',
+    summary: '把不同网盘和文件形式的资料入口集中整理，减少查找与转存成本。',
+    type: 'feature',
+    items: ['新增资源导航与分类页面', '支持 ZIP 和解压包两种形式', '每个资源入口支持一键复制链接'],
+  },
+  {
     date: '2026-08-29',
     title: '新增更新记录与全站公告',
     summary: '让网站最近做了什么可以被直接看到，也给用户一个轻量提醒。',

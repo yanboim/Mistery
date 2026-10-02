@@ -81,6 +81,7 @@ export const siteConfig = {
     { key: 'home', label: '知识地图', href: '/' },
     { key: 'tutorial', label: '全部教程', href: '/tutorial' },
     { key: 'reviews', label: 'Mi姐复盘', href: '/reviews' },
+    { key: 'resources', label: '资源', href: '/resources' },
     { key: 'about-x', label: '关于我', href: social.x.href, external: true, icon: { type: 'x' } },
     { key: 'mi-x', label: 'Mi姐', href: social.sourceX.href },
     { key: 'repository', label: '源码', href: github.repo, external: true, icon: { type: 'github' } },
@@ -93,6 +94,69 @@ export const siteConfig = {
   search: {
     label: '搜索教程',
     placeholder: '搜索教程…',
+  },
+
+  // 网盘资料：资源页直接从这里渲染分类卡片与复制链接。
+  resources: {
+    providers: [
+      {
+        key: 'quark',
+        name: '夸克网盘',
+        description: '适合夸克网盘用户保存和在线查看。',
+        links: [
+          {
+            key: 'zip',
+            label: 'ZIP 形式',
+            description: '完整压缩包，适合一次性下载后本地保存。',
+            href: 'https://pan.quark.cn/s/240b593554b1?pwd=cH57',
+          },
+          {
+            key: 'extracted',
+            label: '解压包形式',
+            description: '已展开文件目录，适合在线浏览或按需保存。',
+            href: 'https://pan.quark.cn/s/edfa066ff632?pwd=jCz2',
+          },
+        ],
+      },
+      {
+        key: 'baidu',
+        name: '百度网盘',
+        description: '适合百度网盘用户转存到个人空间。',
+        links: [
+          {
+            key: 'zip',
+            label: 'ZIP 形式',
+            description: '完整压缩包，适合一次性下载后本地保存。',
+            href: 'https://pan.baidu.com/s/1YuMM-dsdC8kMfIrc_Fc9Fw?pwd=5aU6',
+          },
+          {
+            key: 'extracted',
+            label: '解压包形式',
+            description: '已展开文件目录，适合在线浏览或按需保存。',
+            href: 'https://pan.baidu.com/s/1M6xruDl4IpU0JTRPsMPrVg?pwd=KWAS',
+          },
+        ],
+      },
+      {
+        key: 'guangya',
+        name: '光鸭网盘',
+        description: '提供另一套下载入口，方便按需选择。',
+        links: [
+          {
+            key: 'zip',
+            label: 'ZIP 形式',
+            description: '完整压缩包，适合一次性下载后本地保存。',
+            href: 'https://www.guangyapan.com/s/1953054097955065935_ar03S7ajOxOWfFgQ?code=nmoy',
+          },
+          {
+            key: 'extracted',
+            label: '解压包形式',
+            description: '已展开文件目录，适合在线浏览或按需保存。',
+            href: 'https://www.guangyapan.com/s/1953055109675724825_ar03S7ajOxOWfFgQ?code=ht25',
+          },
+        ],
+      },
+    ],
   },
 
   // 章节配置：教程目录、首页知识框架、章节页标题均从这里读取。
@@ -242,6 +306,20 @@ export const siteConfig = {
       transcriptContent: '字幕整理',
       audio: '复盘音频',
       video: '复盘视频',
+    },
+    resources: {
+      title: '资料资源',
+      description: '集中整理 Mi姐交易笔记相关网盘资料，支持直接打开和复制链接。',
+      kicker: '资料资源',
+      titleLines: ['把资料入口，', '集中放在这里。'],
+      intro: '按网盘与文件形式选择，支持直接打开或一键复制链接。',
+      guideTitle: '如何选择',
+      guide: 'ZIP 适合完整下载和长期保存；解压包适合在线浏览与按需转存。',
+      open: '打开链接',
+      copy: '复制链接',
+      copied: '已复制',
+      copyFailed: '复制失败，请手动打开链接复制。',
+      notice: '网盘链接由第三方平台提供，如遇失效会在后续更新中维护。',
     },
   },
 

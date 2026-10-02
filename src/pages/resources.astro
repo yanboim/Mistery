@@ -1,0 +1,286 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig, withSiteTitle } from '../site.config';
+import { compareLessons } from '../utils/lesson-url';
+
+const lessons = (await getCollection('lessons')).sort(compareLessons);
+const copy = siteConfig.copy.resources;
+const providers = siteConfig.resources.providers;
+---
+
+<BaseLayout title={withSiteTitle(copy.title)} description={copy.description} current="resources" lessons={lessons}>
+  <main id="main-content" class="resources-page">
+    <section class="resources-hero" aria-labelledby="resources-title">
+      <p class="resources-kicker">{copy.kicker}</p>
+      <h1 id="resources-title">
+        {copy.titleLines.map((line) => <span>{line}</span>)}
+      </h1>
+      <p class="resources-intro">{copy.intro}</p>
+    </section>
+
+    <section class="resource-guide" aria-labelledby="resource-guide-title">
+      <h2 id="resource-guide-title">{copy.guideTitle}</h2>
+      <p>{copy.guide}</p>
+    </section>
+
+    <section class="provider-grid" aria-label="网盘资源列表">
+      {providers.map((provider, providerIndex) => (
+        <article class="provider-card">
+          <header>
+            <span>{String(providerIndex + 1).padStart(2, '0')}</span>
+            <div>
+              <h2>{provider.name}</h2>
+              <p>{provider.description}</p>
+            </div>
+          </header>
+
+          <div class="resource-list">
+            {provider.links.map((resource) => (
+              <section class="resource-item">
+                <div>
+                  <h3>{resource.label}</h3>
+                  <p>{resource.description}</p>
+                </div>
+                <div class="resource-actions">
+                  <a href={resource.href} target="_blank" rel="noreferrer">
+                    {copy.open}<span aria-hidden="true">↗</span>
+                  </a>
+                  <button
+                    type="button"
+                    data-copy-resource
+                    data-copy-url={resource.href}
+                    data-copy-label={copy.copy}
+                    aria-label={`复制${provider.name}${resource.label}链接`}
+                  >
+                    {copy.copy}
+                  </button>
+                </div>
+              </section>
+            ))}
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <p class="resource-notice">{copy.notice}</p>
+    <p class="copy-status sr-only" aria-live="polite" data-copy-status></p>
+  </main>
+</BaseLayout>
+
+<script define:vars={{ copiedLabel: copy.copied, copyFailedLabel: copy.copyFailed }}>
+  const status = document.querySelector('[data-copy-status]');
+
+  const copyText = async (value) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(value);
+        return;
+      } catch {
+        // Clipboard permissions vary by browser; fall back to a temporary textarea.
+      }
+    }
+
+    const textarea = document.createElement('textarea');
+    textarea.value = value;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const copied = document.execCommand('copy');
+    textarea.remove();
+    if (!copied) throw new Error('copy failed');
+  };
+
+  document.querySelectorAll('[data-copy-resource]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const url = button.getAttribute('data-copy-url');
+      const defaultLabel = button.getAttribute('data-copy-label') || '';
+      if (!url) return;
+
+      try {
+        await copyText(url);
+        button.textContent = copiedLabel;
+        button.setAttribute('data-copied', '');
+        if (status) status.textContent = copiedLabel;
+        window.setTimeout(() => {
+          button.textContent = defaultLabel;
+          button.removeAttribute('data-copied');
+        }, 1800);
+      } catch {
+        if (status) status.textContent = copyFailedLabel;
+      }
+    });
+  });
+</script>
+
+<style>
+  .resources-page {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: clamp(62px, 8vw, 96px) 0 clamp(86px, 11vw, 132px);
+  }
+
+  .resources-hero {
+    max-width: 900px;
+    padding-bottom: clamp(40px, 6vw, 68px);
+  }
+
+  .resources-kicker {
+    margin: 0 0 18px;
+    color: var(--accent-strong);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .04em;
+  }
+
+  .resources-hero h1 {
+    margin: 0;
+    font-size: clamp(48px, 5.55vw, 74px);
+    line-height: 1.08;
+    letter-spacing: -.055em;
+    text-wrap: balance;
+  }
+
+  .resources-hero h1 span { display: block; }
+
+  .resources-intro {
+    max-width: 560px;
+    margin: 24px 0 0;
+    color: var(--text-soft);
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .resource-guide {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: clamp(24px, 5vw, 68px);
+    align-items: baseline;
+    padding: 24px 0;
+    border-block: 1px solid var(--line);
+  }
+
+  .resource-guide h2 { margin: 0; font-size: 15px; }
+  .resource-guide p { max-width: 680px; margin: 0; color: var(--text-soft); font-size: 14px; line-height: 1.7; }
+
+  .provider-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 36px;
+  }
+
+  .provider-card {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--surface-raised) 84%, var(--bg));
+    overflow: hidden;
+    transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+
+  .provider-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .provider-card > header {
+    min-height: 154px;
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 18px;
+    padding: 26px 24px;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+  }
+
+  .provider-card > header > span {
+    padding-top: 4px;
+    color: var(--accent-strong);
+    font-family: var(--font-code);
+    font-size: 11px;
+  }
+
+  .provider-card h2 { margin: 0; font-size: 27px; line-height: 1.2; letter-spacing: -.035em; }
+  .provider-card header p { margin: 10px 0 0; color: var(--text-soft); font-size: 13px; line-height: 1.65; }
+  .resource-list { display: flex; flex: 1; flex-direction: column; }
+
+  .resource-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .resource-item + .resource-item { border-top: 1px solid var(--line); }
+  .resource-item h3 { margin: 0; font-size: 16px; line-height: 1.35; }
+  .resource-item p { margin: 8px 0 0; color: var(--text-soft); font-size: 13px; line-height: 1.65; }
+
+  .resource-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  .resource-actions a,
+  .resource-actions button {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    white-space: nowrap;
+    background: transparent;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color .2s ease, background .2s ease, color .2s ease, transform .15s ease;
+  }
+
+  .resource-actions a { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+  .resource-actions a:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
+  .resource-actions button:hover { border-color: var(--accent); color: var(--accent-strong); background: color-mix(in srgb, var(--accent) 7%, transparent); }
+  .resource-actions button[data-copied] { border-color: var(--accent); color: var(--accent-strong); }
+  .resource-actions a:active, .resource-actions button:active { transform: translateY(1px); }
+
+  .resource-notice {
+    margin: 28px 0 0;
+    color: var(--text-soft);
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 960px) {
+    .provider-grid { grid-template-columns: 1fr; }
+    .provider-card { display: grid; grid-template-columns: minmax(220px, .62fr) minmax(0, 1.38fr); }
+    .provider-card > header { min-height: 100%; border-right: 1px solid var(--line); border-bottom: 0; }
+    .resource-list { display: grid; grid-template-columns: 1fr 1fr; }
+    .resource-item + .resource-item { border-top: 0; border-left: 1px solid var(--line); }
+  }
+
+  @media (max-width: 680px) {
+    .resources-page { width: min(100% - 28px, 620px); padding-top: 42px; }
+    .resources-hero h1 { font-size: clamp(42px, 13vw, 58px); }
+    .resource-guide { grid-template-columns: 1fr; gap: 8px; }
+    .provider-card { display: flex; }
+    .provider-card > header { min-height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+    .resource-list { display: flex; }
+    .resource-item + .resource-item { border-top: 1px solid var(--line); border-left: 0; }
+  }
+
+  @media (max-width: 390px) {
+    .resource-actions { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .provider-card, .resource-actions a, .resource-actions button { transition: none; }
+    .provider-card:hover { transform: none; }
+  }
+</style>
