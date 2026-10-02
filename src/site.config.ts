@@ -140,7 +140,7 @@ export const siteConfig = {
       {
         key: 'guangya',
         name: '光鸭网盘',
-        description: '提供另一套下载入口，方便按需选择。',
+        description: '迅雷旗下全新网盘项目，主打免登录下载、不限速传输，提供干净直接的资料获取体验。',
         links: [
           {
             key: 'zip',
